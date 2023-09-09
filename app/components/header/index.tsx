@@ -10,6 +10,7 @@ import Search1 from "./Search1";
 import Search2 from "./Search2";
 import WalletConnectButton from "../button/WalletConnectButton";
 import Image from "next/image";
+import Brand from "../image/Brand";
 
 export default function Header(): JSX.Element {
   const path = usePathname();
@@ -49,19 +50,7 @@ export default function Header(): JSX.Element {
               <div id="site-header-inner">
                 <div className="wrap-box flex">
                   <div id="site-logo" className="clearfix">
-                    <div id="site-logo-inner">
-                      <Link href="/" rel="home" className="main-logo">
-                        <Image
-                          id="logo_header"
-                          src={`/assets/images/logo/${
-                            isDark ? "logo_dark" : "logo"
-                          }.png`}
-                          alt="nft-gaming"
-                          width={133}
-                          height={56}
-                        />
-                      </Link>
-                    </div>
+                    <Brand data={{isDark: isDark,altTag:"Nebula Home",size:{height:20,width:125}}} />
                   </div>
                   <div
                     data-bs-toggle="offcanvas"

@@ -1,14 +1,13 @@
 interface SocialItem {
   icon: string;
+  link: string
 }
 
 const socialItems: SocialItem[] = [
-  { icon: "fab fa-twitter" },
-  { icon: "fab fa-facebook" },
-  { icon: "fab fa-telegram-plane" },
-  { icon: "fab fa-youtube" },
-  { icon: "icon-fl-tik-tok-2" },
-  { icon: "icon-fl-vt" },
+  { icon: "fab fa-twitter", link: "https://x.com/NebulaInfra"},
+  { icon: "fab fa-telegram-plane", link: "https://t.me/+HzUvFDkRSuJjOWUx" },
+  { icon: "icon-fl-vt", link:"" },
+  { icon: "fab fa-github", link:"https://github.com/Nebula-Marketplace/"}
 ];
 
 export default function Social() {

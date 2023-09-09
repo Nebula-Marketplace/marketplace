@@ -10,12 +10,8 @@ const item = {
             path: "/",
         },
         {
-            name: "Page",
-            path: "/faq",
-        },
-        {
-            name: "FAQ",
-        },
+            name: "FAQ"
+        }
     ],
 };
 

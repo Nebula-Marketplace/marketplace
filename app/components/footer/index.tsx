@@ -4,6 +4,7 @@ import Link from "next/link";
 import FooterItems from "./FooterItems";
 import Social from "./Social";
 import SubscribeForm from "./SubscribeForm";
+import Brand from "../image/Brand";
 
 export default function Footer() {
   // is dark hook
@@ -17,34 +18,12 @@ export default function Footer() {
           <div className="row">
             <div className="col-lg-3 col-md-12 col-12">
               <div className="widget widget-logo">
-                <div className="logo-footer" id="logo-footer">
-                  <Link href="/">
-                    <Image
-                      id="logo_footer"
-                      // src="/assets/images/logo/logo_dark.png"
-                      src={`/assets/images/logo/${
-                        isDark ? "logo_dark" : "logo2"
-                      }.png`}
-                      alt="nft-gaming"
-                      width={135}
-                      height={56}
-                      data-retina="assets/images/logo/logo_dark@2x.png"
-                    />
-                  </Link>
-                </div>
+                <Brand data={{isDark: false,altTag:"Nebula Home",size:{height:20,width:125}}} />
                 <p className="sub-widget-logo">
-                  Lorem ipsum dolor sit amet,consectetur adipisicing elit. Quis
-                  non, fugit totam vel laboriosam vitae.
+                  Nebula is the premier marketplace on Injective.
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Axies — Made By{" "}
-                  <a
-                    href="https://themeforest.net/user/ib-themes"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    ib-themes
-                  </a>
+                  © {new Date().getFullYear()} Nebula — All Rights Reserved{" "}
                 </p>
               </div>
             </div>
