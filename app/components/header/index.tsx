@@ -5,7 +5,6 @@ import Mode from "./Mode";
 import useDarkModeCheck from "@/hooks/useDarkModeCheck";
 import { usePathname } from "next/navigation";
 import useStickyMenu from "@/hooks/useStickyMenu";
-import AdminBar from "./AdminBar";
 import Search1 from "./Search1";
 import Search2 from "./Search2";
 import WalletConnectButton from "../button/WalletConnectButton";
@@ -50,7 +49,7 @@ export default function Header(): JSX.Element {
               <div id="site-header-inner">
                 <div className="wrap-box flex">
                   <div id="site-logo" className="clearfix">
-                    <Brand data={{isDark: isDark,altTag:"Nebula Home",size:{height:20,width:125}}} />
+                    <Brand data={{isDark: false,altTag:"Nebula Home",size:{height:20,width:125}}} />
                   </div>
                   <div
                     data-bs-toggle="offcanvas"
@@ -86,20 +85,12 @@ export default function Header(): JSX.Element {
                       path !== "/text-scroll" &&
                       path !== "/text-rotate" && <Search2 />}
 
-                    {/* wallet */}
-                    {path !== "/authors-1" &&
-                      path !== "/authors-2" &&
-                      path !== "/create-item" &&
-                      path !== "/edit-profile" && <WalletConnectButton />}
-
-                    <AdminBar />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Mode />
       </header>
     </>
   );

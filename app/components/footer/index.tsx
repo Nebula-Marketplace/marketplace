@@ -9,7 +9,6 @@ import Brand from "../image/Brand";
 export default function Footer() {
   // is dark hook
   const isDark = useDarkModeCheck();
-  const data = { id: 1, avatar: "avatar.png", name: "John Doe", eth: 5 };
 
   return (
     <>
@@ -28,8 +27,6 @@ export default function Footer() {
               </div>
             </div>
             {/* End col */}
-
-            <FooterItems data={data} />
 
             <div className="col-lg-3 col-md-6 col-sm-7 col-12">
               <div className="widget widget-subcribe">

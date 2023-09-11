@@ -7,6 +7,9 @@ import BackToTop from "./components/button/BackToTop";
 import "./../public/assets/css/style.css";
 import MobileNavigation from "./components/header/MobileNavigation";
 import { usePathname } from "next/navigation";
+import { mainModule } from "process";
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+
 
 if (typeof window !== "undefined") {
   import("bootstrap");
@@ -32,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const path = usePathname();
-
+  
   return (
     <html lang="en">
       <body className={`body ${rubik.className} ${urbanist.className}`}>
@@ -43,8 +46,6 @@ export default function RootLayout({
               {/* mobile sidebar navigation */}
               <MobileNavigation />
               {children}
-              {/* if the route path is /home-8 then the footer will not show */}
-              {path !== "/home-8" && <Footer />}
             </div>
           </div>
           <BackToTop />

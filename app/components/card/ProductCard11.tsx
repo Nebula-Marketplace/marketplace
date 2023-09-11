@@ -61,7 +61,7 @@ export default function ProductCard11({ data }: Props): JSX.Element {
                         <div className="dropdown">
                             <div className="icon">
                                 <a
-                                    href="javascript:void(0);"
+                                    href=""
                                     className="btn-link"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"

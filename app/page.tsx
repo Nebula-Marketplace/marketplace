@@ -5,13 +5,26 @@ import TodaysPicks4 from "@/app/components/block/TodaysPicks4";
 import TopSeller2 from "@/app/components/block/TopSeller2";
 import Hero4 from "@/app/components/hero/Hero4";
 import LiveAuctionModal from "@/app/components/modal/LiveAuctionModal";
+import { getFetchUrl } from "@/lib/getFetchUrl";
 import { Metadata } from "next";
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-    title: "Axies | NFT Marketplace React/Next Js Template | Home",
+    title: "Nebula | NFT Marketplace | Home",
 };
 
-export default function Page() {
+const getMaintenance = async () => {
+    const response = await fetch(getFetchUrl("api/"), {
+        method: "GET",
+      });
+    return response .json();
+}
+
+export default async function Page() {
+    const maintenance = await getMaintenance();
+    if (maintenance.enabled) {
+        redirect('/maintenance');
+    }
     return (
         <>
             <Hero4 />
@@ -19,8 +32,6 @@ export default function Page() {
             <TopSeller2 />
             <TodaysPicks4 />
             <PopularCollection />
-            <CreateSellNft />
-
             {/* live auction product modal */}
             <LiveAuctionModal />
         </>

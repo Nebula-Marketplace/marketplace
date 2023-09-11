@@ -1,5 +1,5 @@
 {
-  "name": "axies-nft",
+  "name": "nebula-marketplace",
   "version": "1.1.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@delphi-labs/shuttle-react": "^3.8.0",
     "@lossdev/react-text-loop": "^0.1.0",
     "@popperjs/core": "^2.11.7",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/bootstrap": "^5.2.6",
     "@types/node": "20.2.1",
+    "@types/prop-types": "^15.7.5",
     "@types/react": "^18.2.6",
     "@types/react-dom": "18.2.4",
     "bootstrap": "^5.2.3",
@@ -27,9 +30,12 @@
     "react-countdown": "^2.3.5",
     "react-dom": "18.2.0",
     "react-pro-sidebar": "^1.1.0-alpha.1",
+    "react-redux": "^8.1.2",
     "react-slider": "^2.0.5",
+    "react-toastify": "^9.1.3",
     "swiper": "^9.3.2",
     "typescript": "5.0.4",
+    "uuidv4": "^6.2.13",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

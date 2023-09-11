@@ -3,16 +3,7 @@ const nextConfig = {
     experimental: {
         appDir: true,
     },
-    styledComponents: true,
-    async redirects() {
-        return [
-            {
-                source: '/',
-                destination: '/home',
-                permanent: true
-            }
-        ]
-    }
+    styledComponents: true
 };
 
 module.exports = nextConfig;
