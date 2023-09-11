@@ -1,5 +1,5 @@
 import { fromInjectiveEthereumChainToCosmosChain, Network } from "@delphi-labs/shuttle-react";
-import { bech32 } from "bech32";
+import * as bech32 from "bech32";
 import { Address } from "ethereumjs-util";
 
 export const TERRA_MAINNET: Network = {
