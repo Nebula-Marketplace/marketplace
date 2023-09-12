@@ -13,18 +13,8 @@ export const metadata: Metadata = {
     title: "Nebula | NFT Marketplace | Home",
 };
 
-const getMaintenance = async () => {
-    const response = await fetch(getFetchUrl("api/"), {
-        method: "GET",
-      });
-    return response .json();
-}
-
 export default async function Page() {
-    const maintenance = await getMaintenance();
-    if (maintenance.enabled) {
-        redirect('/maintenance');
-    }
+
     return (
         <>
             <Hero4 />

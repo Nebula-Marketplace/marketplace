@@ -7,8 +7,8 @@ import BackToTop from "./components/button/BackToTop";
 import "./../public/assets/css/style.css";
 import MobileNavigation from "./components/header/MobileNavigation";
 import { usePathname } from "next/navigation";
-import { mainModule } from "process";
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { getFetchUrl } from "@/lib/getFetchUrl";
+import { redirect } from 'next/navigation'
 
 
 if (typeof window !== "undefined") {
