@@ -18,8 +18,8 @@ export default function Header(): JSX.Element {
   const isDark = useDarkModeCheck();
 
   // sticky menu
-  const isSticky1 = useStickyMenu(200);
-  const isSticky2 = useStickyMenu(250);
+  const isSticky1 = true;
+  const isSticky2 = true;
 
   return (
     <>

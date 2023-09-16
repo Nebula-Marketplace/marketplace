@@ -7,7 +7,7 @@ import BackToTop from "./components/button/BackToTop";
 import "./../public/assets/css/style.css";
 import MobileNavigation from "./components/header/MobileNavigation";
 import { usePathname } from "next/navigation";
-import { getFetchUrl } from "@/lib/getFetchUrl";
+import { getFetchUrl } from "@/utils/getFetchUrl";
 import { redirect } from 'next/navigation'
 
 

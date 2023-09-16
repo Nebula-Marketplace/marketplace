@@ -4,6 +4,8 @@ import isActiveMenu from "@/utils/isActiveMenu";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Brand from "../image/Brand";
+
 
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 
@@ -20,14 +22,8 @@ export default function MobileNavigation() {
         <Sidebar className={`mobile__menu`}>
           <Menu className="mobile__menu__item">
             <div className="mobile__menu__logo">
-              <Link href="/">
-                <Image
-                  src="/assets/images/logo/logo.png"
-                  height={100}
-                  width={100}
-                  alt="logo"
-                />
-              </Link>
+            <Brand data={{isDark: false,altTag:"Nebula Home",size:{height:20,width:125}}} />
+
             </div>
             {navigation.map((item) => (
               <SubMenu

@@ -65,13 +65,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
             attribute="class"
             enableSystem={false}
             themes={["is_light", "is_dark"]}>
-            <ShuttleProvider
-                mobileProviders={mobileProviders}
-                extensionProviders={extensionProviders}>
                 <Provider store={store}>
                     {children}
                 </Provider>
-            </ShuttleProvider>
         </ThemeProvider>
     );
 }
