@@ -25,23 +25,8 @@ export default function Header(): JSX.Element {
     <>
       <header
         id="header_main"
-        className={
-          // if the page route is /home-8 then the header navigation will be position-fixed
-          path !== "/home-8"
-            ? // if the page route is not /home-8
-              `header_1 js-header style  ${
-                path === "/text-type" ||
-                path === "/text-scroll" ||
-                path === "/home-5" ||
-                path === "/home-6" ||
-                path === "/home-7" ||
-                path === "/home-8"
-                  ? "header_2 style2"
-                  : ""
-              } ${isSticky1 ? "is-fixed" : ""} ${isSticky2 ? "is-small" : ""}`
-            : // if the page route is /home-8
-              `header_1 header_2 style2 style3 js-header position-fixed`
-        }
+        className="header_1 js-header style header_2 style2"
+       
       >
         <div className="ibthemes-container">
           <div className="row">
@@ -60,31 +45,12 @@ export default function Header(): JSX.Element {
                     <span />
                   </div>
 
-                  {/* search bar 1 */}
-                  {path == "/home-5" ||
-                  path == "/home-6" ||
-                  path == "/home-7" ||
-                  path == "/home-8" ||
-                  path === "/text-type" ||
-                  path === "/text-scroll" ||
-                  path === "/text-rotate" ? (
-                    <Search1 />
-                  ) : (
-                    ""
-                  )}
+                  <Search1 />
 
                   <Navigation />
 
                   <div className="flat-search-btn flex">
-                    {/* search bar 2 */}
-                    {path !== "/home-5" &&
-                      path !== "/home-6" &&
-                      path !== "/home-7" &&
-                      path !== "/home-8" &&
-                      path !== "/text-type" &&
-                      path !== "/text-scroll" &&
-                      path !== "/text-rotate" && <Search2 />}
-
+                    
                   </div>
                 </div>
               </div>

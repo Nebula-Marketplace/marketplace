@@ -1,29 +1,27 @@
+import Breadcrumb from "@/app/components/breadcrumb";
 import { Metadata } from "next";
-import Breadcrumb from "../components/breadcrumb";
-import Faq from "../components/block/Faq";
 
 const item = {
-    title: "FAQ",
+    title: "Community",
     breadcrumb: [
         {
             name: "Home",
             path: "/",
         },
         {
-            name: "FAQ"
+            name: "Community",
         }
     ],
 };
 
 export const metadata: Metadata = {
-    title: "Axies | NFT Marketplace React/Next Js Template | FAQ",
+    title: "Nebula | NFT Marketplace | Community",
 };
 
 export default function page(): JSX.Element {
     return (
         <>
             <Breadcrumb data={item} />
-            <Faq />
         </>
     );
 }

@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - "5432:5432"
+    networks:
+      - dev
+     
+  client:
+    build:
+      context: .
+    volumes:
+      - staticbuild:/app/out
+    networks:
+      - dev
+ 
+  networks:
+    dev:
+      driver: bridge
+ 
+  volumes:
+    staticbuild:

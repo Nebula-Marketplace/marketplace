@@ -34,7 +34,7 @@ export default function NotFound() {
                   src="/assets/images/404.svg"
                   alt="404"
                 />
-                <h2>Opps! you’r on the wrong place.</h2>
+                <h2>You look a little lost in space.</h2>
                 <p>
                   Can not find what you need? Take a moment and do a search
                   below or start from our Homepage.

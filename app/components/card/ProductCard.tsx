@@ -19,7 +19,7 @@ interface Props {
     };
 }
 
-export default function ProductCard6({ data }: Props): JSX.Element {
+export default function ProductCard({ data }: Props): JSX.Element {
     const [isHeartToggle, setHeartToggle] = useState<number>(0);
     const pathname = usePathname();
 
@@ -49,7 +49,7 @@ export default function ProductCard6({ data }: Props): JSX.Element {
                             data-bs-target="#popup_bid"
                             className="sc-button style-place-bid style bag fl-button pri-3"
                         >
-                            <span>Place Bid</span>
+                            <span>Buy</span>
                         </a>
                     </div>
                     {data.status !== "" && (
@@ -94,10 +94,10 @@ export default function ProductCard6({ data }: Props): JSX.Element {
                 </div>
                 <div className="card-bottom style-explode">
                     <div className="price">
-                        <span>Current Bid</span>
+                        <span>Listed Price</span>
                         <div className="price-details">
-                            <h5>{data.eth} ETH</h5>
-                            <span>= $12.246</span>
+                            <h5>{data.eth} INJ</h5>
+
                         </div>
                     </div>
                     {pathname === "/home-2" || data.history ? (

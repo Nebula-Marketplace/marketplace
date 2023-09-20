@@ -1,33 +1,34 @@
+import Contact from "@/app/components/block/Contact";
+import Breadcrumb from "@/app/components/breadcrumb";
 import { Metadata } from "next";
-import Breadcrumb from "../components/breadcrumb";
-import HelpCenter from "../components/block/HelpCenter";
 
 const item = {
-    title: "Help Center",
+    title: "Contact",
     breadcrumb: [
         {
             name: "Home",
             path: "/",
         },
         {
-            name: "Page",
-            path: "/help-center",
+            name: "Community",
+            path: "/community"
         },
         {
-            name: "Help Center",
-        },
+            name: "Contact",
+        }
+
     ],
 };
 
 export const metadata: Metadata = {
-    title: "Axies | NFT Marketplace React/Next Js Template | Help Center",
+    title: "Nebula | NFT Marketplace | Contact",
 };
 
 export default function page(): JSX.Element {
     return (
         <>
             <Breadcrumb data={item} />
-            <HelpCenter />
+            <Contact />
         </>
     );
 }

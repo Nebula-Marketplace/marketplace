@@ -29,7 +29,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item8.jpg",
         auction: 2.5,
         title: `"Hamlet Contemplates Contemplates"`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -51,7 +51,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-10.jpg",
         auction: 6,
         title: `"Triumphant Awakening Contemplates"`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -73,7 +73,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-11.jpg",
         auction: 4.5,
         title: `"Living Vase 01 by Lanza Contemplates "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -95,7 +95,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-21.jpg",
         auction: 3.1,
         title: `"Flame Dress' by Balmain Contemplates "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -117,7 +117,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item8.jpg",
         auction: 2.5,
         title: `"Hamlet Contemplates Contemplates"`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -139,7 +139,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-10.jpg",
         auction: 6.2,
         title: `"Triumphant Awakening Contemplates "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 0.89,
         author: {
             status: "Creator",
@@ -161,7 +161,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-11.jpg",
         auction: 4.5,
         title: `"Living Vase 01 by Lanza Contemplates "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -182,7 +182,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item-3.jpg",
         auction: 4.5,
         title: `"Hamlet Contemplates Yorick's...`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -203,7 +203,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-11.jpg",
         auction: 4.5,
         title: `"Crypto Egg Stamp #5”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -224,7 +224,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item-2.jpg",
         auction: 4.5,
         title: `"CyberPrimal 042 LAN”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -245,7 +245,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item-7.jpg",
         auction: 4.5,
         title: `"Crypto Egg Stamp #5”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -266,7 +266,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/card-item-9.jpg",
         auction: 4.5,
         title: `"Hamlet Contemplates Yorick's...`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -287,7 +287,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-6.jpg",
         auction: 4.5,
         title: `"CyberPrimal 042 LAN”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -308,7 +308,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-11.jpg",
         auction: 4.5,
         title: `"Crypto Egg Stamp #5”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             status: "Creator",
@@ -329,7 +329,7 @@ export const product1: Product1Type[] = [
         img: "/assets/images/box-item/image-box-10.jpg",
         auction: 6.2,
         title: `"Triumphant Awakening Contemplates "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 0.89,
         author: {
             status: "Creator",
@@ -530,7 +530,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-3.jpg",
         title: `"The RenaiXance Rising the sun  "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -543,7 +543,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-4.jpg",
         title: `"Space babe - Night 2/25”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -556,7 +556,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-2.jpg",
         title: `"Living Vase 01 by Lanz...`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -569,7 +569,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-7.jpg",
         title: `"Crypto Egg Stamp #5”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -582,7 +582,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item8.jpg",
         title: `"Travel Monkey Club #45”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "Ralph Garraway",
@@ -595,7 +595,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-9.jpg",
         title: `"Sir. Lion Swag #371"`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "Mason Woodward",
@@ -608,7 +608,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/image-box-11.jpg",
         title: `"Living Vase 01 by Lanz...`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "Tyler Covington",
@@ -621,7 +621,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item8.jpg",
         title: `"Travel Monkey Club #45”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "Ralph Garraway",
@@ -634,7 +634,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-3.jpg",
         title: `"The RenaiXance Rising the sun  "`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -647,7 +647,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-4.jpg",
         title: `"Space babe - Night 2/25”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -660,7 +660,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-2.jpg",
         title: `"Living Vase 01 by Lanz...`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
@@ -673,7 +673,7 @@ export const product3: Product3Type[] = [
         hert: 100,
         img: "/assets/images/box-item/card-item-7.jpg",
         title: `"Crypto Egg Stamp #5”`,
-        tag: "bsc",
+        tag: "inj",
         eth: 4.89,
         author: {
             name: "SalvadorDali",
