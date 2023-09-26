@@ -35,5 +35,6 @@ export function constructInstantiateMessage(
         codeId: "116",
         msg: message,
         funds: [],
+        label: "Instantiate Nebula Exchange Contract"
     })
 }
