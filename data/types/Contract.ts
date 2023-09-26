@@ -1,3 +1,15 @@
+export interface InstantiateMsg {
+    collection: string; // name
+    contract: string; // cw721 contract 
+    description: string;
+    symbol: string;
+    logo_uri: string;
+    banner_uri: string;
+    supply: number;
+    creators: Array<RoyaltyInfo>;
+    basis_points: number;
+}
+
 export interface MintMsg {
     // This is an empty message, the contract does most of the heavy lifting.
 }
