@@ -5,13 +5,26 @@ const BASE_URL = process.env.NEXT_WEB3_INJECTIVE_URL;
 
 export async function getUnclaimedCollections() : Promise<Collection[]> {
     const contracts = await getContracts();
-    let collections: Collection[] = [];
+    let collections: Array<Collection> = [];
 
     for await (const contract of contracts.contracts) {
         let data = await getContractInfoByContractAddress(contract);
-        let collection = {
-            Name: data.data.name, ContractAddress: contract, Symbol: data.data.symbol};
-            collections.push(collection)};
+        let collection: Collection = {
+            Name: data.data.name, 
+            ContractAddress: contract, 
+            Symbol: data.data.symbol,
+            metadata: {
+                banner: "",
+                description: "",
+                logo: "",
+                discord: "",
+                twitter: "",
+                telegram: "",
+                email: "",
+                website: "" // This is temporary, so we're good. I might remove the metadata object, or make it optional.
+            }
+        };
+        collections.push(collection)};
     return collections;
 }
 
