@@ -50,7 +50,7 @@ export default function Header(): JSX.Element {
                   <Navigation />
 
                   <div className="flat-search-btn flex">
-                    
+                    <WalletConnectButton />
                   </div>
                 </div>
               </div>
