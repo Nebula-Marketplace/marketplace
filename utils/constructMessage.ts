@@ -1,10 +1,25 @@
-import { MsgInstantiateContract } from "@delphi-labs/shuttle-react";
-import { InstantiateMsg, RoyaltyInfo } from "@/data/types/Contract";
+import { MsgExecuteContract, MsgInstantiateContract } from "@delphi-labs/shuttle-react";
+import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg } from "@/data/types/Contract";
+import axios from 'axios';
+
+const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
 
 export interface InstantiationKwargs {
     logo_uri?: string;
     banner_uri?: string;
     description?: string;
+}
+
+interface Listed {
+    id: string;
+    owner: string;
+    is_listed: boolean;
+    price: string; // uint 128 is a json string according to cw docs
+    expires: number;
+}
+
+interface ListedResponse {
+    data: Array<Listed>;
 }
 
 export function constructInstantiateMessage(
@@ -37,4 +52,79 @@ export function constructInstantiateMessage(
         funds: [],
         label: "Instantiate Nebula Exchange Contract"
     })
+}
+
+export async function constructBuyMessage(
+    token_id: string,
+    contract: string
+) {
+    /*
+    ToDo:
+    - Query the contract for the price of the token
+    - Construct Buy msg
+    - Construct Execute Msg
+    */
+    let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
+    for (let i = 0; i < resp.data.length; i++) {
+        if (resp.data[i].id == token_id) { 
+            /* 
+                gonna essentially fuzzyfind this in case type is off. 
+                technically though, token_id is a u16 int, but is stored as a string. 
+                Tread carefully 
+            */
+            const message: BuyMsg = {
+                token_id: token_id
+            }
+            return new MsgExecuteContract({
+                sender: resp.data[i].owner,
+                contract: contract,
+                msg: {"buy": message},
+                funds: [{"denom": "inj", "amount": resp.data[i].price.toString()}],
+            })
+        }
+    }
+    throw new Error("Token not found");
+}
+
+export function constructListMessage(
+    token_id: string,
+    contract: string,
+    price: string,
+    expires: bigint
+) {
+    let message: ListMsg = {
+        token_id: token_id,
+        price: price,
+        expires: expires
+    }
+    return new MsgExecuteContract({
+        sender: contract,
+        contract: contract,
+        msg: {"list": message},
+        funds: [],
+    })
+}
+
+export async function constructDelistMessage(
+    token_id: string,
+    contract: string
+) {
+    let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
+    for (let i = 0; i < resp.data.length; i++) {
+        if (resp.data[i].id == token_id) { // fuzzyfind again
+            const message: BuyMsg = {
+                token_id: token_id
+            }
+            return new MsgExecuteContract({
+                sender: resp.data[i].owner,
+                contract: contract,
+                msg: {
+                    // cw contracts require msg to contain an object titled as the function name
+                    "delist": message 
+                },
+                funds: [{"denom": "inj", "amount": resp.data[i].price.toString()}],
+            })
+        }
+    }
+    throw new Error("Token not found");
 }
