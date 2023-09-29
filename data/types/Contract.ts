@@ -29,7 +29,7 @@ export interface RoyaltyInfo {
     address: String;
 }
 
-export interface ClaimCollectionMsg {
+export interface ClaimCollectionMsg { // I would make these optional but they wouldnt show up in the message, thus causing an error.
     banner_uri: null | String;
     avatar_uri: null | String;
     description: null | String;
