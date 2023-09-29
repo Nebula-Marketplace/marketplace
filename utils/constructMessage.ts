@@ -114,7 +114,7 @@ export async function constructDelistMessage(
         if (resp.data[i].id == token_id) { // fuzzyfind again
             const message: BuyMsg = {
                 token_id: token_id
-            }
+            };
             return new MsgExecuteContract({
                 sender: resp.data[i].owner,
                 contract: contract,
@@ -123,8 +123,44 @@ export async function constructDelistMessage(
                     "delist": message 
                 },
                 funds: [{"denom": "inj", "amount": resp.data[i].price.toString()}],
-            })
+            });
         }
     }
     throw new Error("Token not found");
+}
+
+export async function constructTransferMessage(
+    token_id: string,
+    contract: string,
+    recipient: string
+) {
+    let message = {
+        "transfer": {
+            token_id: token_id,
+            recipient: recipient
+        }
+    };
+    return new MsgExecuteContract({
+        sender: contract,
+        contract: contract,
+        msg: message,
+        funds: [],
+    });
+}
+
+export async function constructBurnMessage(
+    token_id: string,
+    contract: string
+) {
+    let message = {
+        "burn": {
+            token_id: token_id
+        }
+    };
+    return new MsgExecuteContract({
+        sender: contract,
+        contract: contract,
+        msg: message,
+        funds: [],
+    });
 }
