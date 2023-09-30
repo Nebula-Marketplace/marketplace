@@ -50,7 +50,11 @@ export default function Header(): JSX.Element {
                   <Navigation />
 
                   <div className="flat-search-btn flex">
+<<<<<<< HEAD
                     <WalletConnectButton />
+=======
+                  <WalletConnectButton />
+>>>>>>> 46d476e (wip)
                   </div>
                 </div>
               </div>
