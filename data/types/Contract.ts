@@ -21,7 +21,7 @@ export interface BuyMsg { // Execute msg needs the funds to be set
 export interface ListMsg {
     token_id: string;
     price: string;
-    expires: bigint; // If no expirey set, make it the same date the sun is supposed to explode 👍
+    expires: string; // If no expirey set, make it the same date the sun is supposed to explode 👍
 }
 
 export interface RoyaltyInfo {
