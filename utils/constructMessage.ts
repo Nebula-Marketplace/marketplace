@@ -2,9 +2,9 @@ import { MsgExecuteContract, MsgInstantiateContract } from "@delphi-labs/shuttle
 import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg, ClaimCollectionMsg } from "@/data/types/Contract";
 import axios from 'axios';
 import useWallet from "@/hooks/useWallet";
-import { use } from "react";
 
 const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
+const exchange_code_id = process.env.EXCHANGE_CODE_ID || "130";
 
 export interface InstantiationKwargs {
     logo_uri?: string;
@@ -49,7 +49,7 @@ export function constructInstantiateMessage(
     return new MsgInstantiateContract({
         sender: owner,
         admin: owner,
-        codeId: "116",
+        codeId: exchange_code_id,
         msg: message,
         funds: [],
         label: "Instantiate Nebula Exchange Contract"
@@ -68,7 +68,12 @@ export async function constructBuyMessage(
     */
     const wallet = useWallet();
     let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
+    let state_resp = await axios.get(`https://testnet.lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
+    let data = JSON.parse(atob(state_resp.data));
+    let bps = data.royalties.seller_fee_basis_points / 10_000;
+
     for (let i = 0; i < resp.data.length; i++) {
+        let price_fixed: number = parseInt(resp.data[i].price);
         if (resp.data[i].id == token_id) { 
             /* 
                 gonna essentially fuzzyfind this in case type is off. 
@@ -82,31 +87,46 @@ export async function constructBuyMessage(
                 sender: wallet.account.address,
                 contract: contract,
                 msg: {"buy": message},
-                funds: [{"denom": "inj", "amount": resp.data[i].price.toString()}],
+                funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
             })
         }
     }
     throw new Error("Token not found");
 }
 
-export function constructListMessage(
+export async function constructListMessage(
     token_id: string,
     contract: string,
     price: string,
-    expires: bigint
 ) {
     const wallet = useWallet();
+    let resp = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/state`)
+    let data = JSON.parse(atob(resp.data));
     let message: ListMsg = {
         token_id: token_id,
         price: price,
-        expires: expires
+        expires: "435839745937" // this is a random number i came up with. i removed the timestamp from the contract for now. 
+        // ^ must be string, numbers get rejected. Not sure why. must be a wasm vm issue. U-base types may be the issue.
     }
-    return new MsgExecuteContract({
-        sender: wallet.account.address,
-        contract: contract,
-        msg: {"list": message},
-        funds: [],
-    })
+    return [
+        new MsgExecuteContract({
+            sender: wallet.account.address,
+            contract: data.contract,
+            msg: {
+                "approve": {
+                    "spender": contract,
+                    "token_id": token_id
+                }
+            },
+            funds: []
+        }),
+        new MsgExecuteContract({
+            sender: wallet.account.address,
+            contract: contract,
+            msg: {"list": message},
+            funds: [],
+        })
+    ]
 }
 
 export async function constructDelistMessage(
@@ -117,7 +137,7 @@ export async function constructDelistMessage(
     let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
     for (let i = 0; i < resp.data.length; i++) {
         if (resp.data[i].id == token_id) { // fuzzyfind again
-            const message: BuyMsg = {
+            const message: BuyMsg = { // these messages have the same construction; no reason to make a new type
                 token_id: token_id
             };
             return new MsgExecuteContract({
@@ -158,6 +178,10 @@ export async function constructBurnMessage(
     token_id: string,
     contract: string,
 ) {
+    /*
+        This might not actually work; its not documented in the talis nft schema.
+        I'm assuming it will work because there is a burn function on talis.
+    */
     const wallet = useWallet();
     let message = {
         "burn": {
