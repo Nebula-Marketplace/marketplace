@@ -10,6 +10,33 @@ export interface InstantiateMsg {
     basis_points: number;
 }
 
+export interface Verifier {
+    private_key: string;
+    address: string;
+}
+
+export interface InstantiateCandy {
+    collection: string;
+    contract: string;
+    description: string;
+    symbol: string;
+    logo_uri: string;
+    banner_uri: string;
+    supply: number;
+    creators: Array<RoyaltyInfo>;
+    basis_points: number;
+    codeid: number;
+    phases: Array<Phase>;
+}
+
+export interface Phase {
+    allowed: Array<string>; 
+    starts: number; // timestamp
+    ends: number; // timestamp
+    price: string;
+    allocation: number; // how many tokens can be minted in this phase per wallet
+}
+
 export interface MintMsg {
     // This is an empty message, the contract does most of the heavy lifting.
 }
