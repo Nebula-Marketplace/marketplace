@@ -102,10 +102,10 @@ export async function fetchNftContracts() {
     let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
 
-    contracts = contracts.concat(talis_contracts);
+    // contracts = contracts.concat(talis_contracts);
     // contracts = contracts.concat(nebula_contracts);
 
-    return contracts;
+    return talis_contracts;
 }
 
 async function getMeta(path: string) {
