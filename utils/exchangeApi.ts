@@ -44,6 +44,52 @@ interface Token {
     metadata: TalisNftMetadata | NebulaNftMetadata;
 }
 
+function pitcher(msg: string) {
+    /* * throws an error for inline null checks
+    */
+    throw new Error(msg);
+}
+
+function nullCheck(obj: any) {
+    /* * checks if an object is null
+    */
+    if (obj === null || obj === undefined) {
+        pitcher("Query returned null");
+    }
+    return obj;
+}
+
+export async function getCollectionOwner(contract: string) {
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
+
+    let data = (await api.fetchContractInfo(contract));
+    let owner = data?.creator ?? pitcher("Contract returned null");
+    const jsonString = Buffer.from(nullCheck(owner)).toString('utf8')
+    const owner_address: string = JSON.parse(jsonString)["owner"]
+
+    return owner_address;
+}
+
+export async function fetchListed(exchange: string) {
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
+
+    let listed = (await api.fetchSmartContractState(exchange, atob(`{"get_listed": {}}`))).data;
+    const jsonString = Buffer.from(listed).toString('utf8')
+    const listed_tokens: string[] = JSON.parse(jsonString)["tokens"]
+
+    return listed_tokens;
+}
+
+export async function fetchActiveExchanges() {
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
+
+    let exchanges = (await api.fetchContractCodeContracts(codeID)).contractsList;
+    return exchanges;
+}
+
 export async function fetchNftContracts() {
     /* *
      * Fetches all cw721 contracts. this 
