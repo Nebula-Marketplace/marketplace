@@ -21,7 +21,7 @@ import axios from "axios"
 //     };
 // }
 
-export default function ProductCard({contract, data }:any): JSX.Element {
+export default function ProductCard({data}:any): JSX.Element {
     const [isHeartToggle, setHeartToggle] = useState<number>(0);
     const [nftData,setNftData] = useState<any>({})
     const [contractData,setContractData]=useState<any>({})
@@ -29,30 +29,20 @@ export default function ProductCard({contract, data }:any): JSX.Element {
     const pathname = usePathname();
     useEffect(()=>{
         if(data){
-        // fetchNft("inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",1).then((dataGet:any)=>{
-            fetchNft(contract,1).then((dataGet:any)=>{   
-        console.log(dataGet)
-            getMeta(dataGet?.token_uri as string).then(dataGetRes=>{
-              setNftData({
-        id: data,
-        hert: 10,
-        status: "",
-        img: dataGetRes?.media,
-        auction: 1,
-        title: dataGetRes?.string,
-        tag: dataGetRes?.string,
-        eth: data?.price,
-        author: { status: "string", name: "string", avatar: "string" },
-        history: true,
-              })
-
+            console.log(data)
+        setNftData({
+            id: data?.id,
+            hert: 10,
+            status: "",
+            img: data?.image_uri,
+            auction: 1,
+            title: data?.string,
+            tag: data?.string,
+            eth: data?.price,
+            author: { status: "string", name: "string", avatar: "string" },
+            history: true,
             })
-        })
         }
-        getContractFromExchange(contract).then((data)=>{
-            setContractData(data)
-         
-        })
     },[])
   async function getMeta(path:string) {
     const httpUrl = path.replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -85,7 +75,7 @@ export default function ProductCard({contract, data }:any): JSX.Element {
                             data-bs-target="#popup_bid"
                             className="sc-button style-place-bid style bag fl-button pri-3"
                         >
-                            <span>Buy</span>
+                            <span>List</span>
                         </a>
                     </div>
                     {nftData.status !== "" && (

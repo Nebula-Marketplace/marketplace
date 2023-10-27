@@ -3,8 +3,8 @@ import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg, ClaimCollectionMsg } from
 import axios from 'axios';
 import useWallet from "@/hooks/useWallet";
 
-const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
-const exchange_code_id = process.env.EXCHANGE_CODE_ID || "130";
+const url = "https://testnet.lcd.injective.network/";
+const exchange_code_id = "2949"
 
 export interface InstantiationKwargs {
     logo_uri?: string;
@@ -95,13 +95,15 @@ export async function constructBuyMessage(
 }
 
 export async function constructListMessage(
+    address:any,
     token_id: string,
     contract: string,
     price: string,
+    exchange:string,
 ) {
-    const wallet = useWallet();
-    let resp = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/state`)
-    let data = JSON.parse(atob(resp.data));
+    // const wallet = useWallet();
+
+    
     let message: ListMsg = {
         token_id: token_id,
         price: price,
@@ -110,8 +112,8 @@ export async function constructListMessage(
     }
     return [
         new MsgExecuteContract({
-            sender: wallet.account.address,
-            contract: data.contract,
+            sender: address,
+            contract: contract,
             msg: {
                 "approve": {
                     "spender": contract,
@@ -121,8 +123,8 @@ export async function constructListMessage(
             funds: []
         }),
         new MsgExecuteContract({
-            sender: wallet.account.address,
-            contract: contract,
+            sender: address,
+            contract: exchange,
             msg: {"list": message},
             funds: [],
         })
@@ -155,11 +157,12 @@ export async function constructDelistMessage(
 }
 
 export async function constructTransferMessage(
+    address:string,
     token_id: string,
     contract: string,
     recipient: string
 ) {
-    const wallet = useWallet();
+
     let message = {
         "transfer": {
             token_id: token_id,
@@ -167,7 +170,7 @@ export async function constructTransferMessage(
         }
     };
     return new MsgExecuteContract({
-        sender: wallet.account.address,
+        sender: address,
         contract: contract,
         msg: message,
         funds: [],

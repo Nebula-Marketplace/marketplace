@@ -3,7 +3,8 @@ import Explore4Slidebar from "../sidebar/Explore4Slidebar";
 import ProductCard from "../card/ProductCard";
 import Link from "next/link";
 
-export default function Explore4() {
+export default function Explore4({exchanges,listedNfts}:any) {
+    console.log(exchanges)
     return (
         <>
             <section className="tf-explore tf-section">
@@ -14,9 +15,15 @@ export default function Explore4() {
                         </div>
                         <div className="col-xl-9 col-lg-9 col-md-12">
                             <div className="box-epxlore">
-                                {product1.slice(0, 6).map((item) => (
-                                    <ProductCard key={item.id} data={item} />
-                                ))}
+                                {exchanges.length>0&&exchanges?.map((contract:any)=>{
+                                        return(<>
+                                         {listedNfts?.slice(0, 6).map((item:any) => (
+                                    <>
+                                     <ProductCard key={item.id} contract={contract} data={item} /></>
+                                   
+                                ))}</>)
+                                })}
+                               
                             </div>
                             <div className="btn-auction center">
                                 <Link
