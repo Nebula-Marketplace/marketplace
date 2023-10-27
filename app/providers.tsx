@@ -2,6 +2,7 @@
 import { ThemeProvider } from "next-themes";
 import { Provider } from "react-redux";
 import store from "../store";
+import { Analytics } from '@vercel/analytics/react';
 
 //#region Wallet Stuff
 import {
@@ -72,6 +73,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             >
               <Provider store={store}>
                     {children}
+                    <Analytics />
               </Provider>
             </ShuttleProvider>
           </ThemeProvider>
