@@ -9,7 +9,7 @@ import MobileNavigation from "./components/header/MobileNavigation";
 import { usePathname } from "next/navigation";
 import { getFetchUrl } from "@/utils/getFetchUrl";
 import { redirect } from 'next/navigation'
-
+import { useEffect } from "react";
 
 if (typeof window !== "undefined") {
   import("bootstrap");
