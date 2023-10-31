@@ -10,12 +10,17 @@ export default function WalletConnectButton(): JSX.Element {
   const { connect } = useShuttle();
   const wallet  = useWallet();
   const onConnect = () => {
-    console.log('this')
+    console.log(wallet)
     connect({
       extensionProviderId: "keplr",
       chainId: "injective-888",
     });
+
   };
+
+  let status;
+
+  if(wallet) {status = "connected"}
 
     return (
       <>
@@ -24,7 +29,7 @@ export default function WalletConnectButton(): JSX.Element {
           onConnect()}
           className="sc-button header-slider style style-1 wallet fl-button pri-1"
         >
-          <span>Connect</span>
+          <span>{status}</span>
         </button>
       </>
     );

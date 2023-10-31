@@ -2,10 +2,11 @@ export interface Collection {
     Name: string;
     ContractAddress: string;
     Symbol: string;
-    Metadata: OffChainMetadata;
+    Supply: number;
+    Metadata: Metadata;
 }
 
-export interface OffChainMetadata {
+export interface Metadata {
     Banner: string;
     Cover: string;
     Description: string;

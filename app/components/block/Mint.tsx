@@ -4,7 +4,13 @@ import ItemDetailsTab from "../element/ItemDetailsTab";
 import Countdown from "react-countdown";
 import Link from "next/link";
 
-export default function Mint(): JSX.Element {
+import {Collection} from "@/data/types/Collection";
+
+interface Props {
+    data: Collection
+}
+
+export default function Mint({ data }: Props): JSX.Element {
     const renderer = ({
         days,
         hours,
@@ -40,7 +46,7 @@ export default function Mint(): JSX.Element {
                                     <Image
                                         height={1000}
                                         width={1000}
-                                        src="/assets/images/box-item/images-item-details2.jpg"
+                                        src={data.Metadata.Cover}
                                         alt=""
                                     />
                                 </div>
@@ -52,18 +58,8 @@ export default function Mint(): JSX.Element {
                                     <div className="meta-item">
                                         <div className="left">
                                             <h2>
-                                                Collection Name
+                                                {data.Name}
                                             </h2>
-                                        </div>
-                                        <div className="right">
-                                            <span className="viewed eye mg-r-8">
-                                                225
-                                            </span>
-                                            <span className="liked heart wishlist-button">
-                                                <span className="number-like">
-                                                    100
-                                                </span>
-                                            </span>
                                         </div>
                                     </div>
                                     <div className="client-infor sc-card-product">
@@ -89,38 +85,37 @@ export default function Mint(): JSX.Element {
                                         </div>
                                     </div>
                                     <p>
-                                        Habitant sollicitudin faucibus cursus
-                                        lectus pulvinar dolor non ultrices eget.
-                                        Facilisi lobortisal morbi fringilla urna
-                                        amet sed ipsum vitae malesuada. Habitant
-                                        sollicitudin faucibus cursus lectus
-                                        pulvinar dolor non ultrices eget.
-                                        Facilisi lobortisal morbi fringilla urna
-                                        amet sed ipsum vitae malesuada.
+                                        {data.Metadata.Description}
                                     </p>
                                     <div className="meta-item-details">
                                         <div className="item-style-2 item-details">
                                             <ul className="list-details">
                                             <li>
                                                     <span>Collection Name: </span>
-                                                    <h6>Nebula</h6>
+                                                    <h6>{data.Name}</h6>
                                                 </li>
                                             <li>
                                                     <span>Token Symbol : </span>
-                                                    <h6>NEBL</h6>
+                                                    <h6>{data.Symbol}</h6>
                                                 </li>
                                                 <li>
                                                     <span>Supply :</span>
-                                                    <h6>200</h6>
-                                                </li>
-                                                <li>
-                                                    <span>Contract Created : </span>
-                                                    <h6>2023.01.01</h6>
-                                                </li>
-                                                           
+                                                    <h6>{data.Supply}</h6>
+                                                </li>                                                     
                                             </ul>
                                         </div>
                                         <div className="item-style-2">
+                                            <div className="item meta-price">
+                                                <span className="heading">
+                                                    Current Phase
+                                                </span>
+                                                <div className="price">
+                                                    <div className="price-box">
+                                                        <h5> OG MINT</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div className="item meta-price">
                                                 <span className="heading">
                                                     Current Price
@@ -132,6 +127,7 @@ export default function Mint(): JSX.Element {
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div
                                                 className="item count-down"
                                                 style={{ padding: "12px" }}

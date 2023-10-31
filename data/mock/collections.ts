@@ -5,6 +5,7 @@ export const collections: Collection[] = [
         Name:"A5tound",
         ContractAddress: "inj123",
         Symbol:"A5T",
+        Supply: 200,
         Metadata: {
             Banner:"/assets/images/collections/a5tound/banner.jpeg",
             Cover: "/assets/images/collections/a5tound/cover.jpeg",

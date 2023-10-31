@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@delphi-labs/shuttle-react": "^3.8.0",
+    "@injectivelabs/sdk-ts": "^1.14.1",
     "@lossdev/react-text-loop": "^0.1.0",
     "@popperjs/core": "^2.11.7",
     "@reduxjs/toolkit": "^1.9.5",
