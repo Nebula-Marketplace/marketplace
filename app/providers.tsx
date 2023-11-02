@@ -15,6 +15,7 @@ import {
   CosmostationMobileProvider,
   KeplrMobileProvider,
   LeapCosmosMobileProvider,
+  LeapMetamaskCosmosSnapExtensionProvider,
   MetamaskMobileProvider,
   ShuttleProvider,
 } from "@delphi-labs/shuttle-react";
@@ -31,6 +32,38 @@ import {
 } from "@/config/networks";
   
 const extensionProviders = [
+  new XDEFICosmosExtensionProvider({
+    networks: [TERRA_MAINNET, TERRA_TESTNET, OSMOSIS_MAINNET, MARS_MAINNET],
+  }),
+  new CosmostationExtensionProvider({
+    networks: [
+      OSMOSIS_MAINNET,
+      TERRA_MAINNET,
+      TERRA_TESTNET,
+      INJECTIVE_MAINNET,
+      INJECTIVE_TESTNET,
+      NEUTRON_MAINNET,
+      NEUTRON_TESTNET,
+    ],
+  }),
+  new LeapCosmosExtensionProvider({
+    networks: [OSMOSIS_MAINNET, TERRA_MAINNET, TERRA_TESTNET, INJECTIVE_MAINNET, INJECTIVE_TESTNET],
+  }),
+  new LeapMetamaskCosmosSnapExtensionProvider({
+    networks: [
+      OSMOSIS_MAINNET,
+      MARS_MAINNET,
+      TERRA_MAINNET,
+      TERRA_TESTNET,
+      INJECTIVE_MAINNET,
+      INJECTIVE_TESTNET,
+      NEUTRON_MAINNET,
+      NEUTRON_TESTNET,
+    ],
+  }),
+  new StationExtensionProvider({
+    networks: [OSMOSIS_MAINNET, MARS_MAINNET, TERRA_MAINNET, TERRA_TESTNET],
+  }),
   new KeplrExtensionProvider({
     networks: [
       OSMOSIS_MAINNET,
@@ -42,6 +75,9 @@ const extensionProviders = [
       NEUTRON_MAINNET,
       NEUTRON_TESTNET,
     ],
+  }),
+  new MetamaskExtensionProvider({
+    networks: [INJECTIVE_MAINNET, INJECTIVE_TESTNET],
   }),
 ];
 
@@ -58,7 +94,18 @@ const mobileProviders = [
       NEUTRON_TESTNET,
     ],
   }),
+  new LeapCosmosMobileProvider({
+    networks: [OSMOSIS_MAINNET, MARS_MAINNET, TERRA_MAINNET, TERRA_TESTNET, INJECTIVE_MAINNET, INJECTIVE_TESTNET],
+  }),
+  new CosmostationMobileProvider({
+    networks: [TERRA_MAINNET, OSMOSIS_MAINNET, MARS_MAINNET, NEUTRON_MAINNET, NEUTRON_TESTNET],
+  }),
+  new MetamaskMobileProvider({
+    networks: [INJECTIVE_MAINNET, INJECTIVE_TESTNET],
+  }),
 ];
+
+const WC_PROJECT_ID = "f103541210b7aa9f2eecb3712f99922a";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
@@ -68,8 +115,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
               themes={["is_light", "is_dark"]}
           >
             <ShuttleProvider
+              walletConnectProjectId={WC_PROJECT_ID}
                 mobileProviders={mobileProviders}
                 extensionProviders={extensionProviders}
+                persistent
             >
               <Provider store={store}>
                     {children}

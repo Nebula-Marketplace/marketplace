@@ -13,8 +13,6 @@ export default async function Page() {
         <>
             <MainHero />
             <CreateSellNft />
-            <TodaysPicks />
-            <UpcomingLaunches />
         </>
     );
 }
