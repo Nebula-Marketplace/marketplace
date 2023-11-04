@@ -14,6 +14,7 @@ export async function getUnclaimedCollections() : Promise<Collection[]> {
             Name: data.data.name, 
             ContractAddress: contract, 
             Symbol: data.data.symbol,
+            Supply: 1,
             Metadata: {
                 Banner: "",
                 Cover:"",
