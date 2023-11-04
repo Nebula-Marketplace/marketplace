@@ -1,6 +1,7 @@
-import { MsgExecuteContract, MsgInstantiateContract } from "@delphi-labs/shuttle-react";
+import { MsgExecuteContract, MsgInstantiateContract, WalletConnection } from "@delphi-labs/shuttle-react";
 import {InstantiateCandy, Phase, RoyaltyInfo, MintMsg, Verifier} from "@/data/types/Contract";
 import { sign } from "crypto";
+import {useMemo} from "react";
 
 const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
 const cm_code_id = process.env.EXCHANGE_CODE_ID || "133";
@@ -26,6 +27,19 @@ export function constructMintMessage(sender: string, contract: string, phase: Ph
             Buffer.from(`${sender}${contract}${phase.price}${phase.allocation}`),
             verifier.private_key,
         )}},
-        funds: [{"amount": (parseInt(phase.price) + parseInt(phase.price) * 0.03).toString(), "denom": "inj"}]
+        funds: [{"amount": (phase.price + (phase.price * 0.03)).toString(), "denom": "inj"}]
     })
+}
+
+
+export function constructAndBroadcastMint(wallet:WalletConnection, contract: string, phase: Phase) {
+    const msgs =  [ new MsgExecuteContract({
+            sender: wallet.account.address,
+            contract: contract,
+            msg: {
+                mint: {signature:"garbage"}
+            },
+            funds: [{"amount": (phase.price + (phase.price * 0.03)).toString(), "denom": "inj"}]
+        })];
+    return {msgs};
 }

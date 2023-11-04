@@ -1,6 +1,6 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Navigation from "swiper";
+import  {Navigation} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import useDarkModeCheck from "@/hooks/useDarkModeCheck";
@@ -37,64 +37,50 @@ export default function HeroSlider1(): JSX.Element {
                             });
                         }}
                     >
-                        <SwiperSlide>
+                                                <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
-                                    <div className="ibthemes-container ">
-                                        <div className="wrap-heading flat-slider flex">
-                                            <div className="content">
-                                                <h2 className="heading">
-                                                    Discover, find,
-                                                </h2>
-                                                <h1 className="heading mb-style">
-                                                    <span
-                                                        className={`tf-text ${
-                                                            isDark
-                                                                ? "s1"
-                                                                : "style"
-                                                        }`}
-                                                    >
-                                                        Sell extraordinary
-                                                    </span>
-                                                </h1>
-                                                <h1 className="heading">
-                                                    Monster NFTs
-                                                </h1>
-                                                <p className="sub-heading mg-t-29 mg-bt-44">
-                                                    Marketplace for monster
-                                                    character cllections non
-                                                    fungible token NFTs
-                                                </p>
-                                                <div className="flat-bt-slider flex style2">
-                                                    <Link
-                                                        href="/explore-1"
-                                                        className="sc-button header-slider style style-1 rocket fl-button pri-1"
-                                                    >
-                                                        <span>Explore</span>
-                                                    </Link>
-                                                    <Link
-                                                        href="/create-item"
-                                                        className="sc-button header-slider style style-1 note fl-button pri-1"
-                                                    >
-                                                        <span>Create</span>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div className="image">
-                                                <Image
-                                                    height={448}
-                                                    width={620}
-                                                    className="img-bg"
-                                                    src="/assets/images/backgroup-secsion/img-bg-sliderhome2.png"
-                                                    alt="Image"
-                                                />
-                                                <Image
-                                                    height={588}
-                                                    width={354}
-                                                    src="/assets/images/box-item/imgslider2.png"
-                                                    alt="Image"
-                                                />
-                                            </div>
+                                    <div className="ibthemes-container flex">
+                                        <div className="image three">
+                                        <Image
+                                height={400}
+                                width={400}
+                                src="/assets/images/collections/a5tound/cover.jpeg"
+                                alt="Image"/>     
+                                            <Image
+                                                height={460}
+                                                width={705}
+                                                className="img-bg"
+                                                src="/assets/images/backgroup-secsion/img-bg-sliderhome3.png"
+                                                alt="Image"
+                                            />
+                                        </div>
+                                        <div className="wrap-heading flat-slider h3 three">
+                                            <h2 className="heading">
+                                                Featured Project
+                                            </h2>
+                                            
+                                            <h1 className="heading">
+                                                <span
+                                                    className={`tf-text ${
+                                                        isDark ? "s1" : "style"
+                                                    }`}
+                                                >
+                                                    A5tound{" "}
+                                                </span>
+    
+                                            </h1>
+                                            <p className="sub-heading mt-29 mb-35">
+                                            For the community. Ran by the community. Brand , Inspired by Fashion , Music , and the 90s
+                                            </p>
+                                            <div className="flat-bt-slider flex style2">                
+                                <Link
+                                    href="/launchpad/inj1anmf3f9t9rzyapa4na4p8kshxr9x508fc52jn6"
+                                    className="sc-button header-slider style style-1 note fl-button pri-1"
+                                >
+                                    <span>Mint</span>
+                                </Link>
+                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +93,7 @@ export default function HeroSlider1(): JSX.Element {
                                     <div className="ibthemes-container">
                                         <div className="wrap-heading flat-slider text-center two">
                                             <h2 className="heading">
-                                                Discover, and collect
+                                                Nebula is the
                                             </h2>
                                             <h1 className="heading">
                                                 <span
@@ -115,85 +101,15 @@ export default function HeroSlider1(): JSX.Element {
                                                         isDark ? "s1" : "style"
                                                     }`}
                                                 >
-                                                    extraordinary{" "}
+                                                    premier{" "}
                                                 </span>
-                                                <span>Monster NFTs</span>
+                                                <span>Launchpad on Injective</span>
                                             </h1>
                                             <p className="sub-heading mg-t-29 mg-bt-50">
-                                                Marketplace for monster
-                                                character cllections non
-                                                fungible token NFTs
+                                                Launch your NFT project with us today.
                                             </p>
                                             <div className="flat-bt-slider flex">
-                                                <Link
-                                                    href="/explore-1"
-                                                    className="sc-button header-slider style style-1 rocket fl-button pri-1"
-                                                >
-                                                    <span>Explore</span>
-                                                </Link>
-                                                <Link
-                                                    href="/create-item"
-                                                    className="sc-button header-slider style style-1 note fl-button pri-1"
-                                                >
-                                                    <span>Create</span>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* item*/}
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="swiper-slide">
-                                <div className="slider-item">
-                                    <div className="ibthemes-container flex">
-                                        <div className="image three">
-                                            <Image
-                                                height={395}
-                                                width={573}
-                                                src="/assets/images/box-item/imgslider-3.png"
-                                                alt="Image"
-                                            />
-                                            <Image
-                                                height={460}
-                                                width={705}
-                                                className="img-bg"
-                                                src="/assets/images/backgroup-secsion/img-bg-sliderhome3.png"
-                                                alt="Image"
-                                            />
-                                        </div>
-                                        <div className="wrap-heading flat-slider h3 three">
-                                            <h2 className="heading">
-                                                Discover, and collect
-                                            </h2>
-                                            <h2 className="heading">
-                                                extraordinary
-                                            </h2>
-                                            <h2 className="heading h3">
-                                                <span className="fill">
-                                                    Monster{" "}
-                                                </span>
-                                                NFTs
-                                            </h2>
-                                            <p className="sub-heading mt-29 mb-35">
-                                                Marketplace for monster
-                                                character cllections non
-                                                fungible token NFTs
-                                            </p>
-                                            <div className="flat-bt-slider flex style2">
-                                                <a
-                                                    href="/explore-1"
-                                                    className="sc-button header-slider style style-1 rocket fl-button pri-1"
-                                                >
-                                                    <span>Explore</span>
-                                                </a>
-                                                <Link
-                                                    href="/create-item"
-                                                    className="sc-button header-slider style style-1 note fl-button pri-1"
-                                                >
-                                                    <span>Create</span>
-                                                </Link>
+
                                             </div>
                                         </div>
                                     </div>

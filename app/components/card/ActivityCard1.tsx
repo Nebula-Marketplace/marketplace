@@ -7,7 +7,7 @@ interface Props {
     img: string;
     icon: string;
     title: string;
-    name: string;
+    description: string;
     type: number;
     eth?: undefined | number;
   };
@@ -33,14 +33,14 @@ export default function ActivityCard1({ data }: Props): JSX.Element {
             {data.type === 1 && (
               <div className="status">
                 started following
-                <span className="author">{data.name}</span>
+                <span className="author">{data.description}</span>
               </div>
             )}
             {data.type === 2 && (
               <div className="status">
                 <span className="quote">10 editions listed</span>
                 by
-                <span className="author"> {data.name} </span> for{" "}
+                <span className="author"> {data.description} </span> for{" "}
                 <span className="quote">{data.eth} ETH</span>
                 each
               </div>

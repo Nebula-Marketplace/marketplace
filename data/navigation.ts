@@ -14,6 +14,7 @@ interface NavigationType {
 }
 
 export const navigation: NavigationType[] = [
+    /*
     {
         id: 1,
         name: "Collections",
@@ -40,7 +41,7 @@ export const navigation: NavigationType[] = [
                 path: "/activity/recent",
             },
         ],
-    },
+    },*/
     {
         id: 3,
         name: "Launchpad",
