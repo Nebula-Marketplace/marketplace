@@ -1,5 +1,6 @@
 import {InjectiveApiQueryMappings, InjectiveApiEnum, InjectiveGetContractResponse, InectiveGetContractInfoByContractAddressResponse} from "@/data/external/injective-api-mapping";
 import { Collection } from "@/data/types/Collection";
+import { Phase } from "@/data/types/Contract";
 
 const BASE_URL = process.env.NEXT_WEB3_INJECTIVE_URL;
 
@@ -13,15 +14,18 @@ export async function getUnclaimedCollections() : Promise<Collection[]> {
             Name: data.data.name, 
             ContractAddress: contract, 
             Symbol: data.data.symbol,
-            metadata: {
-                banner: "",
-                description: "",
-                logo: "",
-                discord: "",
-                twitter: "",
-                telegram: "",
-                email: "",
-                website: "" // This is temporary, so we're good. I might remove the metadata object, or make it optional.
+            Supply: 1,
+            Metadata: {
+                Banner: "",
+                Cover:"",
+                Description: "",
+                Logo: "",
+                Discord: "",
+                Twitter: "",
+                Telegram: "",
+                Email: "",
+                Website: "",
+                Atlas3:""
             }
         };
         collections.push(collection)};
@@ -53,4 +57,13 @@ export async function getContractInfoByContractAddress(contractAddress:string) :
     let response = data.json();
 
     return response;
+}
+
+export async function getActivePhase(contractAddress:string) : Promise<Phase> {
+    let data = await fetch(BASE_URL + `/cosmwasm/wasm/v1/contract/${contractAddress}/smart/eyJnZXRfcGhhc2UiOnt9fQ==`);
+
+    let response = data.json();
+
+    return response;;
+
 }

@@ -1076,6 +1076,10 @@ label.error {
     margin-top: -9px;
 }
 
+.mg-t50 {
+    margin-top: 50px;
+}
+
 .mg-t-4 {
     margin-top: -4px;
 }
@@ -1180,6 +1184,10 @@ label.error {
 
 .mg-r-1 {
     margin-right: 1px;
+}
+
+.mg-r-100 {
+    margin-right: 100px;
 }
 
 .color-47A432 {

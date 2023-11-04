@@ -47,6 +47,7 @@ export default function RootLayout({
               {/* mobile sidebar navigation */}
               <MobileNavigation />
               {children}
+              <Footer />
             </div>
           </div>
           <BackToTop />

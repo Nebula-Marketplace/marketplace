@@ -30,11 +30,13 @@ export interface InstantiateCandy {
 }
 
 export interface Phase {
+    current: number;
     allowed: Array<string>; 
     starts: number; // timestamp
     ends: number; // timestamp
-    price: string;
+    price: number;
     allocation: number; // how many tokens can be minted in this phase per wallet
+    name: string; //name of string
 }
 
 export interface MintMsg {

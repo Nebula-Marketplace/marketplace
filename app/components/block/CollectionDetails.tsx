@@ -69,7 +69,7 @@ export default function CollectionDetails(): JSX.Element {
         <>
             <section className="tf-section authors">
                 <div className="ibthemes-container">
-                    <div className="flat-tabs tab-authors">
+                    <div className="flat-tabs tab-authors mg-t50">
                         <div className="author-profile flex">
                             <div className="feature-profile">
                                 <img
