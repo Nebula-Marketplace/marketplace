@@ -7,7 +7,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 import axios from 'axios';
 
-const codeID =3340;
+const codeID =3484;
 const talis_nft = 582;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
 const network = "mainnet"== "mainnet" ? Network.Testnet : Network.Testnet; 

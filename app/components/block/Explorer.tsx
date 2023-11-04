@@ -25,7 +25,7 @@ export default function Explore4({exchanges,listedNfts}:any) {
                         
                             <div
                                 key={item.id}
-                                className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                                className="col-xl-4 col-lg-4 col-md-6 col-sm-6"
                             >
                                 <CollectionCard data={item} />
                             </div>

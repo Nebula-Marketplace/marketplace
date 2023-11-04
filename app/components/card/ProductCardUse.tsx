@@ -67,11 +67,15 @@ export default function ProductCard({data}:any): JSX.Element {
         }
         setHeartToggle(0);
     };
+    const handleShow = ()=>{
+        setShow(false)
+    }
     const listNFT = async (listAmount:number) => {
+        alert(data.id)
         if (recentWallet) {
           const getMessage = await constructListMessage(
             wallet.account?.address,
-            nftData.id,
+            data.id,
              nftData.collection,
             Math.abs(listAmount).toString(),
              nftData.exchange)
@@ -221,7 +225,7 @@ export default function ProductCard({data}:any): JSX.Element {
                         }
                 </div>
             </div>
-            <LiveAuctionModal show={show} type={type} functionRun={listNFT}/>
+            <LiveAuctionModal show={show} type={type} handleShow={handleShow} functionRun={listNFT}/>
 
         </>
     );

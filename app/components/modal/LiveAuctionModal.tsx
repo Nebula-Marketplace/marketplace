@@ -1,30 +1,14 @@
 import { useEffect, useState } from "react";
 import { Grid, Modal } from "@mui/material";
-export default function LiveAuctionModal({show,type,functionRun}:any): JSX.Element {
+export default function LiveAuctionModal({show,handleShow,type,functionRun}:any): JSX.Element {
    const [listAmount,setListAmount] = useState<number>(0)
-    useEffect(() => {
-        if(show){
-        const { Modal } = require("bootstrap");
-        const myModals = new Modal("#popup_bid");
-        const modalElement = document.querySelector("#popup_bid");
-        if (modalElement?.classList.contains('show')) {
-            // The modal has the 'show' class
-            return
-        } else {
-            // The modal doesn't have the 'show' class
-        }
-        myModals.show();
-        }
-    },[show]);
     return (
         <>
-            <div
-                className="modal fade popup"
-                id="popup_bid"
-                tabIndex={-1}
-                aria-labelledby="dialog"
-                aria-hidden="true"
-            >
+                        <Modal
+        open={show}
+        onClose={handleShow}
+        className={"profile-modal"}
+      >
                 <div
                     className="modal-dialog modal-dialog-centered"
                     role="document"
@@ -72,7 +56,7 @@ export default function LiveAuctionModal({show,type,functionRun}:any): JSX.Eleme
                         </div>
                     </div>
                 </div>
-            </div>
+            </Modal>
         </>
     );
 }

@@ -8,7 +8,7 @@ import {
     QueryResolverAddress
 } from '@injectivelabs/sdk-ts'
 const url = "https://testnet.lcd.injective.network/";
-const exchange_code_id = "3340"
+const exchange_code_id = "3484"
 // const exchange_code_id = "146"
 const network = "mainnet"== "mainnet" ? Network.Testnet : Network.Testnet; 
 export interface InstantiationKwargs {
@@ -118,7 +118,7 @@ export async function constructBuyMessage(
             */
            let price_fixed = parseInt(lastPrice.price)
             const message: BuyMsg = {
-                id: "0"
+                id: token_id
             }
             return new MsgExecuteContract({
                 sender: address,
@@ -177,7 +177,7 @@ export async function constructDelistMessage(
     token_id: string,
     contract: string
 ) {
- 
+ console.log(contract)
     let resp: any = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
     resp = resp.data
     let delistMessages=[]
@@ -199,7 +199,7 @@ export async function constructDelistMessage(
         }
         
     }
-    return delistMessages.slice(resp.data.length-1)
+    return delistMessages
     throw new Error("Token not found");
 }
 
