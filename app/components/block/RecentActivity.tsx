@@ -14,9 +14,9 @@ export default function RecentActivity() {
                         </div>
                         <div className="col-xl-9 col-lg-9 col-md-12">
                             <div className="box-epxlore">
-                                {/* {product1.slice(0, 6).map((item) => (
-                                    <ProductCard key={item.id}/>
-                                ))} */}
+                                {product1.slice(0, 6).map((item) => (
+                                    <ProductCard key={item.id} data={item} />
+                                ))}
                             </div>
                             <div className="btn-auction center">
                                 <Link

@@ -4,10 +4,10 @@ import { useShuttle } from "@delphi-labs/shuttle-react";
 import { useDispatch } from "react-redux";
 import { handleLogin } from "@/store/store-auth";
 import  useWallet from "@/hooks/useWallet";
-// import { init,mint } from "@/utils/nft";
+import { init,mint } from "@/utils/nft";
 
 import { useEffect, useState } from "react";
-import {constructListMessage,constructClaimMessage } from "@/utils/constructMessage";
+import {constructListMessage } from "@/utils/constructMessage";
 import useFeeEstimate from "@/utils/useFeeEstimate";
 import {signWasmMsg } from "@/utils/signMessage";
 import {
@@ -83,14 +83,13 @@ console.log("THIS")
       chainId: "injective-888",
     });
     // alert("this")
-
-//     mint(wallet.account?.address,"https://api.majin.rip/nft3.json",{
-//       seller_fee_basis_points: 500,
-//       creators:[{
-//      "primary_sell_happened": true,
-// "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
-// "share": 100,
-//   }]})
+    mint(wallet.account?.address,"https://api.majin.rip/nft3.json",{
+      seller_fee_basis_points: 500,
+      creators:[{
+     "primary_sell_happened": true,
+"address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+"share": 100,
+  }]})
     // getData()
   };
     return (

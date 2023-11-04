@@ -18,19 +18,19 @@ interface Props {
 
 export default function MintModal({ data }: Props): JSX.Element {
     const wallet = useWallet();
-    console.log(data);
+    console.log(wallet);
     const {broadcast, simulate} = useShuttle();
     let [total,settotal] = useState(0);
     async function mint(){
         let contract = data.collection.ContractAddress;
-        let msg = await constructAndBroadcastMint(wallet,contract,parseInt(data.activePhase.price.toString()));
+        let msg = await constructAndBroadcastMint(wallet,contract,data.activePhase);
         try {
             let response = await simulate({
                 messages:msg.msgs,
                 wallet:wallet
             });
         }catch(e){ console.log(e)}
-console.log(msg.msgs)
+
             
         broadcast({
             wallet: wallet,

@@ -116,7 +116,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 </span>
                                                 <div className="price">
                                                     <div className="price-box">
-                                                        <h5>{data.activePhase?.name}</h5>
+                                                        <h5>{data.activePhase.name}</h5>
                                                     </div>
                                                 </div>
                                             </div>

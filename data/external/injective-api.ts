@@ -1,7 +1,6 @@
 import {InjectiveApiQueryMappings, InjectiveApiEnum, InjectiveGetContractResponse, InectiveGetContractInfoByContractAddressResponse} from "@/data/external/injective-api-mapping";
 import { Collection } from "@/data/types/Collection";
 import { Phase } from "@/data/types/Contract";
-import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "@/utils/exchangeApi";
 
 const BASE_URL = process.env.NEXT_WEB3_INJECTIVE_URL;
 
@@ -63,10 +62,8 @@ export async function getContractInfoByContractAddress(contractAddress:string) :
 export async function getActivePhase(contractAddress:string) : Promise<Phase> {
     let data = await fetch(BASE_URL + `/cosmwasm/wasm/v1/contract/${contractAddress}/smart/eyJnZXRfcGhhc2UiOnt9fQ==`);
 
-    let response = await data.json();
-    response = response?.data
-    // console.log(response)
-    // const active = await fetchNftContractState(contractAddress);
-    return response;
+    let response = data.json();
+
+    return response;;
 
 }
