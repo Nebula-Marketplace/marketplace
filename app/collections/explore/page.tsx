@@ -25,7 +25,7 @@ const item = {
 //     title: "Nebula | NFT Marketplace | Explore",
 // };
 
-export default function page(): JSX.Element {
+export default function Page(): JSX.Element {
     const [contracts, setContracts] = useState(null);
     const [exchanges, setExchanges] = useState<any[]>([]);
     const [listed,setListed]=useState<any[]>([])

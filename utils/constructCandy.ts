@@ -32,14 +32,14 @@ export function constructMintMessage(sender: string, contract: string, phase: Ph
 }
 
 
-export function constructAndBroadcastMint(wallet:WalletConnection, contract: string, phase: Phase) {
+export function constructAndBroadcastMint(wallet:WalletConnection, contract: string, price: number) {
     const msgs =  [ new MsgExecuteContract({
             sender: wallet.account.address,
             contract: contract,
             msg: {
                 mint: {signature:"garbage"}
             },
-            funds: [{"amount": (phase.price + (phase.price * 0.03)).toString(), "denom": "inj"}]
+            funds: [{"amount": (price + (price * 0.03)).toString(), "denom": "inj"}]
         })];
     return {msgs};
 }
