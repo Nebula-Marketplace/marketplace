@@ -1,11 +1,31 @@
+"use client"
 import CollectionListCard from "../card/CollectionListCard";
 import Link from "next/link";
 import {getUnclaimedCollections} from "@/data/external/injective-api";
+import { fetchNftContracts,fetchActiveExchanges,fetchListed,getContractFromExchange } from "@/utils/exchangeApi";
+import { useEffect } from "react";
 
-{/* @ts-expect-error Async Server Component */}
-export default async function UnclaimedCollections(): JSX.Element {
-    const data = await getUnclaimedCollections();
 
+export default  function UnclaimedCollections(): JSX.Element {
+    // const data = await getUnclaimedCollections();
+    useEffect(() => {
+        let getALLContract:any[] =[]
+        fetchNftContracts()
+            .then(data =>{ 
+                getALLContract = (data as any)
+                fetchActiveExchanges()
+                .then(dataRes =>{ 
+                    // (data as any)
+            //         console.log(getALLContract)
+            // console.log(dataRes)
+        })
+            .catch(error => console.error(error));
+
+        
+
+        })
+            .catch(error => console.error(error));
+    }, []);
     return (
         <>
             <section className="tf-section tf-rank">
@@ -34,12 +54,12 @@ export default async function UnclaimedCollections(): JSX.Element {
                                         <h3>Assets</h3>
                                     </div>
                                 </div>
-                                {data.map((item) => (
+                                {/* {data.slice(0,20).map((item) => (
                                     <CollectionListCard
                                         key={item.ContractAddress}
                                         data={{title:item.Name}}
                                     />
-                                ))}
+                                ))} */}
                             </div>
                         </div>
                     </div>

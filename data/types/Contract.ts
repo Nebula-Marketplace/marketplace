@@ -42,11 +42,11 @@ export interface MintMsg {
 }
 
 export interface BuyMsg { // Execute msg needs the funds to be set
-    token_id: string;
+    id: string;
 }
 
 export interface ListMsg {
-    token_id: string;
+    id: string;
     price: string;
     expires: string; // If no expirey set, make it the same date the sun is supposed to explode 👍
 }
@@ -58,7 +58,7 @@ export interface RoyaltyInfo {
 
 export interface ClaimCollectionMsg { // I would make these optional but they wouldnt show up in the message, thus causing an error.
     banner_uri: null | String;
-    avatar_uri: null | String;
+    logo_uri: null | String;
     description: null | String;
     basis_points: null | number; // 100 == 1% royalty
     creators: null | Array<RoyaltyInfo>

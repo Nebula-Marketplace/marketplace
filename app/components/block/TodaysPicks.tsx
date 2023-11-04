@@ -1,9 +1,13 @@
+'use client'
 import { product1 } from "@/data/product";
 import ProductCard from "../card/ProductCard";
+import CollectionCard from "../card/CollectionCard"
 import Link from "next/link";
 import FilterSection from "../element/FilterSection";
+import { useGlobalState } from "@/utils/GlobalContext";
 
 export default function TodaysPicks(): JSX.Element {
+    const { listed, setListed, collections, setCollections } = useGlobalState();
     return (
         <>
             <section className="tf-section today-picks">
@@ -19,14 +23,28 @@ export default function TodaysPicks(): JSX.Element {
                                 </Link>
                             </div>
                         </div>
-                        {product1.slice(7, 15).map((item) => (
+                       {collections.slice(0, 15).map((item) => {
+                            console.log(item)
+                            return(
+                        
+                            <div
+                                key={item.id}
+                                className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                            >
+                                <CollectionCard data={item} />
+                            </div>
+                        )})}
+                        {/* {listed.slice(0, 15).map((item) => {
+                            console.log(item)
+                            return(
+                        
                             <div
                                 key={item.id}
                                 className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
                             >
                                 <ProductCard data={item} />
                             </div>
-                        ))}
+                        )})} */}
 
                     </div>
                 </div>

@@ -2,12 +2,14 @@
 import { useState, ChangeEvent } from "react";
 import UploadProfile from "../element/UploadProfile";
 import Image from "next/image";
-
+import {constructInstantiateMessage,constructClaimMessage} from "@/utils/constructMessage"
+import useWallet from "@/hooks/useWallet";
+import { useShuttle } from "@delphi-labs/shuttle-react";
 export default function UpdateMetadata() {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [getSelectCover, setSelectCover] = useState<number | null>(null);
-
+    const wallet  = useWallet();
     // multi image upload
     const multiConverHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
@@ -33,8 +35,89 @@ export default function UpdateMetadata() {
         setPreviewUrls(deleteResult2);
         setSelectedFiles([]);
     };
+    const { connect,sign,recentWallet, simulate,broadcast  } = useShuttle();
 
-
+const createCollection =async()=>{
+  const getData =  constructInstantiateMessage(
+        wallet?.account?.address,
+         "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
+         "TEST NFTS",
+         "TTT",
+         100,
+         650,
+         [{
+            "share": 100,
+            "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+        }],
+    )
+    try{
+        const messages=[getData]
+        console.log(getData)
+        const response: any = await simulate({
+          messages,
+          wallet,
+        });
+        console.log(response)
+        console.log("THIS")
+        }catch(e){
+          console.log(e)
+          
+        }
+    await broadcast({
+        messages: [getData],
+        feeAmount: "5000000", 
+        gasLimit: "5000000", 
+        // memo: "",
+        wallet:recentWallet
+    }).then((result: any) => {
+      console.log("Sign result", result);
+    //   console.log(new TextDecoder().decode(result.signatures))
+    //   console.log(new TextDecoder().decode(result.response.signatures))
+    //   console.log(new TextDecoder().decode(result.response.bodyBytes))
+    })
+    .catch((error:any) => {
+      console.error("Sign error", error);
+    });
+    
+}
+const claimCollection=async()=>{
+  const claimMessage=  constructClaimMessage(
+        wallet?.account?.address,
+        "inj1tz7gv5rvgtdv24u5dttszuum593n2ul8stmqhn",
+        { banner_uri: "https://pbs.twimg.com/profile_banners/1455777767815974917/1666960664/1500x500",
+        logo_uri: "https://pbs.twimg.com/profile_images/1665411712793686016/jfBwea04_400x400.jpg",
+            description: "Test",
+            basis_points: 100, // 100 == 1% royalty
+            creators: [{
+                share: 100,
+                address: "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+            }]}
+    )
+    try{
+        console.log(claimMessage)
+        const messages=[claimMessage]
+        const response: any = await simulate({
+          messages,
+          wallet,
+        });
+        console.log(response)
+        console.log("THIS")
+        }catch(e){
+          console.log(e)
+        }
+    await broadcast({
+        messages: [claimMessage],
+        feeAmount: "50000000", 
+        gasLimit: "50000000", 
+        // memo: "",
+        wallet:recentWallet
+    }).then((result: any) => {
+      console.log("Sign result", result);
+    })
+    .catch((error:any) => {
+      console.error("Sign error", error);
+    }); 
+}
     return (
         <>
             <div className="tf-connect-wallet tf-section">
@@ -141,7 +224,7 @@ export default function UpdateMetadata() {
                                         </>
                                     )}
                                 </div>
-                                <form action="#" className="form-profile">
+                                <form className="form-profile">
                                     <div className="form-infor-profile">
                                         <div className="info-account">
                                             <h4 className="title-create-item">
@@ -225,13 +308,14 @@ export default function UpdateMetadata() {
                                             </fieldset>
                                         </div>
                                     </div>
-                                    <button
+                                   
+                                </form>
+                                <button
                                         className="tf-button-submit mg-t-15"
-                                        type="submit"
+                                        onClick={()=>claimCollection()}
                                     >
                                         Update Collection Metadata
                                     </button>
-                                </form>
                             </div>
                         </div>
                     </div>

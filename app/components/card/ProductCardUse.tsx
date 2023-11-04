@@ -4,8 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getContractFromExchange,fetchNft } from "@/utils/exchangeApi";
-
 import axios from "axios"
+import {constructListMessage,constructDelistMessage } from "@/utils/constructMessage";
+
+import { useShuttle } from "@delphi-labs/shuttle-react";
+import useWallet from "@/hooks/useWallet";
+import LiveAuctionModal from "../modal/LiveAuctionModal"
 // interface Props {
 //     data: {
 //         id: number;
@@ -23,24 +27,31 @@ import axios from "axios"
 
 export default function ProductCard({data}:any): JSX.Element {
     const [isHeartToggle, setHeartToggle] = useState<number>(0);
+    const [show, setShow] = useState<boolean>(false);
+    const [type, setType] = useState<string>("list");
+
     const [nftData,setNftData] = useState<any>({})
     const [contractData,setContractData]=useState<any>({})
-
+    const { connect,sign,recentWallet, simulate ,broadcast } = useShuttle();
+    const wallet  = useWallet();
     const pathname = usePathname();
+    
     useEffect(()=>{
         if(data){
-            console.log(data)
         setNftData({
+            collection:data.collection,
+            exchange:data.exchange,
             id: data?.id,
             hert: 10,
             status: "",
-            img: data?.image_uri,
+            img: data?.img,
             auction: 1,
-            title: data?.string,
+            title: data?.metadata?.title,
             tag: data?.string,
-            eth: data?.price,
+            price: data?.price||"",
             author: { status: "string", name: "string", avatar: "string" },
             history: true,
+            type:data?.type||""
             })
         }
     },[])
@@ -56,32 +67,119 @@ export default function ProductCard({data}:any): JSX.Element {
         }
         setHeartToggle(0);
     };
-
+    const listNFT = async (listAmount:number) => {
+        if (recentWallet) {
+          const getMessage = await constructListMessage(
+            wallet.account?.address,
+            nftData.id,
+             nftData.collection,
+            Math.abs(listAmount).toString(),
+             nftData.exchange)
+          console.log(getMessage)
+    
+    const messages = getMessage
+    try{
+    const response: any = await simulate({
+      messages,
+      wallet,
+    });
+    console.log(response)
+    }catch(e){
+      console.log(e)
+    }
+    
+      await broadcast({
+              messages: getMessage,
+              feeAmount: "50000000", 
+              gasLimit: "50000000", 
+              // memo: "",
+              wallet:recentWallet
+          }).then((result: any) => {
+            console.log("Sign result", result);
+            setShow(false)
+          })
+          .catch((error) => {
+            console.error("Sign error", error);
+          });
+          // sign({
+          //   wallet: recentWallet,
+          //   messages: getMessage,
+          //   // mobile: isMobile(),
+          // })
+          // console.log(rundata)
+        
+      }
+    }
+      const deListNft = async ()=>{
+        if (recentWallet) {
+            console.log("test")
+      
+            const getMessage = await constructDelistMessage(
+              wallet.account?.address,
+              nftData.id,
+               nftData.exchange
+               )
+            console.log(getMessage)
+      
+      const messages = getMessage
+      try{
+      const response: any = await simulate({
+        messages,
+        wallet,
+      });
+      console.log(response)
+      console.log("THIS")
+      }catch(e){
+        console.log(e)
+      }
+      
+        await broadcast({
+                messages: getMessage,
+                feeAmount: "50000000", 
+                gasLimit: "50000000", 
+                // memo: "",
+                wallet:recentWallet
+            }).then((result: any) => {
+              console.log("Sign result", result);
+            })
+            .catch((error) => {
+              console.error("Sign error", error);
+            });
+            // sign({
+            //   wallet: recentWallet,
+            //   messages: getMessage,
+            //   // mobile: isMobile(),
+            // })
+            // console.log(rundata)
+          
+        }
+      }
     return (
         <>
             <div className="sc-card-product explode style2 mg-bt">
                 <div className="card-media">
-                    <Link href="/item-details-1">
+                    {/* <Link href="/item-details-1"> */}
                         <img
                             height={500}
                             width={500}
                             src={nftData?.img?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                             alt="Image"
                         />
-                    </Link>
+                    {/* </Link> */}
                     <div className="button-place-bid">
                         <a
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid"
                             className="sc-button style-place-bid style bag fl-button pri-3"
+                            onClick={nftData?.type=="listed"?()=>deListNft():()=>setShow(true)}
                         >
-                            <span>List</span>
+                            <span>{nftData?.type=="listed"?"Delist":"List"}</span>
                         </a>
                     </div>
                     {nftData.status !== "" && (
                         <div className="coming-soon">coming soon</div>
                     )}
-                    <button
+                    {/* <button
                         onClick={heartToggle}
                         className={`wishlist-button heart ${
                             isHeartToggle === 1 ? "active" : ""
@@ -90,52 +188,41 @@ export default function ProductCard({data}:any): JSX.Element {
                         <span className="number-like">
                             {nftData.hert + isHeartToggle}
                         </span>
-                    </button>
+                    </button> */}
                 </div>
                 <div className="card-title">
-                    <h5>
+                    {/* <h5>
                         <Link href="/item-details-1">{nftData.title}</Link>
-                    </h5>
+                    </h5> */}
                 </div>
-                {/* <div className="meta-info">
+                <div className="meta-info">
                     <div className="author">
-                        <div className="avatar">
-                            <Image
-                                height={100}
-                                width={100}
-                                src={data.author.avatar}
-                                alt="Image"
-                            />
-                        </div>
+       
                         <div className="info">
                             <span>Creator</span>
-                            <h6>
+                            <h6> {nftData?.title}</h6>
+                            {/* <h6>
                                 <Link href="/authors-2">
-                                    {nftData.author.name}
                                 </Link>
-                            </h6>
+                            </h6> */}
                         </div>
                     </div>
                     <div className="tags">{data.tag}</div>
-                </div> */}
+                </div>
                 <div className="card-bottom style-explode">
+                    {nftData?.type=="listed"&&
                     <div className="price">
                         <span>Listed Price</span>
                         <div className="price-details">
-                            <h5>{data.eth} INJ</h5>
+                            <h5>{(parseFloat(nftData.price)/100000000000).toFixed(2)} INJ</h5>
 
                         </div>
                     </div>
-                    {pathname === "/home-2" || data.history ? (
-                        <Link
-                            href="/activity-1"
-                            className="view-history reload"
-                        >
-                            View History
-                        </Link>
-                    ) : undefined}
+                        }
                 </div>
             </div>
+            <LiveAuctionModal show={show} type={type} functionRun={listNFT}/>
+
         </>
     );
 }

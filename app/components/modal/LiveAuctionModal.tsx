@@ -1,4 +1,21 @@
-export default function LiveAuctionModal(): JSX.Element {
+import { useEffect, useState } from "react";
+import { Grid, Modal } from "@mui/material";
+export default function LiveAuctionModal({show,type,functionRun}:any): JSX.Element {
+   const [listAmount,setListAmount] = useState<number>(0)
+    useEffect(() => {
+        if(show){
+        const { Modal } = require("bootstrap");
+        const myModals = new Modal("#popup_bid");
+        const modalElement = document.querySelector("#popup_bid");
+        if (modalElement?.classList.contains('show')) {
+            // The modal has the 'show' class
+            return
+        } else {
+            // The modal doesn't have the 'show' class
+        }
+        myModals.show();
+        }
+    },[show]);
     return (
         <>
             <div
@@ -22,54 +39,35 @@ export default function LiveAuctionModal(): JSX.Element {
                             <span aria-hidden="true">×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
-                            <h3>Place a Bid</h3>
-                            <p className="text-center">
+                            <h3>List an Nft</h3>
+                            {/* <p className="text-center">
                                 You must bid at least
                                 <span className="price color-popup">
                                     4.89 ETH
                                 </span>
+                            </p> */}
+                               <p>
+                                Enter List Amount.
+                              
                             </p>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="00.00 ETH"
+                                placeholder="00.00 INJ"
+                                value={listAmount}
+                                onChange={(e)=>setListAmount(Number(e.target.value))}
                             />
-                            <p>
-                                Enter quantity.
-                                <span className="color-popup">5 available</span>
-                            </p>
-                            <input
-                                type="text"
-                                className="form-control quantity"
-                                defaultValue={1}
-                            />
+
                             <div className="hr" />
-                            <div className="d-flex justify-content-between">
-                                <p> You must bid at least:</p>
-                                <p className="text-right price color-popup">
-                                    4.89 ETH
-                                </p>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <p> Service free:</p>
-                                <p className="text-right price color-popup">
-                                    0,89 ETH
-                                </p>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <p> Total bid amount:</p>
-                                <p className="text-right price color-popup">
-                                    4 ETH
-                                </p>
-                            </div>
                             <a
                                 className="btn btn-primary"
                                 data-toggle="modal"
                                 data-target="#popup_bid_success"
                                 data-dismiss="modal"
                                 aria-label="Close"
+                                onClick={()=>functionRun(listAmount*1000000000)}
                             >
-                                Place a bid
+                                List Nft
                             </a>
                         </div>
                     </div>

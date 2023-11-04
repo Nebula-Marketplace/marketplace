@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@mui/material": "^5.10.4",
+    "@mui/styles": "^5.14.10",
     "@delphi-labs/shuttle-react": "^3.8.0",
     "@lossdev/react-text-loop": "^0.1.0",
     "@popperjs/core": "^2.11.7",

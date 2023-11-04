@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { getFetchUrl } from "@/utils/getFetchUrl";
 import { redirect } from 'next/navigation'
 import { useEffect } from "react";
-
+import { GlobalStateProvider } from "@/utils/GlobalContext";
 if (typeof window !== "undefined") {
   import("bootstrap");
 }
@@ -39,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`body ${rubik.className} ${urbanist.className}`}>
+        <GlobalStateProvider>
         <Providers>
           <div id="wrapper">
             <div id="page" className="clearfix">
@@ -50,6 +51,7 @@ export default function RootLayout({
           </div>
           <BackToTop />
         </Providers>
+        </GlobalStateProvider>
       </body>
     </html>
   );
