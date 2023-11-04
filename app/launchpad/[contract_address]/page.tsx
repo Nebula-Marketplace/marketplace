@@ -5,7 +5,7 @@ import MintModal from "@/app/components/modal/MintModal";
 import { getCollection } from "@/utils/getCollection";
 import { getActivePhase } from "@/data/external/injective-api";
 import { Collection } from "@/data/types/Collection";
-
+import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "@/utils/exchangeApi";
 export const metadata: Metadata = {
     title: "Nebula | NFT Marketplace | Launchpad",
 };
@@ -35,7 +35,7 @@ export default async function Page({
     }) {
     const collection = await getCollection(contract_address);
     const active = await getActivePhase(contract_address);
-
+    
     let obj = {
         collection:collection,
         activePhase:active
