@@ -1,8 +1,6 @@
-import MainHero from "@/app/components/hero/MainHero";
-import TodaysPicks from "@/app/components/block/TodaysPicks";
 import CreateSellNft from "@/app/components/block/CreateSetllNfts";
 import { Metadata } from "next";
-import UpcomingLaunches from "@/app/components/block/UpcomingLaunches";
+import Hero from "./components/hero/Hero";
 
 export const metadata: Metadata = {
     title: "Nebula | NFT Marketplace | Home",
@@ -11,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
     return (
         <>
-            <MainHero />
+            <Hero />
             <CreateSellNft />
         </>
     );

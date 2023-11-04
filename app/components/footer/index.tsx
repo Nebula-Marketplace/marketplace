@@ -19,7 +19,7 @@ export default function Footer() {
               <div className="widget widget-logo">
                 <Brand data={{isDark: false,altTag:"Nebula Home",size:{height:20,width:125}}} />
                 <p className="sub-widget-logo">
-                  Nebula is the premier marketplace on Injective.
+                  Nebula is the premier launchpad and marketplace on Injective.
                 </p>
                 <p>
                   © {new Date().getFullYear()} Nebula — All Rights Reserved{" "}
@@ -30,7 +30,7 @@ export default function Footer() {
 
             <div className="col-lg-3 col-md-6 col-sm-7 col-12">
               <div className="widget widget-subcribe">
-                <h5 className="title-widget">Subscribe Us</h5>
+                <h5 className="title-widget">Reach Out To Us</h5>
                 <div className="form-subcribe">
                   <SubscribeForm />
                 </div>

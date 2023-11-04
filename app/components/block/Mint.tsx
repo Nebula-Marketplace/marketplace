@@ -3,14 +3,21 @@ import Image from "next/image";
 import ItemDetailsTab from "../element/ItemDetailsTab";
 import Countdown from "react-countdown";
 import Link from "next/link";
+import { Phase } from "@/data/types/Contract";
 
 import {Collection} from "@/data/types/Collection";
+import { getActivePhase } from "@/data/external/injective-api";
 
 interface Props {
-    data: Collection
+    data: {
+    collection: Collection,
+    activePhase: Phase
+    }
 }
 
 export default function Mint({ data }: Props): JSX.Element {
+
+
     const renderer = ({
         days,
         hours,
@@ -44,9 +51,9 @@ export default function Mint({ data }: Props): JSX.Element {
                             <div className="content-left">
                                 <div className="media">
                                     <Image
-                                        height={1000}
-                                        width={1000}
-                                        src={data.Metadata.Cover}
+                                        height={600}
+                                        width={600}
+                                        src={data.collection.Metadata.Cover}
                                         alt=""
                                     />
                                 </div>
@@ -58,7 +65,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                     <div className="meta-item">
                                         <div className="left">
                                             <h2>
-                                                {data.Name}
+                                                {data.collection.Name}
                                             </h2>
                                         </div>
                                     </div>
@@ -69,38 +76,36 @@ export default function Mint({ data }: Props): JSX.Element {
                                                     <Image
                                                         height={200}
                                                         width={200}
-                                                        src="/assets/images/avatar/avt-8.jpg"
+                                                        src={data.collection.Metadata.Cover}
                                                         alt=""
                                                     />
                                                 </div>
                                                 <div className="info">
                                                     <span>Contract</span>
                                                     <h6>
-                                                        <Link href="/authors-2">
-                                                        234262342
-                                                        </Link>
+                                                        {data.collection.ContractAddress}
                                                     </h6>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <p>
-                                        {data.Metadata.Description}
+                                        {data.collection.Metadata.Description}
                                     </p>
                                     <div className="meta-item-details">
                                         <div className="item-style-2 item-details">
                                             <ul className="list-details">
                                             <li>
                                                     <span>Collection Name: </span>
-                                                    <h6>{data.Name}</h6>
+                                                    <h6>{data.collection.Name}</h6>
                                                 </li>
                                             <li>
                                                     <span>Token Symbol : </span>
-                                                    <h6>{data.Symbol}</h6>
+                                                    <h6>{data.collection.Symbol}</h6>
                                                 </li>
                                                 <li>
                                                     <span>Supply :</span>
-                                                    <h6>{data.Supply}</h6>
+                                                    <h6>{data.collection.Supply}</h6>
                                                 </li>                                                     
                                             </ul>
                                         </div>
@@ -111,7 +116,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 </span>
                                                 <div className="price">
                                                     <div className="price-box">
-                                                        <h5> OG MINT</h5>
+                                                        <h5>{data.activePhase.name}</h5>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { Phase } from "@/data/types/Contract";
+import { Collection } from "@/data/types/Collection";
 import {useState} from "react";
 import { func } from "prop-types";
 import { type } from "os";
@@ -10,8 +11,7 @@ import { useShuttle, BroadcastResult, SigningResult, SimulateResult } from "@del
 
 interface Props {
     data: {
-        contractAddress: string;
-        collectionName: string;
+        collection: Collection;
         activePhase: Phase;
     }
 }
@@ -21,9 +21,8 @@ export default function MintModal({ data }: Props): JSX.Element {
     console.log(wallet);
     const {broadcast, simulate} = useShuttle();
     let [total,settotal] = useState(0);
-    
     async function mint(){
-        let contract = data.contractAddress;
+        let contract = data.collection.ContractAddress;
         let msg = await constructAndBroadcastMint(wallet,contract,data.activePhase);
         try {
             let response = await simulate({
@@ -70,7 +69,7 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <span aria-hidden="true">×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
-                            <h3>Mint {data.collectionName}</h3>
+                            <h3>Mint {data.collection.Name}</h3>
                             <p className="text-center">
                                 <span className="price color-popup">
                                     {data.activePhase.name}
@@ -82,7 +81,6 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <input
                                 type="text"
                                 className="form-control quantity"
-                                defaultValue={0}
                                 onChange={e=> settotal(Number(e.target.value)*data.activePhase.price)}
                             />
                             <div className="hr" />
