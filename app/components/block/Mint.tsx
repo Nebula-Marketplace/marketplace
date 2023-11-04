@@ -4,7 +4,7 @@ import ItemDetailsTab from "../element/ItemDetailsTab";
 import Countdown from "react-countdown";
 import Link from "next/link";
 import { Phase } from "@/data/types/Contract";
-
+import getInjPrice from "@/utils/getInjPrice";
 import {Collection} from "@/data/types/Collection";
 import { getActivePhase } from "@/data/external/injective-api";
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function Mint({ data }: Props): JSX.Element {
-
+    const inj_price = getInjPrice().data ?? 14;
 
     const renderer = ({
         days,
@@ -128,7 +128,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 <div className="price">
                                                     <div className="price-box">
                                                         <h5> 2 INJ</h5>
-                                                        <span>= $14.00</span>
+                                                        <span>= ${inj_price * (data.activePhase.price / 10e18)}</span>
                                                     </div>
                                                 </div>
                                             </div>
