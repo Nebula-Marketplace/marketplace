@@ -7,7 +7,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 import axios from 'axios';
 
-const codeID =2949;
+const codeID =3340;
 const talis_nft = 582;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
 const network = "mainnet"== "mainnet" ? Network.Testnet : Network.Testnet; 
@@ -79,7 +79,7 @@ export async function fetchListed(exchange: string) {
     let listed = (await api.fetchSmartContractState(exchange, Buffer.from('{"get_listed": {}}', 'binary').toString('base64'))).data;   
     const jsonString = Buffer.from(listed).toString('utf8')
     const listed_tokens: string[] = JSON.parse(jsonString)
-    console.log(listed_tokens)
+ 
     return listed_tokens;
 }
 export async function getContractFromExchange(exchange: string) {
@@ -92,9 +92,8 @@ export async function getContractFromExchange(exchange: string) {
     };
     let listed = (await api.fetchSmartContractState(exchange, Buffer.from(`{"get_metadata": {}}`, 'binary').toString('base64'))).data;
     const jsonString = Buffer.from(listed).toString('utf8')
-    const listed_tokens: string[] = JSON.parse(jsonString)
-    console.log(listed_tokens)
-     return listed;
+    const listed_tokens: any = JSON.parse(jsonString)
+     return listed_tokens?.contract;
     }catch(e){
         console.log
     }
@@ -131,7 +130,13 @@ export async function fetchActiveExchanges() {
 }
     return exchanges;
 }
+export async function fetchNftContractState(contract:string) {
+    let state_resp = await axios.get(`https://testnet.lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
 
+    let data = JSON.parse(atob(state_resp.data.models[1].value))
+    return data;
+    //  console.log(data)
+}
 export async function fetchNftContracts() {
     /* *
      * Fetches all cw721 contracts. this 
@@ -161,7 +166,8 @@ export async function fetchNftContracts() {
 }
 
 export async function getMeta(path: string) {
-    let data = (await axios.get("https://ipfs.io/ipfs/" + path)).data;
+
+    let data = (await axios.get(path.startsWith("ipfs://") ? await (path.replace("ipfs://", "https://ipfs.io/ipfs/")):path)).data;
     return data;
 }
 
@@ -169,15 +175,22 @@ export async function fetchOwnedNfts(address: string) {
     let endpoints = await getNetworkEndpoints(network);
     let api = new ChainGrpcWasmApi(endpoints.grpc);
 
-    let contracts: string[] = []
+    let contracts: any[] = []
     let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
-    contracts = contracts.concat(talis_contracts);
+    let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
 
-    let ownedPromises = contracts.map(async (contract) => {
+    let contractPromises = nebula_contacts.map(async(data_contract) => {
+        let get_contract = await getContractFromExchange(data_contract)
+        return {contract:get_contract,exchange:data_contract};
+    });
+    contracts = await Promise.all(contractPromises);
+ 
+    let ownedPromises = contracts.map(async ({contract,exchange}) => {
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
+
         const jsonString = Buffer.from(data).toString('utf8')
         const tokens: GetTokensResponse = JSON.parse(jsonString);
-
+       
         let tokenPromises = tokens.ids.map(async (id) => {
             let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
             const jsonString = Buffer.from(data).toString('utf8')
@@ -187,12 +200,12 @@ export async function fetchOwnedNfts(address: string) {
             return {
                 id: id,
                 collection: contract,
+                exchange:exchange,
                 owner: address,
-                image_uri: metadata.media.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"),
+                img: metadata.media.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"),
                 metadata: metadata
             };
         });
-
         return Promise.all(tokenPromises);
     });
 
