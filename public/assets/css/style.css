@@ -1308,6 +1308,9 @@ label.error {
 .pd-40 {
     padding: 40px;
 }
+.pd-20 {
+    padding: 20px;
+}
 
 .pb-15 {
     padding-bottom: 15px !important;
@@ -3858,6 +3861,10 @@ a {
 }
 .provider-button{
     width: 100%;
-    height: 30px;
-    border-radius: 0px;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.modal-dialog-centered .modal-content{
+    border-radius: 20px;
 }
