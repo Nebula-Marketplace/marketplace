@@ -127,8 +127,8 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 </span>
                                                 <div className="price">
                                                     <div className="price-box">
-                                                        <h5> 2 INJ</h5>
-                                                        <span>= $14.00</span>
+                                                        <h5> 0.5 INJ</h5>
+                                                        {/* <span>= $14.00</span> */}
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,12 +139,8 @@ export default function Mint({ data }: Props): JSX.Element {
                                             >
                                                 <Countdown
                                                     date={
-                                                        Date.now() +
-                                                        1000 *
-                                                            60 *
-                                                            60 *
-                                                            24 *
-                                                            4.343
+                                                        1699210800 *
+                                                            1000
                                                     }
                                                     renderer={renderer}
                                                 />
