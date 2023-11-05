@@ -45,7 +45,7 @@ export default function MintModal({ data }: Props): JSX.Element {
     }
     async function mint(){
         let contract = data.collection.ContractAddress;
-        let msg = await constructAndBroadcastMint(wallet,contract,parseInt((getCurrentPhase()?.price??600000000000000000).toString()));
+        let msg = await constructAndBroadcastMint(wallet,contract,parseInt((getCurrentPhase()?.price??600000000000000000).toString()), total);
         try {
             let response = await simulate({
                 messages:msg.msgs,
