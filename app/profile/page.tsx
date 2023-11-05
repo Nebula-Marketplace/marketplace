@@ -133,13 +133,29 @@ export default function CollectionDetails(): JSX.Element {
                         <div className="content-tab active">
                             <div className="row">
                                 {
-                                    nfts.map((item) => (
+                                    nfts.map((item,index) => (
+                                        <>
                                         <div
-                                            key={item.id}
+                                        key={index}
+                                        className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12"
+                                    >
+                                     <h3>{item.collectionName}</h3> 
+                                     <br/>
+                                    </div>
+                                        <div className="row">{
+                                        item.nfts.map((data:any)=>(
+                                           
+                                            <div
+                                            key={data.id}
                                             className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12"
                                         >
-                                            <ProductCard6 data={item} />
+                                            <ProductCard6 data={data} />
                                         </div>
+                                       
+                                        )
+                                        ) }
+                                        </div>
+                                        </>
                                     ))}
                             </div>
                         </div>

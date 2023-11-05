@@ -192,27 +192,41 @@ export async function fetchOwnedNfts(address: string) {
 
 contracts = uniqueContracts;
 console.log(uniqueContracts)
-    let ownedPromises = ["inj1gfcyul0v78pfvv8wju9r93xltw8shj20cdaf0r"].map(async (contract) => {
+let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
+    try{
+    let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
+
+
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
 
         const jsonString = Buffer.from(data).toString('utf8')
         const tokens: GetTokensResponse = JSON.parse(jsonString);
-       
-        let tokenPromises = tokens.ids.map(async (id) => {
-            let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
-            const jsonString = Buffer.from(data).toString('utf8')
-            let metadata_link: string = JSON.parse(jsonString)["token_uri"]
-            const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
-
-            return {
-                id: id,
-                collection: contract,
-                // exchange:exchange,
-                owner: address,
-                img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : '',                metadata: metadata
-            };
-        });
-        return Promise.all(tokenPromises);
+        const jsonStringInfo = Buffer.from(dataInfo).toString('utf8')
+        const contractInfo = JSON.parse(jsonStringInfo);
+        // console.log(contractInfo)
+        if (tokens.ids.length > 0) {
+            let tokenPromises = tokens.ids.map(async (id) => {
+                let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
+                const jsonString = Buffer.from(data).toString('utf8')
+                let metadata_link: string = JSON.parse(jsonString)["token_uri"]
+                const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
+        
+                return {
+                    id: id,
+                    collection: contract,
+                    // exchange:exchange,
+                    owner: address,
+                    img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : metadata?.media?.replace("ipfs://","https://ipfs.io/ipfs/"),                
+                    metadata: metadata
+                };
+            });
+            return Promise.all(tokenPromises).then(nfts => ({collectionName: contractInfo.name, nfts}));
+        } else {
+            return []; // or any other default value
+        }
+    }catch(e){
+        console.log(e)
+    }
     });
 
     let owned = await Promise.all(ownedPromises);
