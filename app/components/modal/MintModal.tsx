@@ -87,13 +87,13 @@ console.log(msg.msgs)
                             <div className="d-flex justify-content-between">
                                 <p> Phase Price</p>
                                 <p className="text-right price color-popup">
-                                    {data?.activePhase?.price} INJ
+                                    {data?.activePhase?.price/ 10**18} INJ
                                 </p>
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p> Total Amount:</p>
                                 <p className="text-right price color-popup">
-                                    {total} INJ
+                                    {total/ 10**18} INJ
                                 </p>
                             </div>
                             <button
