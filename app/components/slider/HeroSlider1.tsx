@@ -24,7 +24,7 @@ export default function HeroSlider1(): JSX.Element {
                         }}
                         modules={[Navigation]}
                         className="mySwiper"
-                        onSwiper={(swiper) => {
+                        onSwiper={(swiper:any) => {
                             setTimeout(() => {
                                 (swiper.params.navigation as any).prevEl =
                                     ".swiper-button-prev";
