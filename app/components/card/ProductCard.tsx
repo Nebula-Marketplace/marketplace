@@ -2,76 +2,132 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getContractFromExchange, fetchNft } from "@/utils/exchangeApi";
 
+import { constructBuyMessage } from "@/utils/constructMessage";
+
+import axios from "axios";
+import { useShuttle } from "@delphi-labs/shuttle-react";
+import useWallet from "@/hooks/useWallet";
 interface Props {
-    data: {
-        id: number;
-        hert: number;
-        status: string;
-        img: string;
-        auction: number;
-        title: string;
-        tag: string;
-        eth: number;
-        author: { status: string; name: string; avatar: string };
-        history?: boolean;
-    };
+  data: {
+    id: number;
+    hert: number;
+    status: string;
+    img: string;
+    auction: number;
+    title: string;
+    tag: string;
+    eth: number;
+    collection:string,
+    exchange:string,
+    author: { status: string; name: string; avatar: string };
+    history?: boolean;
+  };
 }
 
 export default function ProductCard({ data }: Props): JSX.Element {
-    const [isHeartToggle, setHeartToggle] = useState<number>(0);
-    const pathname = usePathname();
+  const [isHeartToggle, setHeartToggle] = useState<number>(0);
+  const [nftData, setNftData] = useState<any>(data);
+  const [contractData, setContractData] = useState<any>({});
+  // console.log(nftData)
+  const { connect, sign, recentWallet, simulate, broadcast } = useShuttle();
+  const wallet = useWallet();
 
-    // heart toggle
-    const heartToggle = () => {
-        if (isHeartToggle === 0) {
-            return setHeartToggle(1);
-        }
-        setHeartToggle(0);
-    };
+  const pathname = usePathname();
 
-    return (
-        <>
-            <div className="sc-card-product explode style2 mg-bt">
-                <div className="card-media">
-                    <Link href="/item-details-1">
-                        <Image
-                            height={500}
-                            width={500}
-                            src={data.img}
-                            alt="Image"
-                        />
-                    </Link>
-                    <div className="button-place-bid">
-                        <a
-                            data-bs-toggle="modal"
-                            data-bs-target="#popup_bid"
-                            className="sc-button style-place-bid style bag fl-button pri-3"
-                        >
-                            <span>Buy</span>
-                        </a>
-                    </div>
-                    {data.status !== "" && (
-                        <div className="coming-soon">coming soon</div>
-                    )}
-                    <button
-                        onClick={heartToggle}
-                        className={`wishlist-button heart ${
-                            isHeartToggle === 1 ? "active" : ""
-                        } `}
-                    >
-                        <span className="number-like">
-                            {data.hert + isHeartToggle}
-                        </span>
-                    </button>
-                </div>
-                <div className="card-title">
-                    <h5>
-                        <Link href="/item-details-1">{data.title}</Link>
-                    </h5>
-                </div>
-                <div className="meta-info">
+  // heart toggle
+  const heartToggle = () => {
+    if (isHeartToggle === 0) {
+      return setHeartToggle(1);
+    }
+    setHeartToggle(0);
+  };
+  const buyNFT = async () => {
+    if (recentWallet) {
+      console.log("test");
+alert(data?.id)
+      const getMessage = await constructBuyMessage(
+        wallet.account?.address,
+        data?.id.toString() as string,
+        data?.exchange
+      );
+      console.log(getMessage);
+
+      const messages = [getMessage];
+      try {
+        const response: any = await simulate({
+          messages,
+          wallet,
+        });
+        console.log(response);
+        console.log("THIS");
+      } catch (e) {
+        console.log(e);
+      }
+
+      await broadcast({
+        messages: messages,
+        feeAmount: "50000000",
+        gasLimit: "50000000",
+        // memo: "",
+        wallet: recentWallet,
+      })
+        .then((result: any) => {
+          console.log("Sign result", result);
+        })
+        .catch((error) => {
+          console.error("Sign error", error);
+        });
+      // sign({
+      //   wallet: recentWallet,
+      //   messages: getMessage,
+      //   // mobile: isMobile(),
+      // })
+      // console.log(rundata)
+    }
+  };
+  return (
+    <>
+      <div className="sc-card-product explode style2 mg-bt">
+        <div className="card-media">
+          <Link href="/item-details-1">
+            <img
+              height={500}
+              width={500}
+              src={nftData?.img?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              alt="Image"
+            />
+          </Link>
+          <div className="button-place-bid">
+            <a
+              data-bs-toggle="modal"
+              data-bs-target="#popup_bid"
+              className="sc-button style-place-bid style bag fl-button pri-3"
+              onClick={() => buyNFT()}
+            >
+              <span>Buy</span>
+            </a>
+          </div>
+          {nftData.status !== "" && (
+            <div className="coming-soon">coming soon</div>
+          )}
+          <button
+            onClick={heartToggle}
+            className={`wishlist-button heart ${
+              isHeartToggle === 1 ? "active" : ""
+            } `}
+          >
+            <span className="number-like">{nftData.hert + isHeartToggle}</span>
+          </button>
+        </div>
+        <div className="card-title">
+          <h5>
+            <Link href="/item-details-1">{nftData.title}</Link>
+          </h5>
+        </div>
+        {/* <div className="meta-info">
                     <div className="author">
                         <div className="avatar">
                             <Image
@@ -85,31 +141,29 @@ export default function ProductCard({ data }: Props): JSX.Element {
                             <span>Creator</span>
                             <h6>
                                 <Link href="/authors-2">
-                                    {data.author.name}
+                                    {nftData.author.name}
                                 </Link>
                             </h6>
                         </div>
                     </div>
                     <div className="tags">{data.tag}</div>
-                </div>
-                <div className="card-bottom style-explode">
-                    <div className="price">
-                        <span>Listed Price</span>
-                        <div className="price-details">
-                            <h5>{data.eth} INJ</h5>
-
-                        </div>
-                    </div>
-                    {pathname === "/home-2" || data.history ? (
-                        <Link
-                            href="/activity-1"
-                            className="view-history reload"
-                        >
-                            View History
-                        </Link>
-                    ) : undefined}
-                </div>
+                </div> */}
+        <div className="card-bottom style-explode">
+          <div className="price">
+            <span>Listed Price</span>
+            <div className="price-details">
+              <h5>
+                {(parseFloat(nftData.price) / 100000000000).toFixed(2)} INJ
+              </h5>
             </div>
-        </>
-    );
+          </div>
+          {pathname === "/home-2" || data.history ? (
+            <Link href="/activity-1" className="view-history reload">
+              View History
+            </Link>
+          ) : undefined}
+        </div>
+      </div>
+    </>
+  );
 }

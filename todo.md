@@ -1,11 +1,10 @@
 Priority:
-- [ ] wallet connector w/ wallet state
-- [ ] signing messages (see [this](https://github.com/delphi-labs/shuttle/blob/main/examples/shuttle-port-nextjs/src/hooks/useSwap.ts))
-- [ ] change verbage and such to reflect nebula
-- [ ] fetch all codeid 49 contracts (https://lcd.injective.network/swagger/#/Query/ContractsByCode:~:text=/cosmwasm/wasm/v1/code/%7Bcode_id%7D/contracts)
-- [ ] fetch all NFTs in wallet by contract (https://lcd.injective.network/swagger/#/Query/SmartContractState:~:text=/cosmwasm/wasm/v1/contract/%7Baddress%7D/smart/%7Bquery_data%7D)
-- [ ] fetch all contract raw data (https://lcd.injective.network/swagger/#/:~:text=contract/%7Baddress%7D/state-,AllContractState,-gets%20all%20raw)
-
-Slightly less priority:
-- [ ] constructing exchange and mint messages
-- [ ] ensure all codeid 49 contracts have an acompanying nebula exchange contract
+- [ ] fetch all code 49 contracts (cw-721 contracts) [helper](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/exchangeApi.ts#L47C30-L47C30)
+- [ ] fetch all code 130 contracts (claimed collections w/ metadata) [helper](https://github.com/Nebula-Marketplace/marketplace/blob/240cdb0198639757e95fa802a0fc07fbc9290c1b/utils/exchangeApi.ts#L85)
+- [ ] fetch all listed NFTs from 130 contract [helper](https://github.com/Nebula-Marketplace/marketplace/blob/240cdb0198639757e95fa802a0fc07fbc9290c1b/utils/exchangeApi.ts#L74)
+- [ ] add [this](https://cdn.discordapp.com/attachments/1149076433390538837/1151628757518524477/image.png?ex=6542c15c&is=65304c5c&hm=fc3474415e0461b5c7a35e6b935a603996b59b45b0c6769294ddbaf803ded48f&) form to the unclaimed collection flow. to get to this form, user must sign message as cw contract owner. [get owner helper](https://github.com/Nebula-Marketplace/marketplace/blob/240cdb0198639757e95fa802a0fc07fbc9290c1b/utils/exchangeApi.ts#L62) [set metadata (claim) message constructor](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/constructMessage.ts#L199) [signing helper](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/signMessage.ts#L4)
+- [ ] fetch full metadata of an individual NFT by token_id [example](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/exchangeApi.ts#L86C38-L86C38)
+- [ ] add buy functionality [buy message constructor](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/constructMessage.ts#L59) [signing helper](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/signMessage.ts#L4)
+- [ ] add list functionality [list message constructor](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/constructMessage.ts#L97) [signing helper](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/signMessage.ts#L4) 
+- [ ] fetch all NFTs owned by a user [helper](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/exchangeApi.ts#L70)
+- [ ] allow users to delist [delist message constructor](https://github.com/Nebula-Marketplace/marketplace/blob/49c794706900780d0a9260b3a38e69dedb234fdb/utils/constructMessage.ts#L132)

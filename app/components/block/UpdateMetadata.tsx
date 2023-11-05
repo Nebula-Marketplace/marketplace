@@ -1,13 +1,41 @@
 "use client";
 import { useState, ChangeEvent } from "react";
 import UploadProfile from "../element/UploadProfile";
-import Image from "next/image";
+import UploadBanner from "../element/UploadBanner";
 
+import Image from "next/image";
+import {constructInstantiateMessage,constructClaimMessage} from "@/utils/constructMessage"
+import useWallet from "@/hooks/useWallet";
+import { useShuttle } from "@delphi-labs/shuttle-react";
+import { usePathname } from "next/navigation";
 export default function UpdateMetadata() {
+    interface FormData {
+        collectionName: string;
+        websiteURL: string;
+        contactEmail: string;
+        description: string;
+        twitterHandle: string;
+        telegramURL: string;
+        discordURL: string;
+    }
+    
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [getSelectCover, setSelectCover] = useState<number | null>(null);
+    const [displayImage, setDisplayImage] = useState<string>("/assets/images/avatar/avata_profile.jpg");
+    const [displayBannerImage, setDisplayBannerImage] = useState<string>("/assets/images/avatar/avata_profile.jpg");
 
+    const [formData, setFormData] = useState({
+        collectionName: '',
+        websiteURL: '',
+        contactEmail: '',
+        description: '',
+        twitterHandle: '',
+        telegramURL: '',
+        discordURL: ''
+    });
+    const wallet  = useWallet();
+    const pathname = usePathname();
     // multi image upload
     const multiConverHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
@@ -33,7 +61,105 @@ export default function UpdateMetadata() {
         setPreviewUrls(deleteResult2);
         setSelectedFiles([]);
     };
+    const { connect,sign,recentWallet, simulate,broadcast  } = useShuttle();
 
+const createCollection =async()=>{
+  const getData =  constructInstantiateMessage(
+        wallet?.account?.address,
+         "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
+         "TEST NFTS",
+         "TTT",
+         100,
+         650,
+         [{
+            "share": 100,
+            "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+        }],
+    )
+    try{
+        const messages=[getData]
+        console.log(getData)
+        const response: any = await simulate({
+          messages,
+          wallet,
+        });
+        console.log(response)
+        console.log("THIS")
+        }catch(e){
+          console.log(e)
+          
+        }
+    await broadcast({
+        messages: [getData],
+        feeAmount: "5000000", 
+        gasLimit: "5000000", 
+        // memo: "",
+        wallet:recentWallet
+    }).then((result: any) => {
+      console.log("Sign result", result);
+    //   console.log(new TextDecoder().decode(result.signatures))
+    //   console.log(new TextDecoder().decode(result.response.signatures))
+    //   console.log(new TextDecoder().decode(result.response.bodyBytes))
+    })
+    .catch((error:any) => {
+      console.error("Sign error", error);
+    });
+    
+}
+const claimCollection=async(formData:FormData)=>{
+if(wallet){
+  const claimMessage=  constructClaimMessage(
+        wallet?.account?.address,
+        pathname.replace("/collections/claim/",""),
+        { banner_uri: displayBannerImage,
+        logo_uri: displayImage,
+            description: formData.description,
+            basis_points: 100, // 100 == 1% royalty
+            creators: [{
+                share: 100,
+                address: wallet?.account.address
+            }]}
+    )
+    try{
+        console.log(claimMessage)
+        const messages=[claimMessage]
+        const response: any = await simulate({
+          messages,
+          wallet,
+        });
+        console.log(response)
+        console.log("THIS")
+        }catch(e){
+          console.log(e)
+        }
+    // await broadcast({
+    //     messages: [claimMessage],
+    //     feeAmount: "50000000", 
+    //     gasLimit: "50000000", 
+    //     // memo: "",
+    //     wallet:recentWallet
+    // }).then((result: any) => {
+    //   console.log("Sign result", result);
+    // })
+    // .catch((error:any) => {
+    //   console.error("Sign error", error);
+    // }); 
+}
+}
+
+
+const handleChange = (e:any) => {
+    setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
+};
+
+const handleSubmit = (e:any) => {
+    e.preventDefault();
+    console.log("tets")
+    claimCollection(formData);
+};
 
     return (
         <>
@@ -49,99 +175,20 @@ export default function UpdateMetadata() {
                             </h5>
                         </div>
                         <div className="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <UploadProfile />
+                            <UploadProfile 
+                            displayImage={displayImage}
+                            setDisplayImage={setDisplayImage}
+                            />
+                            <br/>
+                              <UploadBanner 
+                            displayBannerImage={displayBannerImage}
+                            setDisplayBannerImage={setDisplayBannerImage}
+                            />
                         </div>
+                       
                         <div className="col-xl-9 col-lg-8 col-md-12 col-12">
                             <div className="form-upload-profile">
-                                <h4 className="title-create-item">
-                                    Choose your Cover image
-                                </h4>
-                                <div className="option-profile clearfix">
-                                    <form action="#">
-                                        <label className="uploadFile">
-                                            <input
-                                                type="file"
-                                                className="inputfile form-control"
-                                                name="file"
-                                                accept="png,jpg,gif,jpeg"
-                                                onChange={multiConverHandler}
-                                                multiple
-                                            />
-                                        </label>
-                                    </form>
-                                    {previewUrls.map((url, index) => (
-                                        <div
-                                            key={index}
-                                            className={`position-relative ${
-                                                getSelectCover !== null &&
-                                                getSelectCover === index
-                                                    ? "image"
-                                                    : "image style2"
-                                            }`}
-                                            style={{ marginRight: "15px" }}
-                                        >
-                                            <Image
-                                                height={500}
-                                                width={500}
-                                                onClick={() =>
-                                                    selectCoverImage(index)
-                                                }
-                                                src={url}
-                                                alt="Cover Photo"
-                                            />
-                                            <a
-                                                onClick={() =>
-                                                    deleteConver(url)
-                                                }
-                                                className="ui-cover-cross"
-                                            >
-                                                <i className="far fa-times"></i>
-                                            </a>
-                                        </div>
-                                    ))}
-                                    {previewUrls.length === 0 && (
-                                        <>
-                                            <div
-                                                onClick={() =>
-                                                    selectCoverImage(0)
-                                                }
-                                                className={
-                                                    getSelectCover !== null &&
-                                                    getSelectCover === 0
-                                                        ? "image"
-                                                        : "image style2"
-                                                }
-                                                style={{ marginRight: "15px" }}
-                                            >
-                                                <Image
-                                                    height={500}
-                                                    width={500}
-                                                    src="/assets/images/backgroup-secsion/option1_bg_profile.jpg"
-                                                    alt="Conver Photo"
-                                                />
-                                            </div>
-                                            <div
-                                                onClick={() =>
-                                                    selectCoverImage(1)
-                                                }
-                                                className={
-                                                    getSelectCover !== null &&
-                                                    getSelectCover === 1
-                                                        ? "image"
-                                                        : "image style2"
-                                                }
-                                            >
-                                                <Image
-                                                    height={500}
-                                                    width={500}
-                                                    src="/assets/images/backgroup-secsion/option2_bg_profile.jpg"
-                                                    alt=""
-                                                />
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                                <form action="#" className="form-profile">
+                                <form className="form-profile" onSubmit={handleSubmit}>
                                     <div className="form-infor-profile">
                                         <div className="info-account">
                                             <h4 className="title-create-item">
@@ -151,9 +198,11 @@ export default function UpdateMetadata() {
                                                 <h4 className="title-infor-account">
                                                     Collection Name
                                                 </h4>
+                                              
                                                 <input
                                                     type="text"
                                                     placeholder="Nebula NFTs"
+                                                    name="collectionName"
                                                     required
                                                 />
                                             </fieldset>
@@ -164,6 +213,18 @@ export default function UpdateMetadata() {
                                                 <input
                                                     type="text"
                                                     placeholder="https://collection.info"
+                                                    name="websiteURL"
+                                                    required
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                    Royalty Fee 100=1%
+                                                </h4>
+                                                <input
+                                                    type="number"
+                                                    placeholder="100"
+                                                    name="basisPoints"
                                                     required
                                                 />
                                             </fieldset>
@@ -174,6 +235,7 @@ export default function UpdateMetadata() {
                                                 <input
                                                     type="email"
                                                     placeholder="Contact email"
+                                                    name="email"
                                                     required
                                                 />
                                             </fieldset>
@@ -183,6 +245,12 @@ export default function UpdateMetadata() {
                                                 </h4>
                                                 <textarea
                                                     tabIndex={4}
+                                                    name="description"
+                                                    value={formData.description}
+                                                    onChange={(e)=>setFormData({
+                                                        ...formData,
+                                                        [e.target.name]: e.target.value
+                                                    })}
                                                     rows={5}
                                                     required
                                                     defaultValue={""}
@@ -228,10 +296,12 @@ export default function UpdateMetadata() {
                                     <button
                                         className="tf-button-submit mg-t-15"
                                         type="submit"
+                                        // onClick={}
                                     >
                                         Update Collection Metadata
-                                    </button>
+                                    </button>   
                                 </form>
+                               
                             </div>
                         </div>
                     </div>

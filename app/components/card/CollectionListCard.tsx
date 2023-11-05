@@ -1,28 +1,47 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getContractFromExchange, fetchNft,fetchNftContractState} from "@/utils/exchangeApi";
 
 interface Props {
-    data: {
-        title: string;
-    }
+    data: string
 }
 
 export default function CollectionListCard({ data }: Props): JSX.Element {
+    const [collectionData, setcollectionData] = useState<any>(data);
+    const [contractData, setContractData] = useState<any>({});
+    // console.log(collectionData)
+    useEffect(()=>{
+      fetchNftContractState(data).then((dataRes)=>{
+        setcollectionData({
+          banner_uri:dataRes.banner_uri,
+          logo_uri:dataRes.logo_uri,
+          name:dataRes.collection,
+          supply:dataRes.supply,
+          contract:dataRes.contract,
+          exchange:data
+        })
+        console.log(dataRes)
+      })
+    },[])
     return (
         <>
+        {!collectionData?.banner_uri&&
+          <Link href={`/collections/claim/${collectionData?.contract}`}>
             <div className="fl-blog">
                 <div className="item flex">
                     <div className="infor-item flex column1">  
                         <div className="content-collection">
                             <h5 className="title mb-15">
-                                <Link href="/item-details-1">{data.title}</Link>
+                              {collectionData?.name}
                             </h5> 
                         </div>
                     </div>
                     <div className="column">
-                        <span>12,4353</span>
+                        <span>{collectionData?.supply}</span>
                     </div>
-                    <div className="column td2">
+                
+                    {/* <div className="column td2">
                         <span>+3456%</span>
                     </div>
                     <div className="column td3">
@@ -36,9 +55,11 @@ export default function CollectionListCard({ data }: Props): JSX.Element {
                     </div>
                     <div className="column td6">
                         <span>23k</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
+            </Link>
+}
         </>
     );
 }

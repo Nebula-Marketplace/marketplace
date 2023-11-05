@@ -2,10 +2,15 @@ import { MsgExecuteContract, MsgInstantiateContract } from "@delphi-labs/shuttle
 import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg, ClaimCollectionMsg } from "@/data/types/Contract";
 import axios from 'axios';
 import useWallet from "@/hooks/useWallet";
-
-const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
-const exchange_code_id = process.env.EXCHANGE_CODE_ID || "130";
-
+import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
+import {
+    ChainGrpcWasmApi,
+    QueryResolverAddress
+} from '@injectivelabs/sdk-ts'
+const url = "https://lcd.injective.network/";
+const exchange_code_id = "169"
+// const exchange_code_id = "146"
+const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
 export interface InstantiationKwargs {
     logo_uri?: string;
     banner_uri?: string;
@@ -35,6 +40,7 @@ export function constructInstantiateMessage(
     cCreators: Array<RoyaltyInfo>,
     kwargs?: InstantiationKwargs
 ) {
+
     const message: InstantiateMsg = {
         collection: cName,
         contract: cAddress,
@@ -55,8 +61,22 @@ export function constructInstantiateMessage(
         label: "Instantiate Nebula Exchange Contract"
     })
 }
+export async function getExchangeData(contract: string) {
+    try{
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
 
+    let nftData = (await api.fetchSmartContractState(contract, Buffer.from(`{"get_metadata": {}}`, 'binary').toString('base64'))).data;   
+    const jsonString = Buffer.from(nftData).toString('utf8')
+    const listed_tokens: any= JSON.parse(jsonString)
+    
+    return listed_tokens;
+    }catch(e){
+        console.log(e)
+    }
+}
 export async function constructBuyMessage(
+   address:string,
     token_id: string,
     contract: string
 ) {
@@ -66,63 +86,86 @@ export async function constructBuyMessage(
     - Construct Buy msg
     - Construct Execute Msg
     */
-    const wallet = useWallet();
-    let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
-    let state_resp = await axios.get(`https://testnet.lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
-    let data = JSON.parse(atob(state_resp.data));
-    let bps = data.royalties.seller_fee_basis_points / 10_000;
+    try{
 
-    for (let i = 0; i < resp.data.length; i++) {
-        let price_fixed: number = parseInt(resp.data[i].price);
-        if (resp.data[i].id == token_id) { 
+    let resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
+    resp =resp.data
+    console.log(resp)
+    // let data =await getExchangeData(contract)
+    // console.log(data)
+    let state_resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/state`);
+    console.log(state_resp)
+    // let data = atob(state_resp.data)
+    // console.log(data)
+    // let data =state_resp.data
+    let data = JSON.parse(atob(state_resp.data.models[1].value))
+    let bps = data.royalties.seller_fee_basis_points / 10_000;
+    console.log(bps)
+    console.log(resp.data)
+    // for (let i = 0;   i < resp.data.length; i++) {
+        // let price_fixed: number = parseInt(resp.data[i].price);
+        let filtered = resp.data.filter((obj: any) => obj.id === token_id && obj.owner === address);
+
+        let lastPrice;
+        if (filtered.length > 0) {
+          lastPrice = filtered[filtered.length - 1];
+        }
+        if (lastPrice.id == token_id) { 
             /* 
                 gonna essentially fuzzyfind this in case type is off. 
                 technically though, token_id is a u16 int, but is stored as a string. 
                 Tread carefully 
             */
+           let price_fixed = parseInt(lastPrice.price)
             const message: BuyMsg = {
-                token_id: token_id
+                id: token_id
             }
             return new MsgExecuteContract({
-                sender: wallet.account.address,
+                sender: address,
                 contract: contract,
                 msg: {"buy": message},
                 funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
             })
-        }
+        // }
     }
+}catch(e){
+    console.log(e)
+}
     throw new Error("Token not found");
 }
 
 export async function constructListMessage(
-    token_id: string,
+    address:any,
+    id: string,
     contract: string,
     price: string,
+    exchange:string,
 ) {
-    const wallet = useWallet();
-    let resp = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/state`)
-    let data = JSON.parse(atob(resp.data));
+    // const wallet = useWallet();
+
+    
     let message: ListMsg = {
-        token_id: token_id,
+        id: id,
         price: price,
-        expires: "435839745937" // this is a random number i came up with. i removed the timestamp from the contract for now. 
+        expires: "2147483648" // this is a random number i came up with. i removed the timestamp from the contract for now. 
         // ^ must be string, numbers get rejected. Not sure why. must be a wasm vm issue. U-base types may be the issue.
     }
     return [
         new MsgExecuteContract({
-            sender: wallet.account.address,
-            contract: data.contract,
+            contract: contract,
+            sender: address,
+            // contract: contract,
             msg: {
                 "approve": {
-                    "spender": contract,
-                    "token_id": token_id
+                    "spender": exchange,
+                    "token_id": id
                 }
             },
             funds: []
         }),
         new MsgExecuteContract({
-            sender: wallet.account.address,
-            contract: contract,
+            sender: address,
+            contract: exchange,
             msg: {"list": message},
             funds: [],
         })
@@ -130,36 +173,43 @@ export async function constructListMessage(
 }
 
 export async function constructDelistMessage(
+    address:string,
     token_id: string,
     contract: string
 ) {
-    const wallet = useWallet();
-    let resp: ListedResponse = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${btoa(`{"GetListed":{}}`)}`);
+ console.log(contract)
+    let resp: any = await axios.get(url + `/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
+    resp = resp.data
+    let delistMessages=[]
+    console.log(resp.data)
     for (let i = 0; i < resp.data.length; i++) {
         if (resp.data[i].id == token_id) { // fuzzyfind again
             const message: BuyMsg = { // these messages have the same construction; no reason to make a new type
-                token_id: token_id
+                id: token_id
             };
-            return new MsgExecuteContract({
-                sender: wallet.account.address,
+            delistMessages.push(new MsgExecuteContract({
+                sender: address,
                 contract: contract,
                 msg: {
                     // cw contracts require msg to contain an object titled as the function name
-                    "delist": message 
+                    "de_list": message 
                 },
                 funds: [{"denom": "inj", "amount": resp.data[i].price.toString()}],
-            });
+            }));
         }
+        
     }
+    return delistMessages
     throw new Error("Token not found");
 }
 
 export async function constructTransferMessage(
+    address:string,
     token_id: string,
     contract: string,
     recipient: string
 ) {
-    const wallet = useWallet();
+
     let message = {
         "transfer": {
             token_id: token_id,
@@ -167,7 +217,7 @@ export async function constructTransferMessage(
         }
     };
     return new MsgExecuteContract({
-        sender: wallet.account.address,
+        sender: address,
         contract: contract,
         msg: message,
         funds: [],
@@ -197,14 +247,15 @@ export async function constructBurnMessage(
 }
 
 export function constructClaimMessage(
+    address:string,
     contract: string,
     kwargs: ClaimCollectionMsg
 ) {
-    const wallet = useWallet();
+ 
     return new MsgExecuteContract({
         contract: contract,
-        sender: wallet.account.address,
-        msg: {"UpdateMetadata": kwargs},
+        sender: address,
+        msg: {"update_metadata": kwargs},
         funds: [],
     });
 }

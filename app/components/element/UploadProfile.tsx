@@ -1,48 +1,51 @@
-"use client";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function UploadProfile(): JSX.Element {
-    const [getProfileImg, setProfileImage] = useState<null | any>(null);
+interface UploadProfileProps {
+    imageUrl?: string;
+    displayImage?: string;
+    setDisplayImage?: Function;
+}
+
+export default function UploadProfile({ imageUrl,displayImage ,setDisplayImage}: UploadProfileProps): JSX.Element {
 
     const uploadImage = (e: any) => {
-        setProfileImage(e.target.files[0]);
+        if (setDisplayImage) {
+            setDisplayImage(e.target.value);
+        }
     };
 
     return (
         <>
             <div className="sc-card-profile text-center">
                 <div className="card-media">
-                    <Image
+                    <img
                         id="profileimg"
-                        src={
-                            getProfileImg !== null
-                                ? URL.createObjectURL(getProfileImg)
-                                : "/assets/images/avatar/avata_profile.jpg"
-                        }
+                        src={displayImage}
                         alt="Image"
                         height={500}
                         width={500}
                     />
                 </div>
                 <div id="upload-profile">
-                    <a className="btn-upload">Upload New Photo </a>
+                    <br/>
+                    {/* <a className="btn-upload">Upload New Photo </a> */}
                     <input
                         id="tf-upload-img"
-                        type="file"
+                        type="text"
                         name="profile"
                         required
                         onChange={uploadImage}
-                        accept=".png, .jpg, .jpeg"
+                        placeholder="Enter image URL"
                     />
                 </div>
-                <a
-                    onClick={() => setProfileImage(null)}
+                {/* <a
+                    onClick={() => setDisplayImage(imageUrl || "/assets/images/avatar/avata_profile.jpg")}
                     style={{ cursor: "pointer" }}
                     className="btn-upload style2"
                 >
                     Delete
-                </a>
+                </a> */}
             </div>
         </>
     );

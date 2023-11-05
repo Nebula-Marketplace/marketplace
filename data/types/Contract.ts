@@ -10,16 +10,45 @@ export interface InstantiateMsg {
     basis_points: number;
 }
 
+export interface Verifier {
+    private_key: string;
+    address: string;
+}
+
+export interface InstantiateCandy {
+    collection: string;
+    contract: string;
+    description: string;
+    symbol: string;
+    logo_uri: string;
+    banner_uri: string;
+    supply: number;
+    creators: Array<RoyaltyInfo>;
+    basis_points: number;
+    codeid: number;
+    phases: Array<Phase>;
+}
+
+export interface Phase {
+    current: number;
+    allowed: Array<string>; 
+    starts: number; // timestamp
+    ends: number; // timestamp
+    price: number;
+    allocation: number; // how many tokens can be minted in this phase per wallet
+    name: string; //name of string
+}
+
 export interface MintMsg {
     // This is an empty message, the contract does most of the heavy lifting.
 }
 
 export interface BuyMsg { // Execute msg needs the funds to be set
-    token_id: string;
+    id: string;
 }
 
 export interface ListMsg {
-    token_id: string;
+    id: string;
     price: string;
     expires: string; // If no expirey set, make it the same date the sun is supposed to explode 👍
 }
@@ -31,7 +60,7 @@ export interface RoyaltyInfo {
 
 export interface ClaimCollectionMsg { // I would make these optional but they wouldnt show up in the message, thus causing an error.
     banner_uri: null | String;
-    avatar_uri: null | String;
+    logo_uri: null | String;
     description: null | String;
     basis_points: null | number; // 100 == 1% royalty
     creators: null | Array<RoyaltyInfo>

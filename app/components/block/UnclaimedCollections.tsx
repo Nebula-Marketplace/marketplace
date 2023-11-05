@@ -1,10 +1,31 @@
+"use client"
 import CollectionListCard from "../card/CollectionListCard";
 import Link from "next/link";
 import {getUnclaimedCollections} from "@/data/external/injective-api";
+import { fetchNftContracts,fetchActiveExchanges,fetchListed,getContractFromExchange } from "@/utils/exchangeApi";
+import { useEffect,useState } from "react";
 
-{/* @ts-expect-error Async Server Component */}
-export default async function UnclaimedCollections(): JSX.Element {
-    const data = await getUnclaimedCollections();
+
+export default  function UnclaimedCollections({exchanges,listedNfts}:any): JSX.Element {
+    // const data = await getUnclaimedCollections();
+    // useEffect(() => {
+    //     let getALLContract:any[] =[]
+    //     fetchNftContracts()
+    //         .then(data =>{ 
+    //             getALLContract = (data as any)
+    //             fetchActiveExchanges()
+    //             .then(dataRes =>{ 
+    //                 // (data as any)
+    //         //         console.log(getALLContract)
+    //         // console.log(dataRes)
+    //     })
+    //         .catch(error => console.error(error));
+
+        
+
+    //     })
+    //         .catch(error => console.error(error));
+    // }, []);
 
     return (
         <>
@@ -28,16 +49,16 @@ export default async function UnclaimedCollections(): JSX.Element {
                                         <h3>Collection</h3>
                                     </div>
                                     <div className="column">
-                                        <h3>Owners</h3>
+                                        <h3>SUPPLY</h3>
                                     </div>
-                                    <div className="column">
+                                    {/* <div className="column">
                                         <h3>Assets</h3>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                {data.map((item) => (
+                                {exchanges?.map((item:string,index:number) => (
                                     <CollectionListCard
-                                        key={item.ContractAddress}
-                                        data={{title:item.Name}}
+                                    key={index}
+                                        data={item}
                                     />
                                 ))}
                             </div>
