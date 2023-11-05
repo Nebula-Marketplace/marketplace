@@ -170,7 +170,7 @@ export default function ProductCard({data}:any): JSX.Element {
                             alt="Image"
                         />
                     {/* </Link> */}
-                    <div className="button-place-bid">
+                    {/* <div className="button-place-bid">
                         <a
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid"
@@ -179,7 +179,7 @@ export default function ProductCard({data}:any): JSX.Element {
                         >
                             <span>{nftData?.type=="listed"?"Delist":"List"}</span>
                         </a>
-                    </div>
+                    </div> */}
                     {nftData.status !== "" && (
                         <div className="coming-soon">coming soon</div>
                     )}
