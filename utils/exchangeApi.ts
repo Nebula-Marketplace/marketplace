@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 
 const codeID =169;
-const talis_nft = 582;
+const talis_nft = 49;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
 const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
 console.log(process.env.NETWORK)
@@ -178,7 +178,8 @@ export async function fetchOwnedNfts(address: string) {
     let contracts: any[] = []
     let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
-
+    let code49Nfts = await fetchNftContracts()
+    console.log(code49Nfts)
     let contractPromises = nebula_contacts.map(async(data_contract) => {
         let get_contract = await getContractFromExchange(data_contract)
         return {contract:get_contract,exchange:data_contract};
@@ -190,7 +191,7 @@ export async function fetchOwnedNfts(address: string) {
     });
 
 contracts = uniqueContracts;
-    let ownedPromises = contracts.map(async ({contract,exchange}) => {
+    let ownedPromises = code49Nfts.map(async (contract) => {
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
 
         const jsonString = Buffer.from(data).toString('utf8')
@@ -205,7 +206,7 @@ contracts = uniqueContracts;
             return {
                 id: id,
                 collection: contract,
-                exchange:exchange,
+                // exchange:exchange,
                 owner: address,
                 img: metadata.media.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"),
                 metadata: metadata

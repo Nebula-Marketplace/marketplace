@@ -27,41 +27,41 @@ export default function CollectionDetails(): JSX.Element {
         setNfts(dataGet)
         console.log(dataGet)
         const getData:any[] = []
-        await Promise.all(dataGet.map(async (data) => {
-            const getlistedNfts = await fetchListed(data.exchange)
-           console.log(getlistedNfts)
-            await Promise.all(getlistedNfts.reverse().map(async(dataRes:any) => {
-                if(dataRes?.owner == wallet.account.address){
-                    const getNftMetaData :any= await fetchNft(data.collection,dataRes.id)
-                    getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
-                        let exists = getData.some(item => item.id === dataRes?.id && item.collection === data.collection);
-                        if(!exists){
-                    getData.push({
-                        id: dataRes?.id,
-                        collection:data.collection,
-                        exchange:data.exchange,
-                        hert: 10,
-                        status: "",
-                        img: dataGetRes?.media,
-                        auction: 1,
-                        title: dataGetRes?.Item,
-                        tag: dataGetRes?.string,
-                        eth: dataRes?.price,
-                        author: { status: "string", name: "string", avatar: "string" },
-                        history: true,
-                        price:dataRes?.price,
-                        type:"listed"
-                              })
-                            }
-                    })
+        // await Promise.all(dataGet.map(async (data) => {
+        //     const getlistedNfts = await fetchListed(data.exchange)
+        //    console.log(getlistedNfts)
+        //     await Promise.all(getlistedNfts.reverse().map(async(dataRes:any) => {
+        //         if(dataRes?.owner == wallet.account.address){
+        //             const getNftMetaData :any= await fetchNft(data.collection,dataRes.id)
+        //             getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
+        //                 let exists = getData.some(item => item.id === dataRes?.id && item.collection === data.collection);
+        //                 if(!exists){
+        //             getData.push({
+        //                 id: dataRes?.id,
+        //                 collection:data.collection,
+        //                 exchange:data.exchange,
+        //                 hert: 10,
+        //                 status: "",
+        //                 img: dataGetRes?.media,
+        //                 auction: 1,
+        //                 title: dataGetRes?.Item,
+        //                 tag: dataGetRes?.string,
+        //                 eth: dataRes?.price,
+        //                 author: { status: "string", name: "string", avatar: "string" },
+        //                 history: true,
+        //                 price:dataRes?.price,
+        //                 type:"listed"
+        //                       })
+        //                     }
+        //             })
                     
-                }
-            }))
-        })).then(() => {
-            // Your function here
-            console.log(getData)
-            setListed(getData)
-        });
+        //         }
+        //     }))
+        // })).then(() => {
+        //     // Your function here
+        //     console.log(getData)
+        //     setListed(getData)
+        // });
 
         
         }
