@@ -63,6 +63,7 @@ export const INJECTIVE_TESTNET: Network = {
   },
 };
 
+
 export const INJECTIVE_MAINNET: Network = {
   name: "Injective Mainnet",
   chainId: "injective-1",
@@ -175,7 +176,7 @@ export function fromNetworkToNativeDenom(chainId: string): string {
       return "uluna";
     case "injective-1":
       return "inj";
-    case "injective-888":
+    case "injective-1":
       return "inj";
     case "osmosis-1":
       return "uosmo";

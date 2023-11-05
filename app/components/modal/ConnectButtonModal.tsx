@@ -35,7 +35,7 @@ export default function ConnectButtonModal({show,handleShow}:any): JSX.Element {
             onClick={() =>{
               connect({
                 extensionProviderId: provider.id,
-                chainId: "injective-888",
+                chainId: "injective-1",
               })
               handleShow()
             }

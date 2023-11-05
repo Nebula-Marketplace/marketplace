@@ -82,7 +82,7 @@ console.log("THIS")
   const onConnect = () => {
     connect({
       extensionProviderId: "keplr",
-      chainId: "injective-888",
+      chainId: "injective-1",
     });
     // alert("this")
 
