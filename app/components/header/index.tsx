@@ -134,11 +134,11 @@ export default function Header(): JSX.Element {
 
                   <div className="flat-search-btn flex">
                     <WalletConnectButton />
-{/* {wallet&&
+{wallet&&
 <Link href="/profile">
 <button className="sc-button header-slider style style-1 wallet fl-button pri-1">Profile
 </button>
-</Link>} */}
+</Link>}
                   </div>
                   
                 </div>

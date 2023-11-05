@@ -3913,7 +3913,7 @@ esutils@^2.0.2:
 
 eth-crypto@^2.6.0:
   version "2.6.0"
-  resolved "https://registry.yarnpkg.com/eth-crypto/-/eth-crypto-2.6.0.tgz#b777f367ae8c70e5917b3b7d52adab6b34841e29"
+  resolved "https://registry.yarnpkg.com/eth-crypto/-/eth-crypto-2.6.0.tgz#b777f367ae8c70e5917b3b7d52adab6b1691e29"
   integrity sha512-GCX4ffFYRUGgnuWR5qxcZIRQJ1KEqPFiyXU9yVy7s6dtXIMlUXZQ2h+5ID6rFaOHWbpJbjfkC6YdhwtwRYCnug==
   dependencies:
     "@babel/runtime" "7.20.13"

@@ -2,6 +2,6 @@ import { FeaturedCollection } from "../types/FeaturedCollection";
 
 export const FeaturedCollections : FeaturedCollection[] = [
     {
-        ContractAddress: "inj1wxgpgz0zavleklkfunvmxj9wndx8czsxfxp60m"
+        ContractAddress: "inj16z6g70jwvrnjjxs0avy5awf57qyjkl8qum5eu5"
     }
 ]

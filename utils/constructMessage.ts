@@ -7,10 +7,10 @@ import {
     ChainGrpcWasmApi,
     QueryResolverAddress
 } from '@injectivelabs/sdk-ts'
-const url = "https://testnet.lcd.injective.network/";
-const exchange_code_id = "3484"
+const url = "https://lcd.injective.network/";
+const exchange_code_id = "169"
 // const exchange_code_id = "146"
-const network = "mainnet"== "mainnet" ? Network.Testnet : Network.Testnet; 
+const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
 export interface InstantiationKwargs {
     logo_uri?: string;
     banner_uri?: string;

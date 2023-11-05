@@ -7,10 +7,10 @@ import {
 } from '@injectivelabs/sdk-ts'
 import axios from 'axios';
 
-const codeID =3484;
+const codeID =169;
 const talis_nft = 582;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
-const network = "mainnet"== "mainnet" ? Network.Testnet : Network.Testnet; 
+const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
 console.log(process.env.NETWORK)
 interface GetTokensResponse { 
     ids: string[]
@@ -131,7 +131,7 @@ export async function fetchActiveExchanges() {
     return exchanges;
 }
 export async function fetchNftContractState(contract:string) {
-    let state_resp = await axios.get(`https://testnet.lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
+    let state_resp = await axios.get(`https://lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
 
     let data = JSON.parse(atob(state_resp.data.models[1].value))
     return data;
