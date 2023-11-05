@@ -196,15 +196,35 @@ let ownedPromises = uniqueContracts.filter((contract): contract is string => Boo
     try{
     let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
 
-
-        let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
-
-        const jsonString = Buffer.from(data).toString('utf8')
-        const tokens: GetTokensResponse = JSON.parse(jsonString);
+        let tokens: GetTokensResponse = { ids: [] };
+        let last_id: string | undefined="";
+        
+        do {
+            console.log(last_id)
+            console.log(`"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}`)
+            let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
+        
+            const jsonString = Buffer.from(data).toString('utf8')
+            const newTokens: GetTokensResponse = JSON.parse(jsonString);
+            console.log(`"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}`)
+            console.log(newTokens)
+            // Append new tokens to the existing list
+            tokens.ids = tokens.ids.concat(newTokens.ids);
+        
+            // Update last_id to the last id in the tokens.ids array
+            if(tokens.ids.length==30){
+                last_id = newTokens.ids[newTokens.ids.length - 1];
+            }else{
+                last_id="" 
+            }
+            
+        } while (tokens.ids.length == 30);
+       
         const jsonStringInfo = Buffer.from(dataInfo).toString('utf8')
         const contractInfo = JSON.parse(jsonStringInfo);
         // console.log(contractInfo)
         if (tokens.ids.length > 0) {
+            console.log(tokens)
             let tokenPromises = tokens.ids.map(async (id) => {
                 let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
                 const jsonString = Buffer.from(data).toString('utf8')
