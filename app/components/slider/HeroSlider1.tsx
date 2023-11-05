@@ -74,12 +74,12 @@ export default function HeroSlider1(): JSX.Element {
                                             For the community. Ran by the community. Brand , Inspired by Fashion , Music , and the 90s
                                             </p>
                                             <div className="flat-bt-slider flex style2">                
-                                {/* <Link
+                                <Link
                                     href="/launchpad/inj1wxgpgz0zavleklkfunvmxj9wndx8czsxfxp60m"
                                     className="sc-button header-slider style style-1 note fl-button pri-1"
                                 >
                                     <span>Mint</span>
-                                </Link> */}
+                                </Link>
                             </div>
                                         </div>
                                     </div>

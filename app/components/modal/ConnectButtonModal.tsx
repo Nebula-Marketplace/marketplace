@@ -23,12 +23,11 @@ export default function ConnectButtonModal({show,handleShow}:any): JSX.Element {
                         >
                             <span aria-hidden="true" onClick={handleShow}>×</span>
                         </button>
-                        <div className="modal-body space-y-20 pd-20">
+                        <div className="modal-body space-y-20 pd-40">
                         <div className="provider-pop-up">
         {extensionProviders?.length>0&&extensionProviders.map((provider:any) => {
           console.log(provider)
         return (
-          <>
           <button
             key={provider.id}
             className="provider-button"
@@ -44,12 +43,9 @@ export default function ConnectButtonModal({show,handleShow}:any): JSX.Element {
           >
             {provider.name}
           </button>
-           <br/>
-           </>
         );
       })}
       </div>
-     
 
                         </div>
                     </div>
