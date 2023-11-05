@@ -133,16 +133,12 @@ export default function Header(): JSX.Element {
                   <Navigation />
 
                   <div className="flat-search-btn flex">
-<<<<<<< HEAD
-                  <WalletConnectButton />
-=======
                     <WalletConnectButton />
 {wallet&&
 <Link href="/profile">
 <button className="sc-button header-slider style style-1 wallet fl-button pri-1">Profile
 </button>
 </Link>}
->>>>>>> f783cbc113027db45637e79a92b48ca5b7990c38
                   </div>
                   
                 </div>
