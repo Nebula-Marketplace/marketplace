@@ -18,7 +18,7 @@ export default function CollectionListCard({ data }: Props): JSX.Element {
           logo_uri:dataRes.logo_uri,
           name:dataRes.collection,
           supply:dataRes.supply,
-          contract:dataRes.supply,
+          contract:dataRes.contract,
           exchange:data
         })
         console.log(dataRes)

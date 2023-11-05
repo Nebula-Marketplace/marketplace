@@ -25,6 +25,7 @@ export default function CollectionDetails(): JSX.Element {
         const getNfts=async()=>{
         const dataGet = await fetchOwnedNfts(wallet.account.address)
         setNfts(dataGet)
+        console.log(dataGet)
         const getData:any[] = []
         await Promise.all(dataGet.map(async (data) => {
             const getlistedNfts = await fetchListed(data.exchange)
@@ -74,7 +75,7 @@ export default function CollectionDetails(): JSX.Element {
                 <div className="ibthemes-container">
                     <div className="flat-tabs tab-authors">
                         <div className="author-profile flex">
-                            <div className="feature-profile">
+                            {/* <div className="feature-profile">
                                 <Image
                                     height={500}
                                     width={500}
@@ -83,7 +84,7 @@ export default function CollectionDetails(): JSX.Element {
                                     alt="Image"
                                     className="avatar"
                                 />
-                            </div>
+                            </div> */}
                             {/* <div className="infor-profile">
                                 <span>Collection Details</span>
                                 <h2 className="title">{wallet?

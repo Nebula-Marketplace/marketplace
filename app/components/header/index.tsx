@@ -13,10 +13,11 @@ import Brand from "../image/Brand";
 import { useGlobalState } from "@/utils/GlobalContext";
 import { useEffect, useState } from "react";
 import { fetchNftContracts,fetchActiveExchanges,fetchListed,getContractFromExchange,fetchNft,getMeta,fetchNftContractState} from "@/utils/exchangeApi";
+import useWallet from "@/hooks/useWallet";
 
 export default function Header(): JSX.Element {
   const { listed, setListed, collections, setCollections } = useGlobalState();
-
+ const wallet = useWallet()
   const [exchanges, setExchanges] = useState<any[]>([]);
   useEffect(() => {
     fetchNftContracts()
@@ -133,7 +134,13 @@ export default function Header(): JSX.Element {
 
                   <div className="flat-search-btn flex">
                     <WalletConnectButton />
+{/* {wallet&&
+<Link href="/profile">
+<button className="sc-button header-slider style style-1 wallet fl-button pri-1">Profile
+</button>
+</Link>} */}
                   </div>
+                  
                 </div>
               </div>
             </div>

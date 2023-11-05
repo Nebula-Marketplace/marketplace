@@ -184,7 +184,12 @@ export async function fetchOwnedNfts(address: string) {
         return {contract:get_contract,exchange:data_contract};
     });
     contracts = await Promise.all(contractPromises);
- 
+    let uniqueContracts = Array.from(new Set(contracts.map(contract => contract.contract)))
+    .map(contract => {
+        return contracts.find(c => c.contract === contract)
+    });
+
+contracts = uniqueContracts;
     let ownedPromises = contracts.map(async ({contract,exchange}) => {
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
 
