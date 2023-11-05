@@ -3,7 +3,7 @@ import { Collection } from "../types/Collection";
 export const collections: Collection[] = [
     {
         Name:"A5tound",
-        ContractAddress: "inj1flk4drc8uhy0lzrhl968375sd2tdclmv0h4qmj",
+        ContractAddress: "inj10dwdq2rgp2fcxpsecfc0u7jruurexgwun2tu3s",
         Symbol:"A5T",
         Supply: 200,
         Metadata: {

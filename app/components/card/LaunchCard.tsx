@@ -9,7 +9,7 @@ interface Props {
     title: string;
     description: string;
     type: number;
-    supply: number;
+    supply: string;
     date: string;
   };
 }
