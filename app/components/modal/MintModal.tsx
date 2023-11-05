@@ -69,10 +69,10 @@ console.log(msg.msgs)
                             <span aria-hidden="true">×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
-                            <h3>Mint {data.collection.Name}</h3>
+                            <h3>Mint {data?.collection?.Name}</h3>
                             <p className="text-center">
                                 <span className="price color-popup">
-                                    {data.activePhase.name}
+                                    {data?.activePhase?.name}
                                 </span>
                             </p>
                             <p>
@@ -87,7 +87,7 @@ console.log(msg.msgs)
                             <div className="d-flex justify-content-between">
                                 <p> Phase Price</p>
                                 <p className="text-right price color-popup">
-                                    {data.activePhase.price} INJ
+                                    {data?.activePhase?.price} INJ
                                 </p>
                             </div>
                             <div className="d-flex justify-content-between">
