@@ -1,4 +1,15 @@
+'use client'
+
+import {useState} from "react";
+import EmailSentModal from "../modal/EmailSentModal";
+
 export default function SubscribeForm() {
+  let [sent,setSent] = useState(false);
+
+  async function send(){
+    setSent(true);
+  }
+
   return (
     <>
       <form className="form-submit">
@@ -9,10 +20,14 @@ export default function SubscribeForm() {
           placeholder="info@yourgmail.com"
           required
         />
-        <button id="submit" name="submit" type="submit">
+    
+        <button id="submit" name="submit" onClick={() =>send()}>
           <i className="icon-fl-send" />
         </button>
       </form>
+      {
+        sent && <EmailSentModal />
+      }
     </>
   );
 }
