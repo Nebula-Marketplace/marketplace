@@ -191,7 +191,7 @@ export async function fetchOwnedNfts(address: string) {
     });
 
 contracts = uniqueContracts;
-    let ownedPromises = uniqueContracts.map(async (contract) => {
+    let ownedPromises = contracts.map(async (contract) => {
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
 
         const jsonString = Buffer.from(data).toString('utf8')
