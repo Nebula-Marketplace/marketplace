@@ -87,7 +87,7 @@ export default function CollectionCard({ data }: any): JSX.Element {
 
   return (
     <>
-              <Link href={`/collections/${collectionData?.exchange}`}>
+         {collectionData?.logo_uri&&    <Link href={`/collections/${collectionData?.exchange}`}>
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
             <img
@@ -125,6 +125,7 @@ export default function CollectionCard({ data }: any): JSX.Element {
                 </div>
       </div>
       </Link>
+}
     </>
   );
 }

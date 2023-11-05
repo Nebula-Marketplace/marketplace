@@ -3,29 +3,30 @@ import CollectionListCard from "../card/CollectionListCard";
 import Link from "next/link";
 import {getUnclaimedCollections} from "@/data/external/injective-api";
 import { fetchNftContracts,fetchActiveExchanges,fetchListed,getContractFromExchange } from "@/utils/exchangeApi";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 
 
-export default  function UnclaimedCollections(): JSX.Element {
+export default  function UnclaimedCollections({exchanges,listedNfts}:any): JSX.Element {
     // const data = await getUnclaimedCollections();
-    useEffect(() => {
-        let getALLContract:any[] =[]
-        fetchNftContracts()
-            .then(data =>{ 
-                getALLContract = (data as any)
-                fetchActiveExchanges()
-                .then(dataRes =>{ 
-                    // (data as any)
-            //         console.log(getALLContract)
-            // console.log(dataRes)
-        })
-            .catch(error => console.error(error));
+    // useEffect(() => {
+    //     let getALLContract:any[] =[]
+    //     fetchNftContracts()
+    //         .then(data =>{ 
+    //             getALLContract = (data as any)
+    //             fetchActiveExchanges()
+    //             .then(dataRes =>{ 
+    //                 // (data as any)
+    //         //         console.log(getALLContract)
+    //         // console.log(dataRes)
+    //     })
+    //         .catch(error => console.error(error));
 
         
 
-        })
-            .catch(error => console.error(error));
-    }, []);
+    //     })
+    //         .catch(error => console.error(error));
+    // }, []);
+
     return (
         <>
             <section className="tf-section tf-rank">
@@ -48,18 +49,18 @@ export default  function UnclaimedCollections(): JSX.Element {
                                         <h3>Collection</h3>
                                     </div>
                                     <div className="column">
-                                        <h3>Owners</h3>
+                                        <h3>SUPPLY</h3>
                                     </div>
-                                    <div className="column">
+                                    {/* <div className="column">
                                         <h3>Assets</h3>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                {/* {data.slice(0,20).map((item) => (
+                                {exchanges?.map((item:string,index:number) => (
                                     <CollectionListCard
-                                        key={item.ContractAddress}
-                                        data={{title:item.Name}}
+                                    key={index}
+                                        data={item}
                                     />
-                                ))} */}
+                                ))}
                             </div>
                         </div>
                     </div>

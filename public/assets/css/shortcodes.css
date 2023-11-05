@@ -4900,7 +4900,7 @@ section.today-picks {
     object-position: center;
 }
 
-#upload-profile #tf-upload-img {
+/* #upload-profile #tf-upload-img {
     position: absolute;
     top: 0;
     right: 0;
@@ -4913,7 +4913,7 @@ section.today-picks {
     margin-bottom: 0px;
     cursor: pointer;
     opacity: 0;
-}
+} */
 
 .btn-upload {
     position: relative;

@@ -3,27 +3,28 @@ import { useState } from "react";
 
 interface UploadProfileProps {
     imageUrl?: string;
-    displayImage?: string;
-    setDisplayImage?: Function;
+    displayBannerImage?: string;
+    setDisplayBannerImage?: Function;
 }
 
-export default function UploadProfile({ imageUrl,displayImage ,setDisplayImage}: UploadProfileProps): JSX.Element {
+export default function UploadProfile({ imageUrl,displayBannerImage ,setDisplayBannerImage}: UploadProfileProps): JSX.Element {
 
     const uploadImage = (e: any) => {
-        if (setDisplayImage) {
-            setDisplayImage(e.target.value);
+        if (setDisplayBannerImage) {
+            setDisplayBannerImage(e.target.value);
         }
     };
 
     return (
         <>
             <div className="sc-card-profile text-center">
-                <div className="card-media">
+                <div className="card-media" style={{height:"200px"}}>
                     <img
                         id="profileimg"
-                        src={displayImage}
+                        src={displayBannerImage}
+                        style={{height:"200px"}}
                         alt="Image"
-                        height={500}
+                        height={250}
                         width={500}
                     />
                 </div>
@@ -36,11 +37,11 @@ export default function UploadProfile({ imageUrl,displayImage ,setDisplayImage}:
                         name="profile"
                         required
                         onChange={uploadImage}
-                        placeholder="Enter image URL"
+                        placeholder="Enter Banner image URL"
                     />
                 </div>
                 {/* <a
-                    onClick={() => setDisplayImage(imageUrl || "/assets/images/avatar/avata_profile.jpg")}
+                    onClick={() => setDisplayBannerImage(imageUrl || "/assets/images/avatar/avata_profile.jpg")}
                     style={{ cursor: "pointer" }}
                     className="btn-upload style2"
                 >
