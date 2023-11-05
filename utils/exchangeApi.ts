@@ -191,7 +191,8 @@ export async function fetchOwnedNfts(address: string) {
     });
 
 contracts = uniqueContracts;
-    let ownedPromises = contracts.map(async (contract) => {
+console.log(uniqueContracts)
+    let ownedPromises = ["inj1gfcyul0v78pfvv8wju9r93xltw8shj20cdaf0r"].map(async (contract) => {
         let data =  (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}"}}`, 'binary').toString('base64'))).data;
 
         const jsonString = Buffer.from(data).toString('utf8')
@@ -208,8 +209,7 @@ contracts = uniqueContracts;
                 collection: contract,
                 // exchange:exchange,
                 owner: address,
-                img: metadata.media.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"),
-                metadata: metadata
+                img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : '',                metadata: metadata
             };
         });
         return Promise.all(tokenPromises);
