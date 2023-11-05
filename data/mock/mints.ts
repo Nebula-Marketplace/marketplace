@@ -2,7 +2,7 @@ import {Mint, MintPhase} from "@/data/types/Mint";
 
 export const Mints : Mint[] = [
     {
-        ContractAddress: "inj16z6g70jwvrnjjxs0avy5awf57qyjkl8qum5eu5",
+        ContractAddress: "inj1flk4drc8uhy0lzrhl968375sd2tdclmv0h4qmj",
         Description: "A5tound Genesis Mint A5tound",
         Denomination: "inj",
         Royalty: 6.5,
