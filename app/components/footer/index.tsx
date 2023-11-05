@@ -30,10 +30,12 @@ export default function Footer() {
 
             <div className="col-lg-3 col-md-6 col-sm-7 col-12">
               <div className="widget widget-subcribe">
+                
+                {/*
                 <h5 className="title-widget">Reach Out To Us</h5>
                 <div className="form-subcribe">
                   <SubscribeForm />
-                </div>
+                </div>*/}
                 <div className="widget-social style-1 mg-t32">
                   <ul>
                     <Social />

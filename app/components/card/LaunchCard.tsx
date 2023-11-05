@@ -20,20 +20,25 @@ export default function LaunchCard({ data }: Props): JSX.Element {
       <div className="sc-card-activity style1">
         <div className="content">
           <div className="media">
-            <Image
-              height={200}
-              width={200}
-              src={data.img}
-              alt="Activity Image"
-            />
+            
+            { 
+                data.img &&
+                    <Image
+                    height={200}
+                    width={200}
+                    src={data.img}
+                    alt="Activity Image"
+                    />
+                
+            }
+            
           </div>
           <div className="infor">
             <h3>
-              <Link href="/item-details-1">{data.title}</Link>
+              {data.title}
             </h3>
             {data.type === 1 && (
               <div className="status">
-                started following
                 <span className="author">{data.description}</span>
               </div>
             )}

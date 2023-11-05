@@ -42,22 +42,17 @@ export const navigation: NavigationType[] = [
             },
         ],
     },*/
-    // {
-    //     id: 3,
-    //     name: "Launchpad",
-    //     dropdown: [
-    //         {
-    //             id: 1,
-    //             name: "Launches",
-    //             path: "/launchpad",
-    //         },
-    //         {
-    //             id: 2,
-    //             name: "Apply",
-    //             path: "/launchpad/apply",
-    //         },
-    //     ],
-    // },
+    {
+        id: 3,
+        name: "Launchpad",
+        dropdown: [
+            {
+                id: 1,
+                name: "Upcoming Launches",
+                path: "/launchpad",
+            }
+        ],
+    },
     // {
     //     id: 4,
     //     name: "Community",

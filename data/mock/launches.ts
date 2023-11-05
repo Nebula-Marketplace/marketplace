@@ -23,7 +23,7 @@ export const Launches: Launch[] = [
     },
     {
         id: 2,
-        img: "",
+        img: "/assets/images/collections/monki/cover.png",
         icon: "icon-1",
         title: "Monki",
         description: "",
@@ -33,7 +33,7 @@ export const Launches: Launch[] = [
     },
     {
         id: 3,
-        img: "",
+        img: "/assets/images/collections/hobos/cover.png",
         icon: "icon-1",
         title: "Hobos",
         description: "",
@@ -43,7 +43,7 @@ export const Launches: Launch[] = [
     },
     {
         id: 4,
-        img: "",
+        img: "/assets/images/collections/wolves/cover.jpg",
         icon: "icon-1",
         title: "Wolves",
         description: "",
