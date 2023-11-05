@@ -75,7 +75,7 @@ export default function HeroSlider1(): JSX.Element {
                                             </p>
                                             <div className="flat-bt-slider flex style2">                
                                 <Link
-                                    href="/launchpad/inj16z6g70jwvrnjjxs0avy5awf57qyjkl8qum5eu5"
+                                    href="/launchpad/inj1flk4drc8uhy0lzrhl968375sd2tdclmv0h4qmj"
                                     className="sc-button header-slider style style-1 note fl-button pri-1"
                                 >
                                     <span>Mint</span>
