@@ -144,12 +144,12 @@ export default function CollectionDetails(): JSX.Element {
                             </div>
                         </div>
                         <div className="col-md-12 wrap-inner load-more text-center">
-                            <Link
+                            {/* <Link
                                 href="/authors-2"
                                 className="sc-button loadmore fl-button pri-3"
                             >
                                 <span>Load More</span>
-                            </Link>
+                            </Link> */}
                         </div>
                         </>}
                         {getCurrentTab=="listed"&&
@@ -168,12 +168,12 @@ export default function CollectionDetails(): JSX.Element {
                             </div>
                         </div>
                         <div className="col-md-12 wrap-inner load-more text-center">
-                            <Link
+                            {/* <Link
                                 href="/authors-2"
                                 className="sc-button loadmore fl-button pri-3"
                             >
                                 <span>Load More</span>
-                            </Link>
+                            </Link> */}
                         </div>
                         </>}
                         {/* {myListedNfts.} */}

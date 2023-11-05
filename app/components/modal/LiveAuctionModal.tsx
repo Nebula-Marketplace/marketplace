@@ -14,13 +14,13 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                     role="document"
                 >
                     <div className="modal-content">
-                        <button
+                    <button
                             type="button"
                             className="close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
                         >
-                            <span aria-hidden="true">×</span>
+                            <span aria-hidden="true" onClick={handleShow}>×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
                             <h3>List an Nft</h3>
@@ -49,7 +49,7 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 data-target="#popup_bid_success"
                                 data-dismiss="modal"
                                 aria-label="Close"
-                                onClick={()=>functionRun(listAmount*1000000000)}
+                                onClick={()=>functionRun(listAmount* 10**18)}
                             >
                                 List Nft
                             </a>

@@ -33,12 +33,12 @@ export default function Explore4({exchanges,listedNfts}:any) {
                                
                             </div>
                             <div className="btn-auction center">
-                                <Link
+                                {/* <Link
                                     href="/live-auctions"
                                     className="sc-button loadmore fl-button pri-3"
                                 >
                                     <span>Load More</span>
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                     </div>
