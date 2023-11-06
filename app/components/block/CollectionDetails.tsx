@@ -32,15 +32,17 @@ export default function CollectionDetails(): JSX.Element {
 
                         const getNftMetaData :any= await fetchNft(obj.contract,dataRes.id)
                         getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
+                            console.log()
                             let exists = getData.some(item => item.id === dataRes?.id && item.collection === obj.contract);
                             if(!exists){
+
                         getData.push({
                             id: dataRes?.id,
                             collection:obj.contract,
                             exchange:obj.exchange,
                             hert: 10,
                             status: "",
-                            img: dataGetRes?.media,
+                            img: dataGetRes?.media||dataGetRes?.Media,
                             auction: 1,
                             title: dataGetRes?.Item,
                             tag: dataGetRes?.string,

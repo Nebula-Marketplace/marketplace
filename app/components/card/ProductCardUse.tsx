@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getContractFromExchange,fetchNft } from "@/utils/exchangeApi";
+import { getContractFromExchange,fetchNft,checkIfExchangeExists } from "@/utils/exchangeApi";
 import axios from "axios"
 import {constructListMessage,constructDelistMessage } from "@/utils/constructMessage";
 
@@ -24,7 +24,11 @@ import LiveAuctionModal from "../modal/LiveAuctionModal"
 //         history?: boolean;
 //     };
 // }
-
+interface ExchangeExistsResponse {
+    status: boolean;
+    exchange: string;
+    // include other properties if any
+  }
 export default function ProductCard({data}:any): JSX.Element {
     const [isHeartToggle, setHeartToggle] = useState<number>(0);
     const [show, setShow] = useState<boolean>(false);
@@ -71,14 +75,15 @@ export default function ProductCard({data}:any): JSX.Element {
         setShow(false)
     }
     const listNFT = async (listAmount:number) => {
-        alert(data.id)
+        const exchangeExists =await checkIfExchangeExists(nftData.collection) as ExchangeExistsResponse
+        console.log(exchangeExists) 
         if (recentWallet) {
           const getMessage = await constructListMessage(
             wallet.account?.address,
             data.id,
              nftData.collection,
             Math.abs(listAmount).toString(),
-             nftData.exchange)
+            exchangeExists?.exchange)
           console.log(getMessage)
     
     const messages = getMessage
@@ -170,7 +175,7 @@ export default function ProductCard({data}:any): JSX.Element {
                             alt="Image"
                         />
                     {/* </Link> */}
-                    {/* <div className="button-place-bid">
+                    <div className="button-place-bid">
                         <a
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid"
@@ -179,7 +184,7 @@ export default function ProductCard({data}:any): JSX.Element {
                         >
                             <span>{nftData?.type=="listed"?"Delist":"List"}</span>
                         </a>
-                    </div> */}
+                    </div>
                     {nftData.status !== "" && (
                         <div className="coming-soon">coming soon</div>
                     )}

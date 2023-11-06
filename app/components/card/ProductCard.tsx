@@ -92,14 +92,14 @@ alert(data?.id)
     <>
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
-          <Link href="/item-details-1">
+          {/* <Link href="/item-details-1"> */}
             <img
               height={500}
               width={500}
               src={nftData?.img?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Image"
             />
-          </Link>
+          {/* </Link> */}
           <div className="button-place-bid">
             <a
               data-bs-toggle="modal"
@@ -124,7 +124,7 @@ alert(data?.id)
         </div>
         <div className="card-title">
           <h5>
-            <Link href="/item-details-1">{nftData.title}</Link>
+           {nftData.title}
           </h5>
         </div>
         {/* <div className="meta-info">
@@ -157,11 +157,11 @@ alert(data?.id)
               </h5>
             </div>
           </div>
-          {pathname === "/home-2" || data.history ? (
+          {/* {pathname === "/home-2" || data.history ? (
             <Link href="/activity-1" className="view-history reload">
               View History
             </Link>
-          ) : undefined}
+          ) : undefined} */}
         </div>
       </div>
     </>

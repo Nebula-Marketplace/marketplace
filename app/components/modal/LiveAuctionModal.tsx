@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Grid, Modal } from "@mui/material";
 export default function LiveAuctionModal({show,handleShow,type,functionRun}:any): JSX.Element {
-   const [listAmount,setListAmount] = useState<number>(0)
+   const [listAmount,setListAmount] = useState<number>(1)
     return (
         <>
                         <Modal
@@ -31,15 +31,17 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 </span>
                             </p> */}
                                <p>
-                                Enter List Amount.
+                                Enter List Amount in INJ.
                               
                             </p>
                             <input
-                                type="text"
+                                type="number"
+                                step="any"
+                                min="1"
                                 className="form-control"
                                 placeholder="00.00 INJ"
                                 value={listAmount}
-                                onChange={(e)=>setListAmount(Number(e.target.value))}
+                                onChange={(e)=>setListAmount(Math.abs(Number(e.target.value)))}
                             />
 
                             <div className="hr" />
