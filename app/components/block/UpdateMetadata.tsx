@@ -22,7 +22,12 @@ export default function UpdateMetadata() {
         telegramURL: string;
         discordURL: string;
     }
-    
+    interface ExchangeExistsResponse {
+        status: boolean;
+        exchange: string;
+        // include other properties if any
+      }
+      
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [getSelectCover, setSelectCover] = useState<number | null>(null);
@@ -114,11 +119,11 @@ const createCollection =async(formData:FormData)=>{
     });
     
 }
-const claimCollection=async(formData:FormData)=>{
+const claimCollection=async(exchange:string,formData:FormData)=>{
 if(wallet){
   const claimMessage=  constructClaimMessage(
         wallet?.account?.address,
-        pathname.replace("/collections/claim/",""),
+        exchange,
         { banner_uri: displayBannerImage,
         logo_uri: displayImage,
             description: formData.description,
@@ -168,12 +173,12 @@ const handleSubmit = async(e:any) => {
     console.log("tets1")
     
     const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
-    const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),)
+    const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),) as ExchangeExistsResponse
     console.log(exchangeExists) 
     if(collectionOwner==wallet?.account.address){
-        if(exchangeExists){
+        if(exchangeExists?.status){
             alert("exchange exists")
-            claimCollection(formData)
+            claimCollection(exchangeExists?.exchange,formData)
                
         }else{
             alert("exchange doesn't exists")
