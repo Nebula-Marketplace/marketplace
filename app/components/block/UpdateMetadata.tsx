@@ -169,7 +169,7 @@ const handleSubmit = async(e:any) => {
     
     const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
     const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),)
-    // createCollection(formData) 
+    console.log(exchangeExists) 
     if(collectionOwner==wallet?.account.address){
         if(exchangeExists){
             alert("exchange exists")

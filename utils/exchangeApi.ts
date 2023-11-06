@@ -176,10 +176,10 @@ export async function checkIfExchangeExists(contract: string) {
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
     let code49Nfts = await fetchNftContracts()
     let contracts: any[] = []
-    console.log(code49Nfts)
+    // console.log(code49Nfts)
     let contractPromises = nebula_contacts.map(async(data_contract) => {
         let get_contract = await getContractFromExchange(data_contract)
-        return {contract:get_contract,exchange:data_contract};
+        return get_contract;
     });
     contracts = await Promise.all(contractPromises);
     if(contracts.includes(contract)){
