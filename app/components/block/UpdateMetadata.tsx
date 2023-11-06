@@ -14,7 +14,6 @@ export default function UpdateMetadata() {
         collectionName: string;
         symbol: string;
         supply: number;
-        disc: string;
         basisPoints:number;
         websiteURL: string;
         contactEmail: string;
@@ -72,7 +71,7 @@ export default function UpdateMetadata() {
     };
     const { connect,sign,recentWallet, simulate,broadcast  } = useShuttle();
 
-const createCollection =async()=>{
+const createCollection =async(formData:FormData)=>{
   const getData =  constructInstantiateMessage(
         wallet?.account?.address,
         pathname.replace("/collections/claim/",""),
@@ -168,9 +167,18 @@ const handleSubmit = async(e:any) => {
     e.preventDefault();
     console.log("tets")
     
-    console.log(await getCollectionOwner(pathname.replace("/collections/claim/",""),))
+    const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
+    const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),)
 
-    console.log(await checkIfExchangeExists(pathname.replace("/collections/claim/",""),))
+    if(collectionOwner==wallet?.account.address){
+        if(exchangeExists){
+            createCollection(formData)    
+        }else{
+            claimCollection(formData)
+        }
+    }else{
+
+    }
     // claimCollection(formData);
 };
 
