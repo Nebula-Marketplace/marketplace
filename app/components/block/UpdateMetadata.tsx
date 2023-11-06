@@ -169,7 +169,7 @@ const handleSubmit = async(e:any) => {
     
     const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
     const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),)
-    createCollection(formData) 
+    // createCollection(formData) 
     if(collectionOwner==wallet?.account.address){
         if(exchangeExists){
             alert("exchange exists")
@@ -265,6 +265,7 @@ const handleSubmit = async(e:any) => {
                                                 <input
                                                     type="number"
                                                     placeholder="100"
+                                                    step="any"
                                                     name="basisPoints"
                                                     required
                                                     onChange={handleChange}
