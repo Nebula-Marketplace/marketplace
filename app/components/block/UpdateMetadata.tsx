@@ -172,12 +172,16 @@ const handleSubmit = async(e:any) => {
 
     if(collectionOwner==wallet?.account.address){
         if(exchangeExists){
-            createCollection(formData)    
-        }else{
+            alert("exchange exists")
             claimCollection(formData)
+               
+        }else{
+            alert("exchange doesn't exists")
+
+            createCollection(formData) 
         }
     }else{
-
+    alert("You don't own this collections")
     }
     // claimCollection(formData);
 };
