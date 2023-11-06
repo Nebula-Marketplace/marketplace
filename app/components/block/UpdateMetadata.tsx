@@ -78,7 +78,7 @@ const createCollection =async(formData:FormData)=>{
         formData.collectionName,
         formData.symbol,
         formData.supply,
-        formData.basisPoints,
+        formData.basisPoints*100,
          [{
             "share": 100,
             "address": wallet?.account?.address,
@@ -122,7 +122,7 @@ if(wallet){
         { banner_uri: displayBannerImage,
         logo_uri: displayImage,
             description: formData.description,
-            basis_points: 100, // 100 == 1% royalty
+            basis_points: formData.basisPoints*100, // 100 == 1% royalty
             creators: [{
                 share: 100,
                 address: wallet?.account.address
@@ -140,18 +140,18 @@ if(wallet){
         }catch(e){
           console.log(e)
         }
-    // await broadcast({
-    //     messages: [claimMessage],
-    //     feeAmount: "50000000", 
-    //     gasLimit: "50000000", 
-    //     // memo: "",
-    //     wallet:recentWallet
-    // }).then((result: any) => {
-    //   console.log("Sign result", result);
-    // })
-    // .catch((error:any) => {
-    //   console.error("Sign error", error);
-    // }); 
+    await broadcast({
+        messages: [claimMessage],
+        feeAmount: "50000000", 
+        gasLimit: "50000000", 
+        // memo: "",
+        wallet:recentWallet
+    }).then((result: any) => {
+      console.log("Sign result", result);
+    })
+    .catch((error:any) => {
+      console.error("Sign error", error);
+    }); 
 }
 }
 
@@ -268,7 +268,7 @@ const handleSubmit = async(e:any) => {
                                             </fieldset>
                                             <fieldset>
                                                 <h4 className="title-infor-account">
-                                                    Royalty Fee 100=1%
+                                                    Royalty %
                                                 </h4>
                                                 <input
                                                     type="number"
