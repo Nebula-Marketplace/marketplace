@@ -1,12 +1,15 @@
 export interface Collection {
-    Name: string;
-    ContractAddress: string;
-    Symbol: string;
-    Supply: number;
-    Metadata: Metadata;
+    Name?: string;
+    ContractAddress?: string;
+    Symbol?: string;
+    Supply?: number;
+    Metadata?: Metadata;
+    MintDate?: number;
+    MintPhases?: MintPhase[]
 }
 
 export interface Metadata {
+    Name: string;
     Banner: string;
     Cover: string;
     Description: string;
@@ -17,4 +20,12 @@ export interface Metadata {
     Email: string;
     Website: string;
     Atlas3: string
+}
+
+export interface MintPhase {
+    starts: number;
+    ends: number; 
+    price: number;
+    allocation: number; 
+    name: string; 
 }
