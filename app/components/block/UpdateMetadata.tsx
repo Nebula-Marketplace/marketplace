@@ -124,7 +124,10 @@ if(wallet){
   const claimMessage=  constructClaimMessage(
         wallet?.account?.address,
         exchange,
-        { banner_uri: displayBannerImage,
+
+        { 
+            collection:formData.collectionName,
+            banner_uri: displayBannerImage,
         logo_uri: displayImage,
             description: formData.description,
             basis_points: formData.basisPoints*100, // 100 == 1% royalty
