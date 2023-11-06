@@ -61,15 +61,21 @@ function nullCheck(obj: any) {
 }
 
 export async function getCollectionOwner(contract: string) {
+    try{
     let endpoints = await getNetworkEndpoints(network);
     let api = new ChainGrpcWasmApi(endpoints.grpc);
 
     let data = (await api.fetchContractInfo(contract));
+    console.log(data)
     let owner = data?.creator ?? pitcher("Contract returned null");
-    const jsonString = Buffer.from(nullCheck(owner)).toString('utf8')
-    const owner_address: string = JSON.parse(jsonString)["owner"]
+    console.log(owner)
+    // const jsonString = Buffer.from(nullCheck(owner)).toString('utf8')
+    // const owner_address: string = JSON.parse(jsonString)["owner"]
 
-    return owner_address;
+    return owner;
+    }catch(e){
+        console.log(e)
+    }
 }
 
 export async function fetchListed(exchange: string) {
@@ -164,7 +170,24 @@ export async function fetchNftContracts() {
     // contracts = contracts.concat(nebula_contracts);
     return contracts;
 }
-
+export async function checkIfExchangeExists(contract: string) {
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
+    let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
+    let code49Nfts = await fetchNftContracts()
+    let contracts: any[] = []
+    console.log(code49Nfts)
+    let contractPromises = nebula_contacts.map(async(data_contract) => {
+        let get_contract = await getContractFromExchange(data_contract)
+        return {contract:get_contract,exchange:data_contract};
+    });
+    contracts = await Promise.all(contractPromises);
+    if(contracts.includes(contract)){
+        return true
+    }else{
+        return false
+    }
+}
 export async function getMeta(path: string) {
 
     let data = (await axios.get(path.startsWith("ipfs://") ? await (path.replace("ipfs://", "https://ipfs.io/ipfs/")):path)).data;

@@ -23,7 +23,7 @@ export default function CollectionDetails(): JSX.Element {
         if(wallet){
         //fetchOwnedNfts(wallet.account.address)
         const getNfts=async()=>{
-        const dataGet = await fetchOwnedNfts(wallet.account.address)
+        const dataGet = await fetchOwnedNfts("inj1q82fmsgee627wh2w2rthy6eqt2jst9wc3tytz4")
         setNfts(dataGet)
         console.log(dataGet)
         const getData:any[] = []

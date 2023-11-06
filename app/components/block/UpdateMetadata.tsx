@@ -5,12 +5,17 @@ import UploadBanner from "../element/UploadBanner";
 
 import Image from "next/image";
 import {constructInstantiateMessage,constructClaimMessage} from "@/utils/constructMessage"
+import {checkIfExchangeExists,getCollectionOwner} from "@/utils/exchangeApi"
 import useWallet from "@/hooks/useWallet";
 import { useShuttle } from "@delphi-labs/shuttle-react";
 import { usePathname } from "next/navigation";
 export default function UpdateMetadata() {
     interface FormData {
         collectionName: string;
+        symbol: string;
+        supply: number;
+        disc: string;
+        basisPoints:number;
         websiteURL: string;
         contactEmail: string;
         description: string;
@@ -27,12 +32,16 @@ export default function UpdateMetadata() {
 
     const [formData, setFormData] = useState({
         collectionName: '',
+        symbol: '',
+        supply: 100,
+        basisPoints:100,
         websiteURL: '',
         contactEmail: '',
         description: '',
         twitterHandle: '',
         telegramURL: '',
-        discordURL: ''
+        discordURL: '',
+        
     });
     const wallet  = useWallet();
     const pathname = usePathname();
@@ -66,14 +75,14 @@ export default function UpdateMetadata() {
 const createCollection =async()=>{
   const getData =  constructInstantiateMessage(
         wallet?.account?.address,
-         "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
-         "TEST NFTS",
-         "TTT",
-         100,
-         650,
+        pathname.replace("/collections/claim/",""),
+        formData.collectionName,
+        formData.symbol,
+        formData.supply,
+        formData.basisPoints,
          [{
             "share": 100,
-            "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+            "address": wallet?.account?.address,
         }],
     )
     try{
@@ -155,10 +164,14 @@ const handleChange = (e:any) => {
     });
 };
 
-const handleSubmit = (e:any) => {
+const handleSubmit = async(e:any) => {
     e.preventDefault();
     console.log("tets")
-    claimCollection(formData);
+    
+    console.log(await getCollectionOwner(pathname.replace("/collections/claim/",""),))
+
+    console.log(await checkIfExchangeExists(pathname.replace("/collections/claim/",""),))
+    // claimCollection(formData);
 };
 
     return (
@@ -203,6 +216,30 @@ const handleSubmit = (e:any) => {
                                                     type="text"
                                                     placeholder="Nebula NFTs"
                                                     name="collectionName"
+                                                    required
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                Symbol
+                                                </h4>
+                                              
+                                                <input
+                                                    type="text"
+                                                    placeholder="NEBULA"
+                                                    name="symbol"
+                                                    required
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                   Supply  
+                                                </h4>
+                                              
+                                                <input
+                                                    type="number"
+                                                    placeholder="50000"
+                                                    name="supply"
                                                     required
                                                 />
                                             </fieldset>
@@ -293,6 +330,13 @@ const handleSubmit = (e:any) => {
                                             </fieldset>
                                         </div>
                                     </div>
+                                    <button
+                                        className="tf-button-submit mg-t-15"
+                                        type="submit"
+                                        // onClick={}
+                                    >
+                                        Create Exchange
+                                    </button>  
                                     <button
                                         className="tf-button-submit mg-t-15"
                                         type="submit"
