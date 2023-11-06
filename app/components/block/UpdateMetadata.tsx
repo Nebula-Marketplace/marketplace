@@ -165,11 +165,11 @@ const handleChange = (e:any) => {
 
 const handleSubmit = async(e:any) => {
     e.preventDefault();
-    console.log("tets")
+    console.log("tets1")
     
     const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
     const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),)
-
+    createCollection(formData) 
     if(collectionOwner==wallet?.account.address){
         if(exchangeExists){
             alert("exchange exists")
@@ -229,6 +229,7 @@ const handleSubmit = async(e:any) => {
                                                     placeholder="Nebula NFTs"
                                                     name="collectionName"
                                                     required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -241,6 +242,7 @@ const handleSubmit = async(e:any) => {
                                                     placeholder="NEBULA"
                                                     name="symbol"
                                                     required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -253,17 +255,7 @@ const handleSubmit = async(e:any) => {
                                                     placeholder="50000"
                                                     name="supply"
                                                     required
-                                                />
-                                            </fieldset>
-                                            <fieldset>
-                                                <h4 className="title-infor-account">
-                                                    Website URL
-                                                </h4>
-                                                <input
-                                                    type="text"
-                                                    placeholder="https://collection.info"
-                                                    name="websiteURL"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -275,8 +267,22 @@ const handleSubmit = async(e:any) => {
                                                     placeholder="100"
                                                     name="basisPoints"
                                                     required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                    Website URL
+                                                </h4>
+                                                <input
+                                                    type="text"
+                                                    placeholder="https://collection.info"
+                                                    name="websiteURL"
+                                                    onChange={handleChange}
+                                                    
+                                                />
+                                            </fieldset>
+                                          
                                             <fieldset>
                                                 <h4 className="title-infor-account">
                                                     Contact Email
@@ -285,7 +291,8 @@ const handleSubmit = async(e:any) => {
                                                     type="email"
                                                     placeholder="Contact email"
                                                     name="email"
-                                                    required
+                                                    onChange={handleChange}
+                                                    
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -301,7 +308,7 @@ const handleSubmit = async(e:any) => {
                                                         [e.target.name]: e.target.value
                                                     })}
                                                     rows={5}
-                                                    required
+                                                    
                                                     defaultValue={""}
                                                 />
                                             </fieldset>
@@ -317,7 +324,7 @@ const handleSubmit = async(e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Twitter (X) Handle"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -327,7 +334,7 @@ const handleSubmit = async(e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Telegram URL"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -337,7 +344,7 @@ const handleSubmit = async(e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Discord URL"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                         </div>
