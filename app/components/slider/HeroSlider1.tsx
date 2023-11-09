@@ -37,56 +37,6 @@ export default function HeroSlider1(): JSX.Element {
                             });
                         }}
                     >
-                                                <SwiperSlide>
-                            <div className="swiper-slide">
-                                <div className="slider-item">
-                                    <div className="ibthemes-container flex">
-                                        <div className="image three">
-                                        <Image
-                                height={400}
-                                width={400}
-                                src="/assets/images/collections/a5tound/cover.jpeg"
-                                alt="Image"/>     
-                                            <Image
-                                                height={460}
-                                                width={705}
-                                                className="img-bg"
-                                                src="/assets/images/backgroup-secsion/img-bg-sliderhome3.png"
-                                                alt="Image"
-                                            />
-                                        </div>
-                                        <div className="wrap-heading flat-slider h3 three">
-                                            <h2 className="heading">
-                                                Featured Project
-                                            </h2>
-                                            
-                                            <h1 className="heading">
-                                                <span
-                                                    className={`tf-text ${
-                                                        isDark ? "s1" : "style"
-                                                    }`}
-                                                >
-                                                    A5tound{" "}
-                                                </span>
-    
-                                            </h1>
-                                            <p className="sub-heading mt-29 mb-35">
-                                            For the community. Ran by the community. Brand , Inspired by Fashion , Music , and the 90s
-                                            </p>
-                                            <div className="flat-bt-slider flex style2">                
-                                <Link
-                                    href="/launchpad/inj10dwdq2rgp2fcxpsecfc0u7jruurexgwun2tu3s"
-                                    className="sc-button header-slider style style-1 note fl-button pri-1"
-                                >
-                                    <span>Mint</span>
-                                </Link>
-                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* item*/}
-                            </div>
-                        </SwiperSlide>
                         <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
