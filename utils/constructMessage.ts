@@ -104,7 +104,7 @@ export async function constructBuyMessage(
     console.log(resp.data)
     // for (let i = 0;   i < resp.data.length; i++) {
         // let price_fixed: number = parseInt(resp.data[i].price);
-        let filtered = resp.data.filter((obj: any) => obj.id === token_id && obj.owner === address);
+        let filtered = resp.data.filter((obj: any) => obj.id == token_id && obj.owner === address);
 
         let lastPrice;
         if (filtered.length > 0) {
@@ -128,11 +128,10 @@ export async function constructBuyMessage(
             })
         // }
     }
-}catch(e){
-    console.log(e)
-}
-    throw new Error("Token not found");
-}
+    }catch(e){
+        console.log(e)
+    }
+    }
 
 export async function constructListMessage(
     address:any,
