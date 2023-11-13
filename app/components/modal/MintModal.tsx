@@ -8,6 +8,7 @@ import { type } from "os";
 import useWallet from "@/hooks/useWallet";
 import { constructAndBroadcastMint, constructMintMessage } from "@/utils/constructCandy";
 import { useShuttle, BroadcastResult, SigningResult, SimulateResult } from "@delphi-labs/shuttle-react";
+import useFeeEstimate from "@/hooks/useFeeEstimate";
 
 interface Props {
     data: {
@@ -18,9 +19,9 @@ interface Props {
 
 export default function MintModal({ data }: Props): JSX.Element {
     const wallet = useWallet();
-    console.log(data);
     const {broadcast, simulate} = useShuttle();
     let [total,settotal] = useState(0);
+    
     function getCurrentPhase() {
         const phases = [
             { name: 'OG', start: 1699207200, end: 1699210800, price: 500000000000000000 },
@@ -51,21 +52,23 @@ export default function MintModal({ data }: Props): JSX.Element {
                 messages:msg.msgs,
                 wallet:wallet
             });
+
+            broadcast({
+                wallet: wallet,
+                messages: msg.msgs,
+                gasLimit: response.fee?.gas,
+                feeAmount: response.fee?.amount[0].amount
+            })
+            .then((result: BroadcastResult) => {
+                console.log("Broeadcast result", result)
+            })
+            .catch((error) => {
+                console.error("Sign error", error);
+              });
+
         }catch(e){ console.log(e)}
-console.log(msg.msgs)
             
-        broadcast({
-            wallet: wallet,
-            messages: msg.msgs,
-            gasLimit: "50000000",
-            feeAmount: "50000000"
-        })
-        .then((result: BroadcastResult) => {
-            console.log("Broeadcast result", result)
-        })
-        .catch((error) => {
-            console.error("Sign error", error);
-          });
+       
     };
 
     return (
