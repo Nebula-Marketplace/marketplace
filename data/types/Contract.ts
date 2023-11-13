@@ -30,7 +30,6 @@ export interface InstantiateCandy {
 }
 
 export interface Phase {
-    current: number;
     allowed: Array<string>; 
     starts: number; // timestamp
     ends: number; // timestamp
