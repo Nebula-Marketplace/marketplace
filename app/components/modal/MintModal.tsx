@@ -8,7 +8,6 @@ import { type } from "os";
 import useWallet from "@/hooks/useWallet";
 import { constructAndBroadcastMint, constructMintMessage } from "@/utils/constructCandy";
 import { useShuttle, BroadcastResult, SigningResult, SimulateResult } from "@delphi-labs/shuttle-react";
-import useFeeEstimate from "@/hooks/useFeeEstimate";
 
 interface Props {
     data: {
