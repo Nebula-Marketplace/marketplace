@@ -130,11 +130,10 @@ export async function constructBuyMessage(
             })
         // }
     }
-}catch(e){
-    console.log(e)
-}
-    throw new Error("Token not found");
-}
+    }catch(e){
+        console.log(e)
+    }
+    }
 
 export async function constructListMessage(
     address:any,
@@ -144,7 +143,6 @@ export async function constructListMessage(
     exchange:string,
 ) {
     // const wallet = useWallet();
-
     
     let message: ListMsg = {
         id: id,

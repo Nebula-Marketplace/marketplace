@@ -11,7 +11,7 @@ const codeID =169;
 const talis_nft = 49;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
 const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
-console.log(network)
+
 interface GetTokensResponse { 
     ids: string[]
 }
@@ -44,7 +44,11 @@ interface Token {
     image_uri: string;
     metadata: TalisNftMetadata | NebulaNftMetadata;
 }
-
+interface ExchangeStatus {
+    status: boolean,
+    contract?: string,
+    exchange?: string
+}
 function pitcher(msg: string) {
     /* * throws an error for inline null checks
     */
@@ -66,9 +70,9 @@ export async function getCollectionOwner(contract: string) {
     let api = new ChainGrpcWasmApi(endpoints.grpc);
 
     let data = (await api.fetchContractInfo(contract));
-    console.log(data)
+
     let owner = data?.creator ?? pitcher("Contract returned null");
-    console.log(owner)
+
     // const jsonString = Buffer.from(nullCheck(owner)).toString('utf8')
     // const owner_address: string = JSON.parse(jsonString)["owner"]
 
@@ -101,7 +105,7 @@ export async function getContractFromExchange(exchange: string) {
     const listed_tokens: any = JSON.parse(jsonString)
      return listed_tokens?.contract;
     }catch(e){
-        console.log
+    
     }
 }
 export async function fetchNft(contract: string,id:number) {
@@ -210,7 +214,7 @@ export async function fetchOwnedNfts(address: string) {
     let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
     let code49Nfts = await fetchNftContracts()
-    console.log(code49Nfts)
+  
     let contractPromises = nebula_contacts.map(async(data_contract) => {
         let get_contract = await getContractFromExchange(data_contract)
         return {contract:get_contract,exchange:data_contract};
@@ -230,14 +234,12 @@ let ownedPromises = uniqueContracts.filter((contract): contract is string => Boo
         let last_id: string | undefined="";
         
         do {
-            console.log(last_id)
-            console.log(`"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}`)
+
             let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
         
             const jsonString = Buffer.from(data).toString('utf8')
             const newTokens: GetTokensResponse = JSON.parse(jsonString);
-            console.log(`"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}`)
-            console.log(newTokens)
+        
             // Append new tokens to the existing list
             tokens.ids = tokens.ids.concat(newTokens.ids);
         
@@ -254,18 +256,29 @@ let ownedPromises = uniqueContracts.filter((contract): contract is string => Boo
         const contractInfo = JSON.parse(jsonStringInfo);
         // console.log(contractInfo)
         if (tokens.ids.length > 0) {
-            console.log(tokens)
+            const getExchange:any = await checkIfExchangeExists(contract)
+            const getListedNfts =  await fetchListed(getExchange?.exchange)
             let tokenPromises = tokens.ids.map(async (id) => {
                 let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
                 const jsonString = Buffer.from(data).toString('utf8')
                 let metadata_link: string = JSON.parse(jsonString)["token_uri"]
                 const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
-        
+                let isListed = false
+                if(getExchange?.status){
+                  
+                   const exists = getListedNfts.some((item:any )=> item.id === id && item.owner === address);
+                   if(exists){
+                    isListed=true
+                   }
+                   
+                }
+                
                 return {
                     id: id,
                     collection: contract,
                     // exchange:exchange,
                     owner: address,
+                    isListed:isListed,
                     img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : metadata?.media?.replace("ipfs://","https://ipfs.io/ipfs/"),                
                     metadata: metadata
                 };
