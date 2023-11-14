@@ -31,7 +31,6 @@ const handleShow=()=>{
 }
   const getData = async () => {
     if (recentWallet) {
-      console.log("test")
 
       const getMessage = await constructListMessage(
         wallet.account?.address,
@@ -39,7 +38,6 @@ const handleShow=()=>{
         "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
          "10000000000",
          "inj1tz7gv5rvgtdv24u5dttszuum593n2ul8stmqhn")
-      console.log(getMessage)
 
 const messages = getMessage
 try{
@@ -47,13 +45,11 @@ const response: any = await simulate({
   messages,
   wallet,
 });
-console.log(response)
-console.log("THIS")
+
 }catch(e){
   console.log(e)
 }
 
-    console.log(getData)
   await broadcast({
           messages: getMessage,
           feeAmount: "50000000", 
