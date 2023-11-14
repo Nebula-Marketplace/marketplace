@@ -4,7 +4,10 @@ const nextConfig = {
         appDir: true,
         serverActions: true
     },
-    styledComponents: true
+    styledComponents: true,
+    images: {
+        domains: ['pbs.twimg.com']
+    }
 };
 
 module.exports = nextConfig;

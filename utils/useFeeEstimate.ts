@@ -13,7 +13,6 @@ import {
   export default function useFeeEstimate({ wallet, messages }: Props) {
     try{
     const { simulate } = useShuttle();
-  console.log("THIS")
     return useQuery({
         queryKey: ["fee-estimate", JSON.stringify(messages), wallet?.id],
         queryFn: async () => {

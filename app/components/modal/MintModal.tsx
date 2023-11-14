@@ -1,17 +1,18 @@
 'use client'
 
 import { Phase } from "@/data/types/Contract";
-import { Collection } from "@/data/types/Collection";
+import { CollectionContract } from "@/data/types/Contract";
 import {useState} from "react";
 import { func } from "prop-types";
 import { type } from "os";
 import useWallet from "@/hooks/useWallet";
 import { constructAndBroadcastMint, constructMintMessage } from "@/utils/constructCandy";
 import { useShuttle, BroadcastResult, SigningResult, SimulateResult } from "@delphi-labs/shuttle-react";
+import { toast } from "react-toastify";
 
 interface Props {
     data: {
-        collection: Collection;
+        collection: CollectionContract;
         activePhase: Phase;
     }
 }
@@ -44,8 +45,8 @@ export default function MintModal({ data }: Props): JSX.Element {
         return null; // return null if no current phase is found
     }
     async function mint(){
-        let contract = data.collection.ContractAddress;
-        let msg = await constructAndBroadcastMint(wallet,contract,parseInt((getCurrentPhase()?.price??600000000000000000).toString()), total);
+        let contract = data.collection.data.contract;
+        let msg = await constructAndBroadcastMint(wallet,contract,parseInt((data.activePhase.price).toString()), total);
         try {
             let response = await simulate({
                 messages:msg.msgs,
@@ -59,10 +60,31 @@ export default function MintModal({ data }: Props): JSX.Element {
                 feeAmount: response.fee?.amount[0].amount
             })
             .then((result: BroadcastResult) => {
-                console.log("Broeadcast result", result)
+                console.log("Broadcast result", result)
+                toast.success("Successful Mint", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
             })
             .catch((error) => {
                 console.error("Sign error", error);
+                toast.error(error, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                
               });
 
         }catch(e){ console.log(e)}
@@ -93,7 +115,7 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <span aria-hidden="true">×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
-                            <h3>Mint {data?.collection?.Name}</h3>
+                            <h3>Mint {data?.collection?.data.collection}</h3>
                             <p className="text-center">
                                 <span className="price color-popup">
                                     {data?.activePhase?.name}

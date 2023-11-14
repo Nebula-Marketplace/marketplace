@@ -26,7 +26,6 @@ export default function ConnectButtonModal({show,handleShow}:any): JSX.Element {
                         <div className="modal-body space-y-20 pd-20">
                         <div className="provider-pop-up">
         {extensionProviders?.length>0&&extensionProviders.map((provider:any) => {
-          console.log(provider)
         return (
           <>
           <button

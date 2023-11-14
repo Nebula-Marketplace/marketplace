@@ -29,13 +29,26 @@ export interface InstantiateCandy {
     phases: Array<Phase>;
 }
 
+export interface CollectionContract {
+    data : {
+    collection: string;
+    contract: string;
+    description: string;
+    symbol: string;
+    logo_uri: string;
+    banner_uri: string;
+    supply: number;
+    phases: Phase[];
+    }
+}
+
 export interface Phase {
     allowed: Array<string>; 
     starts: number; // timestamp
     ends: number; // timestamp
     price: number;
     allocation: number; // how many tokens can be minted in this phase per wallet
-    name: string; //name of string
+    name: string; //name of string 
 }
 
 export interface MintMsg {

@@ -3,14 +3,14 @@ import Image from "next/image";
 import ItemDetailsTab from "../element/ItemDetailsTab";
 import Countdown from "react-countdown";
 import Link from "next/link";
-import { Phase } from "@/data/types/Contract";
+import { CollectionContract, Phase } from "@/data/types/Contract";
 
 import {Collection} from "@/data/types/Collection";
 import { getActivePhase } from "@/data/external/injective-api";
 
 interface Props {
     data: {
-    collection: Collection,
+    collection: CollectionContract,
     activePhase: Phase
     }
 }
@@ -41,33 +41,8 @@ export default function Mint({ data }: Props): JSX.Element {
             );
         }
     };
-    function getCurrentPhase() {
-        const phases = [
-            { name: 'OG', start: 1699207200, end: 1699210800, price: 500000000000000000 },
-            { name: 'VIP', start: 1699210800, end: 1699214400, price: 600000000000000000 },
-            { name: 'Whitelist', start: 1699214400, end: 1699218000, price: 600000000000000000 },
-            { name: 'Public', start: 1699218000, end: 9223372036854775807, price: 700000000000000000 }
-        ];
-        const now = Math.floor(Date.now() / 1000); // current timestamp in seconds
-    
-        for (let i = 0; i < phases.length; i++) {
-            const phase = phases[i];
-            if (now >= phase.start && now < phase.end) {
-                return {
-                    endTime: phase.end,
-                    price: phase.price,
-                    phase: phase.name
-                };
-            }
-        }
-    
-        return null; // return null if no current phase is found
-    }
-    
     // Usage:
    
-    
-
     return (
         <>
             <div className="tf-section tf-item-details style-2">
@@ -79,7 +54,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                     <Image
                                         height={600}
                                         width={600}
-                                        src={data?.collection?.Metadata?.Cover}
+                                        src={data.collection.data.logo_uri}
                                         alt=""
                                     />
                                 </div>
@@ -91,7 +66,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                     <div className="meta-item">
                                         <div className="left">
                                             <h2>
-                                                {data?.collection?.Name}
+                                                {data.collection.data.collection}
                                             </h2>
                                         </div>
                                     </div>
@@ -102,36 +77,33 @@ export default function Mint({ data }: Props): JSX.Element {
                                                     <Image
                                                         height={200}
                                                         width={200}
-                                                        src={data?.collection?.Metadata?.Cover}
+                                                        src={data.collection.data.logo_uri}
                                                         alt=""
                                                     />
                                                 </div>
                                                 <div className="info">
                                                     <span>Contract</span>
                                                     <h6>
-                                                        {data?.collection?.ContractAddress}
+                                                        {(data.collection.data.contract)}
                                                     </h6>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <p>
-                                        {data?.collection?.Metadata?.Description}
-                                    </p>
                                     <div className="meta-item-details">
                                         <div className="item-style-2 item-details">
                                             <ul className="list-details">
                                             <li>
                                                     <span>Collection Name: </span>
-                                                    <h6>{data?.collection?.Name}</h6>
+                                                    <h6>{data.collection.data.collection}</h6>
                                                 </li>
                                             <li>
                                                     <span>Token Symbol : </span>
-                                                    <h6>{data?.collection?.Symbol}</h6>
+                                                    <h6>{data.collection.data.symbol}</h6>
                                                 </li>
                                                 <li>
                                                     <span>Supply :</span>
-                                                    <h6>{data?.collection?.Supply}</h6>
+                                                    <h6>{data.collection.data.supply}</h6>
                                                 </li>                                                     
                                             </ul>
                                         </div>
@@ -142,7 +114,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 </span>
                                                 <div className="price">
                                                     <div className="price-box">
-                                                        <h5>{(getCurrentPhase()?.phase ?? 0)}</h5>
+                                                        <h5>{data.activePhase.name}</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,7 +125,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 </span>
                                                 <div className="price">
                                                     <div className="price-box">
-                                                        <h5> {(getCurrentPhase()?.price ?? 0)/10**18} INJ</h5>
+                                                        <h5> {(data.activePhase.price)/10**18} INJ</h5>
                                                         {/* <span>= $14.00</span> */}
                                                     </div>
                                                 </div>
@@ -165,7 +137,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                             >
                                                 <Countdown
                                                     date={
-                                                        (getCurrentPhase()?.endTime ?? 0) * 1000
+                                                        (data.activePhase.ends) * 1000
                                                     }
                                                     renderer={renderer}
                                                 />
