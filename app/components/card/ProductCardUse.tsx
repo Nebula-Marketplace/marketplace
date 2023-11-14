@@ -12,7 +12,7 @@ import axios from "axios";
 import {
   constructListMessage,
   constructDelistMessage,
-  constructTransferMessage
+  constructTransferMessage,
 } from "@/utils/constructMessage";
 
 import { useShuttle } from "@delphi-labs/shuttle-react";
@@ -135,30 +135,35 @@ export default function ProductCard({ data }: any): JSX.Element {
       // console.log(rundata)
     }
   };
-  const transferNft = async (address:string) => {
+  const transferNft = async (address: string) => {
     if (recentWallet) {
-        const getMessage = await constructTransferMessage(wallet?.account?.address,data.id,nftData.collection,address)
-        console.log(getMessage)
-        const messages =[getMessage]
-        const response: any = await simulate({
-            messages,
-            wallet,
-          });
-          console.log(response);
-          await broadcast({
-            messages: [getMessage],
-            feeAmount: "50000000",
-            gasLimit: "50000000",
-            // memo: "",
-            wallet: recentWallet,
-          })
-            .then((result: any) => {
-              console.log("Sign result", result);
-              setShow(false);
-            })
-            .catch((error) => {
-              console.error("Sign error", error);
-            });
+      const getMessage = await constructTransferMessage(
+        wallet?.account?.address,
+        data.id,
+        nftData.collection,
+        address
+      );
+      console.log(getMessage);
+      const messages = [getMessage];
+      const response: any = await simulate({
+        messages,
+        wallet,
+      });
+      console.log(response);
+      await broadcast({
+        messages: [getMessage],
+        feeAmount: "50000000",
+        gasLimit: "50000000",
+        // memo: "",
+        wallet: recentWallet,
+      })
+        .then((result: any) => {
+          console.log("Sign result", result);
+          setShow(false);
+        })
+        .catch((error) => {
+          console.error("Sign error", error);
+        });
     }
   };
   const deListNft = async () => {
@@ -263,18 +268,39 @@ export default function ProductCard({ data }: any): JSX.Element {
                             </h6> */}
             </div>
           </div>
-          <div className="tags" onClick={()=>setTransferModal(true)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <g clip-path="url(#clip0_45_1985)">
-    <path d="M18.3333 1.6665L9.16663 10.8332" stroke="#ffffff" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M18.3333 1.6665L12.5 18.3332L9.16663 10.8332L1.66663 7.49984L18.3333 1.6665Z" stroke="#ffffff" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-  <defs>
-    <clipPath id="clip0_45_1985">
-      <rect width="20" height="20" fill="white"/>
-    </clipPath>
-  </defs>
-</svg></div>
+          {!data?.isListed &&  <div className="tags" onClick={() => setTransferModal(true)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_45_1985)">
+                <path
+                  d="M18.3333 1.6665L9.16663 10.8332"
+                  stroke="#ffffff"
+                  stroke-width="1.66667"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M18.3333 1.6665L12.5 18.3332L9.16663 10.8332L1.66663 7.49984L18.3333 1.6665Z"
+                  stroke="#ffffff"
+                  stroke-width="1.66667"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_45_1985">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>}
         </div>
+        Go
         <div className="card-bottom style-explode">
           {nftData?.type == "listed" && (
             <div className="price">
