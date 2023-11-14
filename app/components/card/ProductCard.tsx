@@ -47,7 +47,7 @@ export default function ProductCard({ data }: Props): JSX.Element {
   const buyNFT = async () => {
     if (recentWallet) {
       console.log("test");
-alert(data?.id)
+// alert(data?.id)
       const getMessage = await constructBuyMessage(
         wallet.account?.address,
         data?.id.toString() as string,
@@ -153,7 +153,7 @@ alert(data?.id)
             <span>Listed Price</span>
             <div className="price-details">
               <h5>
-                {(parseFloat(nftData.price) /  10**18).toFixed(2)} INJ
+                {(parseFloat(nftData.price) /  10**19).toFixed(2)} INJ
               </h5>
             </div>
           </div>

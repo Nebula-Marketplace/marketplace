@@ -51,7 +51,7 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 data-target="#popup_bid_success"
                                 data-dismiss="modal"
                                 aria-label="Close"
-                                onClick={()=>functionRun(listAmount* 10**18)}
+                                onClick={()=>functionRun(listAmount* 10**19)}
                             >
                                 List Nft
                             </a>

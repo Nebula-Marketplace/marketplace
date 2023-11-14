@@ -11,7 +11,7 @@ const codeID =169;
 const talis_nft = 49;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
 const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
-console.log(process.env.NETWORK)
+console.log(network)
 interface GetTokensResponse { 
     ids: string[]
 }
@@ -85,7 +85,7 @@ export async function fetchListed(exchange: string) {
     let listed = (await api.fetchSmartContractState(exchange, Buffer.from('{"get_listed": {}}', 'binary').toString('base64'))).data;   
     const jsonString = Buffer.from(listed).toString('utf8')
     const listed_tokens: string[] = JSON.parse(jsonString)
- 
+ console.log(listed_tokens)
     return listed_tokens;
 }
 export async function getContractFromExchange(exchange: string) {
@@ -222,7 +222,6 @@ export async function fetchOwnedNfts(address: string) {
     });
 
 contracts = uniqueContracts;
-console.log(uniqueContracts)
 let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
     try{
     let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
@@ -271,7 +270,7 @@ let ownedPromises = uniqueContracts.filter((contract): contract is string => Boo
                     metadata: metadata
                 };
             });
-            return Promise.all(tokenPromises).then(nfts => ({collectionName: contractInfo.name, nfts}));
+            return Promise.all(tokenPromises).then(nfts => ({collectionName: contractInfo.name,contract:nfts[0].collection, nfts}));
         } else {
             return []; // or any other default value
         }

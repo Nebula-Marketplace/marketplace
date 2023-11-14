@@ -121,12 +121,13 @@ const createCollection =async(formData:FormData)=>{
 }
 const claimCollection=async(exchange:string,formData:FormData)=>{
 if(wallet){
+    console.log(pathname)
   const claimMessage=  constructClaimMessage(
         wallet?.account?.address,
         exchange,
 
         { 
-            collection:formData.collectionName,
+            // collection:formData.collectionName,
             banner_uri: displayBannerImage,
         logo_uri: displayImage,
             description: formData.description,
@@ -148,12 +149,13 @@ if(wallet){
         }catch(e){
           console.log(e)
         }
+        // alert("test")
     await broadcast({
         messages: [claimMessage],
         feeAmount: "50000000", 
         gasLimit: "50000000", 
         // memo: "",
-        wallet:recentWallet
+        wallet:wallet
     }).then((result: any) => {
       console.log("Sign result", result);
     })
@@ -178,9 +180,10 @@ const handleSubmit = async(e:any) => {
     const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
     const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),) as ExchangeExistsResponse
     console.log(exchangeExists) 
+    // claimCollection(exchangeExists?.exchange,formData)
     if(collectionOwner==wallet?.account.address){
         if(exchangeExists?.status){
-            alert("exchange exists")
+            // alert("exchange exists")
             claimCollection(exchangeExists?.exchange,formData)
                
         }else{

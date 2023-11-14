@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import ProductCard6 from "../components/card/ProductCardUse";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchListed, fetchOwnedNfts,fetchNft,getMeta} from "@/utils/exchangeApi";
+import { fetchListed, fetchOwnedNfts,fetchNft,getMeta,checkIfExchangeExists} from "@/utils/exchangeApi";
 import useWallet from "@/hooks/useWallet";
 import {replaceBetween} from "@/utils/helperFunctions"
 
 const tabs = ["ALL", "LISTED"];
 
 export default function CollectionDetails(): JSX.Element {
+    interface ExchangeExistsResponse {
+        status: boolean;
+        exchange: string;
+        // include other properties if any
+      }
     const [getCurrentTab, setCurrentTab] = useState<string>("all");
     const [nfts,setNfts] =useState<any[]>([])
     const [listed,setListed]=useState<any[]>([])
@@ -27,41 +32,47 @@ export default function CollectionDetails(): JSX.Element {
         setNfts(dataGet)
         console.log(dataGet)
         const getData:any[] = []
-        // await Promise.all(dataGet.map(async (data) => {
-        //     const getlistedNfts = await fetchListed(data.exchange)
-        //    console.log(getlistedNfts)
-        //     await Promise.all(getlistedNfts.reverse().map(async(dataRes:any) => {
-        //         if(dataRes?.owner == wallet.account.address){
-        //             const getNftMetaData :any= await fetchNft(data.collection,dataRes.id)
-        //             getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
-        //                 let exists = getData.some(item => item.id === dataRes?.id && item.collection === data.collection);
-        //                 if(!exists){
-        //             getData.push({
-        //                 id: dataRes?.id,
-        //                 collection:data.collection,
-        //                 exchange:data.exchange,
-        //                 hert: 10,
-        //                 status: "",
-        //                 img: dataGetRes?.media,
-        //                 auction: 1,
-        //                 title: dataGetRes?.Item,
-        //                 tag: dataGetRes?.string,
-        //                 eth: dataRes?.price,
-        //                 author: { status: "string", name: "string", avatar: "string" },
-        //                 history: true,
-        //                 price:dataRes?.price,
-        //                 type:"listed"
-        //                       })
-        //                     }
-        //             })
+        await Promise.all(dataGet.map(async (data) => {
+            const exchangeExists =await checkIfExchangeExists(data?.contract as string) as ExchangeExistsResponse
+            console.log(exchangeExists) 
+if(exchangeExists.status){
+            const getlistedNfts = await fetchListed(exchangeExists.exchange)
+           console.log(getlistedNfts)
+            await Promise.all(getlistedNfts.reverse().map(async(dataRes:any) => {
+                if(dataRes?.owner == wallet.account.address){
+                    const getNftMetaData :any= await fetchNft(data?.contract as string,dataRes.id)
+                    getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
+                        let exists = getData.some(item => item.id === dataRes?.id && item.collection === data?.contract as string);
+                        if(!exists){
+                    getData.push({
+                        id: dataRes?.id,
+                        collection:data?.contract,
+                        exchange:exchangeExists.exchange,
+                        hert: 10,
+                        status: "",
+                        img: dataGetRes?.media||dataGetRes?.Media,
+                        auction: 1,
+                        title: dataGetRes?.Item,
+                        tag: dataGetRes?.string,
+                        eth: dataRes?.price,
+                        author: { status: "string", name: "string", avatar: "string" },
+                        history: true,
+                        price:dataRes?.price,
+                        type:"listed"
+                              })
+                            }
+                    })
                     
-        //         }
-        //     }))
-        // })).then(() => {
-        //     // Your function here
-        //     console.log(getData)
-        //     setListed(getData)
-        // });
+                }
+            }))
+        }else{
+            Promise.all([])
+        }
+        })).then(() => {
+            // Your function here
+            console.log(getData)
+            setListed(getData)
+        });
 
         
         }
