@@ -40,10 +40,14 @@ if(exchangeExists.status){
            console.log(getlistedNfts)
             await Promise.all(getlistedNfts.reverse().map(async(dataRes:any) => {
                 if(dataRes?.owner == wallet.account.address){
+                    try{
+                    console.log(dataRes)
                     const getNftMetaData :any= await fetchNft(data?.contract as string,dataRes.id)
-                    getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
+                   const dataGetRes =await  getMeta(getNftMetaData?.token_uri as string)
                         let exists = getData.some(item => item.id === dataRes?.id && item.collection === data?.contract as string);
+                        console.log(exists)
                         if(!exists){
+                
                     getData.push({
                         id: dataRes?.id,
                         collection:data?.contract,
@@ -52,7 +56,7 @@ if(exchangeExists.status){
                         status: "",
                         img: dataGetRes?.media||dataGetRes?.Media,
                         auction: 1,
-                        title: dataGetRes?.Item,
+                        title: dataGetRes?.title||dataGetRes?.name,
                         tag: dataGetRes?.string,
                         eth: dataRes?.price,
                         author: { status: "string", name: "string", avatar: "string" },
@@ -61,8 +65,10 @@ if(exchangeExists.status){
                         type:"listed"
                               })
                             }
-                    })
-                    
+                
+                }catch(e){
+                    console.log(e)
+                }
                 }
             }))
         }else{

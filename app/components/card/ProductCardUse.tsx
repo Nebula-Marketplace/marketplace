@@ -42,6 +42,7 @@ export default function ProductCard({data}:any): JSX.Element {
     
     useEffect(()=>{
         if(data){
+            console.log(data)
         setNftData({
             collection:data.collection,
             exchange:data.exchange,
@@ -50,7 +51,7 @@ export default function ProductCard({data}:any): JSX.Element {
             status: "",
             img: data?.img,
             auction: 1,
-            title: data?.metadata?.title,
+            title: data?.metadata?.title||data?.metadata?.name,
             tag: data?.string,
             price: data?.price||"",
             author: { status: "string", name: "string", avatar: "string" },
@@ -87,20 +88,16 @@ export default function ProductCard({data}:any): JSX.Element {
           console.log(getMessage)
     
     const messages = getMessage
-    try{
+    
     const response: any = await simulate({
       messages,
       wallet,
     });
     console.log(response)
-    }catch(e){
-      console.log(e)
-    }
-    
       await broadcast({
               messages: getMessage,
               feeAmount: "50000000", 
-              gasLimit: "50000000", 
+              gasLimit: "50000000",  
               // memo: "",
               wallet:recentWallet
           }).then((result: any) => {
@@ -175,7 +172,7 @@ export default function ProductCard({data}:any): JSX.Element {
                             alt="Image"
                         />
                     {/* </Link> */}
-                    <div className="button-place-bid">
+                    {(!data?.isListed&&nftData?.type!="listed")&&<div className="button-place-bid">
                         <a
                             data-bs-toggle="modal"
                             data-bs-target="#popup_bid"
@@ -184,7 +181,7 @@ export default function ProductCard({data}:any): JSX.Element {
                         >
                             <span>{nftData?.type=="listed"?"Delist":"List"}</span>
                         </a>
-                    </div>
+                    </div>}
                     {nftData.status !== "" && (
                         <div className="coming-soon">coming soon</div>
                     )}
@@ -209,7 +206,7 @@ export default function ProductCard({data}:any): JSX.Element {
        
                         <div className="info">
                             <span>Creator</span>
-                            <h6> {nftData?.title}</h6>
+                            <h6> {data?.title||nftData?.title}</h6>
                             {/* <h6>
                                 <Link href="/authors-2">
                                 </Link>
@@ -223,7 +220,7 @@ export default function ProductCard({data}:any): JSX.Element {
                     <div className="price">
                         <span>Listed Price</span>
                         <div className="price-details">
-                            <h5>{(parseFloat(nftData.price)/ 10**19).toFixed(2)} INJ</h5>
+                            <h5>{(parseFloat(data.price)/ 10**19).toFixed(2)} INJ</h5>
 
                         </div>
                     </div>

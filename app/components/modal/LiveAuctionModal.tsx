@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Grid, Modal } from "@mui/material";
 export default function LiveAuctionModal({show,handleShow,type,functionRun}:any): JSX.Element {
-   const [listAmount,setListAmount] = useState<number>(1)
+   const [listAmount,setListAmount] = useState<any>(1)
     return (
         <>
                         <Modal
@@ -41,7 +41,7 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 className="form-control"
                                 placeholder="00.00 INJ"
                                 value={listAmount}
-                                onChange={(e)=>setListAmount(Math.abs(Number(e.target.value)))}
+                                onChange={(e)=>setListAmount(e.target.value)}
                             />
 
                             <div className="hr" />
@@ -51,7 +51,7 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 data-target="#popup_bid_success"
                                 data-dismiss="modal"
                                 aria-label="Close"
-                                onClick={()=>functionRun(listAmount* 10**19)}
+                                onClick={()=>functionRun(Math.abs(Number(listAmount))* 10**18)}
                             >
                                 List Nft
                             </a>
