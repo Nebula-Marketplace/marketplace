@@ -211,7 +211,7 @@ export async function constructTransferMessage(
 ) {
 
     let message = {
-        "transfer": {
+        "transfer_nft": {
             token_id: token_id,
             recipient: recipient
         }
