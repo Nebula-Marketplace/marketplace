@@ -40,6 +40,56 @@ export default function HeroSlider1(): JSX.Element {
                         <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
+                                    <div className="ibthemes-container flex">
+                                        <div className="image three">
+                                        <Image
+                                height={400}
+                                width={400}
+                                src="/assets/images/collections/hobos/cover.jpeg"
+                                alt="Image"/>     
+                                            <Image
+                                                height={460}
+                                                width={705}
+                                                className="img-bg"
+                                                src="/assets/images/backgroup-secsion/img-bg-sliderhome3.png"
+                                                alt="Image"
+                                            />
+                                        </div>
+                                        <div className="wrap-heading flat-slider h3 three">
+                                            <h2 className="heading">
+                                                Featured Project
+                                            </h2>
+
+                                            <h1 className="heading">
+                                                <span
+                                                    className={`tf-text ${
+                                                        isDark ? "s1" : "style"
+                                                    }`}
+                                                >
+                                                    Hobos{" "}
+                                                </span>
+
+                                            </h1>
+                                            <p className="sub-heading mt-29 mb-35">
+                                            5,000 Rail Ridin' Hobos who know you're eyeing their bindle.
+                                            </p>
+                                            <div className="flat-bt-slider flex style2">                
+                                <Link
+                                    href="/launchpad/inj1uppxsg2c2e9y6xptx0kzxkwllq54vthtzxd8r4"
+                                    className="sc-button header-slider style style-1 note fl-button pri-1"
+                                >
+                                    <span>Mint</span>
+                                </Link>
+                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* item*/}
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <div className="swiper-slide">
+                                <div className="slider-item">
                                     <div className="ibthemes-container">
                                         <div className="wrap-heading flat-slider text-center two">
                                             <h2 className="heading">

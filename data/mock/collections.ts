@@ -21,7 +21,7 @@ export const collections: Collection[] = [
     },
     {
         Name:"Hobos",
-        ContractAddress: "inj1latnmww2mn8rtnxmgn8djuuwjphv00cs5epmy5",
+        ContractAddress: "inj1uppxsg2c2e9y6xptx0kzxkwllq54vthtzxd8r4",
         Symbol:"HOBO",
         Supply: 5000,
         Metadata: {
