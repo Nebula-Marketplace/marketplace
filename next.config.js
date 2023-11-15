@@ -6,7 +6,7 @@ const nextConfig = {
     },
     styledComponents: true,
     images: {
-        domains: ['pbs.twimg.com']
+        domains: ['pbs.twimg.com', "i.imgur.com", "ipfs.io"]
     }
 };
 
