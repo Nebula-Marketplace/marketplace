@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 interface Props {
     data: {
+        candyMachine: string;
         collection: CollectionContract;
         activePhase: Phase;
     }
@@ -48,8 +49,7 @@ export default function MintModal({ data }: Props): JSX.Element {
               });
         }
         else {
-        let contract = data.collection.data.contract;
-        let msg = await constructAndBroadcastMint(wallet,contract,parseInt((data.activePhase.price).toString()), total);
+        let msg = await constructAndBroadcastMint(wallet,data.candyMachine,parseInt((data.activePhase.price).toString()), total);
         console.log(msg)
         try {
             let response = await simulate({

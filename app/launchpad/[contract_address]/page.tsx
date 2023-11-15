@@ -37,6 +37,7 @@ export default async function Page({
     const collection = await getCollectionContract(contract_address);
     const active = await getActivePhase(contract_address);
     let obj = {
+        candyMachine:contract_address,
         collection:collection,
         activePhase:active
     }    
