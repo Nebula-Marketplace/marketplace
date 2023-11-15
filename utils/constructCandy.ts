@@ -3,9 +3,9 @@ import {InstantiateCandy, Phase, RoyaltyInfo, MintMsg, Verifier} from "@/data/ty
 import { sign } from "crypto";
 import {useMemo} from "react";
 
-const url = process.env.NEXT_WEB3_INJECTIVE_URL || "https://lcd.injective.network";
-const cm_code_id = process.env.EXCHANGE_CODE_ID || "133";
-const verifier: Verifier = JSON.parse(process.env.verifier ? process.env.verifier : '{"private_key": "", "address": ""}');
+const url = process.env.NEXT_WEB3_INJECTIVE_URL ?? "https://lcd.injective.network";
+const cm_code_id = process.env.EXCHANGE_CODE_ID ?? "133";
+const verifier: Verifier = JSON.parse(process.env.verifier ?? '{"private_key": "", "address": ""}');
 
 export function constructInstantiateMessage(admin: string, collection: InstantiateCandy) {
     return new MsgInstantiateContract({
