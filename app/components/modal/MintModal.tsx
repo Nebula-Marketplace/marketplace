@@ -21,29 +21,7 @@ export default function MintModal({ data }: Props): JSX.Element {
     const wallet = useWallet();
     const {broadcast, simulate} = useShuttle();
     let [total,settotal] = useState(0);
-    
-    function getCurrentPhase() {
-        const phases = [
-            { name: 'OG', start: 1699207200, end: 1699210800, price: 500000000000000000 },
-            { name: 'VIP', start: 1699210800, end: 1699214400, price: 600000000000000000 },
-            { name: 'Whitelist', start: 1699214400, end: 1699218000, price: 600000000000000000 },
-            { name: 'Public', start: 1699218000, end: 9223372036854775807, price: 700000000000000000 }
-        ];
-        const now = Math.floor(Date.now() / 1000); // current timestamp in seconds
-    
-        for (let i = 0; i < phases.length; i++) {
-            const phase = phases[i];
-            if (now >= phase.start && now < phase.end) {
-                return {
-                    endTime: phase.end,
-                    price: phase.price,
-                    phase: phase.name
-                };
-            }
-        }
-    
-        return null; // return null if no current phase is found
-    }
+
     async function mint(){
         if(!wallet.account) {
             toast.error("Wallet Not Connected", {

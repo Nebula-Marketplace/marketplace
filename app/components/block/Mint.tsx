@@ -4,7 +4,7 @@ import ItemDetailsTab from "../element/ItemDetailsTab";
 import Countdown from "react-countdown";
 import Link from "next/link";
 import { CollectionContract, Phase } from "@/data/types/Contract";
-
+import useWallet from "@/hooks/useWallet";
 import {Collection} from "@/data/types/Collection";
 import { getActivePhase } from "@/data/external/injective-api";
 
@@ -16,8 +16,21 @@ interface Props {
 }
 
 export default function Mint({ data }: Props): JSX.Element {
+    const wallet = useWallet();
 
-
+    function isWhitelist(){ 
+        try{
+            if(wallet) {
+                if(data.activePhase.allowed.includes(wallet.account.address)) 
+                { return true;}
+            return false;
+            }
+        }
+        catch(e){
+            return false;
+        }
+    }
+    
     const renderer = ({
         days,
         hours,
@@ -41,6 +54,7 @@ export default function Mint({ data }: Props): JSX.Element {
             );
         }
     };
+
     // Usage:
    
     return (
@@ -104,7 +118,11 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 <li>
                                                     <span>Supply :</span>
                                                     <h6>{data.collection.data.supply}</h6>
-                                                </li>                                                     
+                                                </li>
+                                                <li>
+                                                    <span>Minted :</span>
+                                                    <h6>{data.collection.data.minted ?? "?"} / {data.collection.data.supply}</h6>
+                                                </li>                                                             
                                             </ul>
                                         </div>
                                         <div className="item-style-2">
@@ -144,13 +162,21 @@ export default function Mint({ data }: Props): JSX.Element {
                                             </div>
                                         </div>
                                     </div>
-                                    <a
+
+                                    {
+                                        isWhitelist() ? <a
                                         data-bs-toggle="modal"
                                         data-bs-target="#popup_bid"
                                         className="sc-button loadmore style bag fl-button pri-3"
                                     >
                                         <span>Mint</span>
-                                    </a>
+                                    </a>:
+                                        <div className="sc-button fl-button pri-3">
+                                            <span>Not In Allowlist</span>
+                                        </div> 
+                                        
+                                    }
+                                  
                                 </div>
                             </div>
                         </div>

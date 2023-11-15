@@ -38,6 +38,7 @@ export interface CollectionContract {
     logo_uri: string;
     banner_uri: string;
     supply: number;
+    minted?: number;
     phases: Phase[];
     }
 }
