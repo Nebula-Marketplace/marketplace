@@ -43,9 +43,10 @@ export default function HeroSlider1(): JSX.Element {
                                     <div className="ibthemes-container flex">
                                         <div className="image three">
                                         <Image
+                                        className="featured-image"
                                 height={400}
                                 width={400}
-                                src="/assets/images/collections/hobos/cover.jpeg"
+                                src="/assets/images/collections/hobos/cover.png"
                                 alt="Image"/>     
                                             <Image
                                                 height={460}

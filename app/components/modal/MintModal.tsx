@@ -45,13 +45,29 @@ export default function MintModal({ data }: Props): JSX.Element {
         return null; // return null if no current phase is found
     }
     async function mint(){
+        if(!wallet.account) {
+            toast.error("Wallet Not Connected", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        }
+        else {
         let contract = data.collection.data.contract;
         let msg = await constructAndBroadcastMint(wallet,contract,parseInt((data.activePhase.price).toString()), total);
+        console.log(msg)
         try {
             let response = await simulate({
                 messages:msg.msgs,
                 wallet:wallet
             });
+
+            console.log(response);
 
             broadcast({
                 wallet: wallet,
@@ -88,7 +104,7 @@ export default function MintModal({ data }: Props): JSX.Element {
               });
 
         }catch(e){ console.log(e)}
-            
+    }
        
     };
 
@@ -127,7 +143,7 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <input
                                 type="text"
                                 className="form-control quantity"
-                                onChange={e=> settotal(Number(e.target.value)*(data.activePhase.price))}
+                                onChange={e=> settotal(Number(e.target.value))}
                             />
                             <div className="hr" />
                             <div className="d-flex justify-content-between">
@@ -139,7 +155,7 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <div className="d-flex justify-content-between">
                                 <p> Total Amount:</p>
                                 <p className="text-right price color-popup">
-                                    {total/ 10**18} INJ
+                                    {((total*data.activePhase.price)*1.03)/ 10**18} INJ
                                 </p>
                             </div>
                             <button

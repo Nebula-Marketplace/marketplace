@@ -2659,6 +2659,10 @@ section.today-picks {
     max-width: 100%;
 }
 
+.featured-image {
+    border-radius: 5%;
+}
+
 .flat-title-page .bgr-gradient {
     display: none;
 }
