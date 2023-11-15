@@ -35,6 +35,18 @@ export default function MintModal({ data }: Props): JSX.Element {
                 theme: "light",
               });
         }
+        else if (total > data.activePhase.allocation) {
+            toast.error("Quantity Exceeds Maximum", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+        }
         else {
         let contract = data.collection.data.contract;
         let msg = await constructAndBroadcastMint(wallet,contract,parseInt((data.activePhase.price).toString()), total);
