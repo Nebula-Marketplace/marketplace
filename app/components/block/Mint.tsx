@@ -163,9 +163,20 @@ export default function Mint({ data }: Props): JSX.Element {
                                         </div>
                                     </div>
 
-                                    <div className="sc-button fl-button pri-3">
+                                    {
+                                        isWhitelist() ? <a
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#popup_bid"
+                                        className="sc-button loadmore style bag fl-button pri-3"
+                                    >
+                                        <span>Mint</span>
+                                    </a>:
+                                        <div className="sc-button fl-button pri-3">
                                             <span>Not In Allowlist</span>
                                         </div> 
+                                        
+                                    }
+                                  
                                 </div>
                             </div>
                         </div>
