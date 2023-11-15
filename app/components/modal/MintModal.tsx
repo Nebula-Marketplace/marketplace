@@ -127,13 +127,13 @@ export default function MintModal({ data }: Props): JSX.Element {
                             <input
                                 type="text"
                                 className="form-control quantity"
-                                onChange={e=> settotal(Number(e.target.value)*(getCurrentPhase()?.price??600000000000000000))}
+                                onChange={e=> settotal(Number(e.target.value)*(data.activePhase.price))}
                             />
                             <div className="hr" />
                             <div className="d-flex justify-content-between">
                                 <p> Phase Price</p>
                                 <p className="text-right price color-popup">
-                                    {(getCurrentPhase()?.price??600000000000000000)/ 10**18} INJ
+                                    {(data.activePhase.price)/ 10**18} INJ
                                 </p>
                             </div>
                             <div className="d-flex justify-content-between">
