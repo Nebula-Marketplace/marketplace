@@ -43,7 +43,7 @@ export function constructAndBroadcastMint(wallet:WalletConnection, contract: str
                 msg: {
                     mint: {signature:"minting"}
                 },
-                funds: [{"amount": (price + (price * 0.03)).toString(), "denom": "inj"}]
+                funds: [{"amount": (price + (price * 0.035)).toString(), "denom": "inj"}]
             });
 
             msgs.push(m);
