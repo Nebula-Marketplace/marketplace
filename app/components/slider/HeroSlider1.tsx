@@ -37,7 +37,7 @@ export default function HeroSlider1(): JSX.Element {
                             });
                         }}
                     >
-                        <SwiperSlide>
+                        {/* <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
                                     <div className="ibthemes-container flex">
@@ -85,9 +85,8 @@ export default function HeroSlider1(): JSX.Element {
                                         </div>
                                     </div>
                                 </div>
-                                {/* item*/}
                             </div>
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                         <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
