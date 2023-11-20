@@ -126,16 +126,22 @@ if(wallet){
         wallet?.account?.address,
         exchange,
 
-        { 
-            // collection:formData.collectionName,
+        {
+            collection: formData.collectionName,
             banner_uri: displayBannerImage,
-        logo_uri: displayImage,
+            logo_uri: displayImage,
             description: formData.description,
-            basis_points: formData.basisPoints*100, // 100 == 1% royalty
+            basis_points: formData.basisPoints * 100,
             creators: [{
                 share: 100,
                 address: wallet?.account.address
-            }]}
+            }],
+            website: formData.websiteURL,
+            contact: formData.contactEmail,
+            twitter: formData.twitterHandle,
+            telegram: formData.telegramURL,
+            discord: formData.discordURL,
+        }
     )
     try{
         console.log(claimMessage)

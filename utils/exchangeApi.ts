@@ -220,21 +220,18 @@ export async function fetchOwnedNfts(address: string) {
         return {contract:get_contract,exchange:data_contract};
     });
     contracts = await Promise.all(contractPromises);
-    let uniqueContracts = Array.from(new Set(code49Nfts.map(contract => contract)))
-    .map(contract => {
+    let uniqueContracts = Array.from(new Set(code49Nfts.map(contract => contract))).map(contract => {
         return code49Nfts.find(c => c === contract)
     });
 
-contracts = uniqueContracts;
-let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
+    contracts = uniqueContracts;
+    let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
     try{
-    let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
-
+        let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
         let tokens: GetTokensResponse = { ids: [] };
         let last_id: string | undefined="";
         
         do {
-
             let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
         
             const jsonString = Buffer.from(data).toString('utf8')
@@ -293,5 +290,7 @@ let ownedPromises = uniqueContracts.filter((contract): contract is string => Boo
     });
 
     let owned = await Promise.all(ownedPromises);
+    console.log(owned.flat())
+    console.log("HELLO")
     return owned.flat(); // flatten the array of arrays
 }

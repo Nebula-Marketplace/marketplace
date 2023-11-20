@@ -46,7 +46,7 @@ export default function Page(): JSX.Element {
         if(exchanges){
          console.log(exchanges)
          exchanges.map((data)=>{
-            fetchListed(data).then(dataGet =>{ setListed([...exchanges,...dataGet])
+            fetchListed(data).then(dataGet => { setListed([...exchanges,...dataGet])
                 console.log(dataGet)
             })
                 .catch(error => console.error(error));
@@ -58,7 +58,7 @@ export default function Page(): JSX.Element {
     return (
         <>
             <Breadcrumb data={item} />
-           {exchanges?.length>0&& <Explorer exchanges={exchanges} listedNfts={listed}/>}
+           {exchanges?.length>0 && <Explorer exchanges={exchanges} listedNfts={listed}/>}
         </>
     );
 }

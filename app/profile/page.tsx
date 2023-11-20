@@ -79,10 +79,10 @@ if(exchangeExists.status){
             console.log(getData)
             setListed(getData)
         });
-
-        
         }
+        console.log("HELLO")
         getNfts()
+        console.log("HELLO")
         }
     },[wallet])
     

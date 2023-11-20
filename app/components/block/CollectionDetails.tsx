@@ -9,6 +9,41 @@ import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "
 
 const tabs = ["ALL", "LISTED"];
 
+interface Token {
+    id: string,
+    collection: string,
+    exchange: string,
+    hert: number,
+    status: string,
+    img: string,
+    auction: number,
+    title: string,
+    tag: string,
+    eth: string,
+    author: { status: string, name: string, avatar: string },
+    history: boolean,
+    price: string,
+    type:string 
+}
+
+function removeDuplicatesById(items: Token[]): Token[] {
+    const seenIds: Set<string> = new Set();
+    const duplicateIds: Set<string> = new Set();
+    
+    return items.filter(item => {
+        if (seenIds.has(item.id)) {
+            // Duplicate id, filter it out and mark as duplicate
+            duplicateIds.add(item.id);
+            return false;
+        } else {
+            // Not a duplicate, add it to the set and include it in the result
+            seenIds.add(item.id);
+            return true;
+        }
+    }).filter(item => !duplicateIds.has(item.id));
+}
+
+
 export default function CollectionDetails(): JSX.Element {
     const [getCurrentTab, setCurrentTab] = useState<string>("all");
     const [collectionData, setcollectionData] = useState<any>();
@@ -27,34 +62,30 @@ export default function CollectionDetails(): JSX.Element {
             console.log(obj)
             setcollectionData(obj)
     
-            const getData:any[] = []
-            await Promise.all(obj.listed.reverse().map(async(dataRes:any) => {
-                const getNftMetaData: any= await fetchNft(obj.contract,dataRes.id)
+            const getData: Token[] = []
+            await Promise.all(obj.listed.map(async(dataRes:any) => {
+                const getNftMetaData: any = await fetchNft(obj.contract, dataRes.id)
                 getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
-                    console.log()
-                    let exists = getData.some(item => item.id === dataRes?.id && item.collection === obj.contract);
-                    if(!exists){
-                        getData.push({
-                            id: dataRes?.id,
-                            collection:obj.contract,
-                            exchange:obj.exchange,
-                            hert: 10,
-                            status: "",
-                            img: dataGetRes?.media || dataGetRes?.Media,
-                            auction: 1,
-                            title: dataGetRes?.Item,
-                            tag: dataGetRes?.string,
-                            eth: dataRes?.price,
-                            author: { status: "string", name: "string", avatar: "string" },
-                            history: true,
-                            price:dataRes?.price,
-                            type:"listed"
-                        })
-                    }
+                    getData.push({
+                        id: dataRes?.id,
+                        collection:obj.contract,
+                        exchange:obj.exchange,
+                        hert: 10,
+                        status: "",
+                        img: dataGetRes?.media || dataGetRes?.Media,
+                        auction: 1,
+                        title: dataGetRes?.Item,
+                        tag: dataGetRes?.string,
+                        eth: dataRes?.price,
+                        author: { status: "string", name: "string", avatar: "string" },
+                        history: true,
+                        price:dataRes?.price,
+                        type:"listed"
+                    })
                 })
             })).then(() => {
-                console.log(getData)
-                setListed(getData)
+                console.log(removeDuplicatesById(getData))
+                setListed(removeDuplicatesById(getData))
             });
         })
     }

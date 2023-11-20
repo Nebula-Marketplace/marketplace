@@ -59,12 +59,17 @@ export interface RoyaltyInfo {
 }
 
 export interface ClaimCollectionMsg {
-    // collection:null | String; // I would make these optional but they wouldnt show up in the message, thus causing an error.
+    collection: null | String; // I would make these optional but they wouldnt show up in the message, thus causing an error.
     banner_uri: null | String;
     logo_uri: null | String;
     description: null | String;
     basis_points: null | number; // 100 == 1% royalty
-    creators: null | Array<RoyaltyInfo>
+    creators: null | Array<RoyaltyInfo>;
+    website: null | String;
+    discord: null | String;
+    twitter: null | String;
+    telegram: null | String;
+    contact: null | String;
 }
 
 export interface ExecuteWrapperMsg {
