@@ -19,9 +19,7 @@ export default function Brand({ data }: Props): JSX.Element {
                 <Link href="/" rel="home" className="main-logo">
                 <Image
                     id="logo_header"
-                    src={`/assets/images/logo/${
-                    data.isDark ? "nebula_logo_white" : "nebula_logo_white"
-                    }.svg`}
+                    src={`/assets/images/logo/${data.isDark ? "nebula_logo_black" : "nebula_logo_white"}.svg`}
                     alt={data.altTag}
                     width={data.size.width}
                     height={data.size.height}
