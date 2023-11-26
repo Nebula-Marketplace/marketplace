@@ -23,6 +23,7 @@ export default function CollectionCard({ data }: any): JSX.Element {
         banner_uri:dataRes.banner_uri,
         logo_uri:dataRes.logo_uri,
         name:dataRes.collection,
+        flagged: dataRes.flagged,
         exchange:data
       })
       console.log(dataRes)
@@ -84,10 +85,10 @@ export default function CollectionCard({ data }: any): JSX.Element {
   //     // console.log(rundata)
   //   }
   // };
-
+  console.log(collectionData)
   return (
     <>
-         {collectionData?.logo_uri&&    <Link href={`/collections/${collectionData?.exchange}`}>
+         {collectionData?.logo_uri && <Link href={`/collections/${collectionData?.exchange}`}>
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
             <img
@@ -99,8 +100,10 @@ export default function CollectionCard({ data }: any): JSX.Element {
         </div>
         <div className="card-title">
           <h5>
-            <Link href="/item-details-1">{collectionData.title}</Link>
+            <Link href={`/collections/${collectionData?.exchange}`}>{collectionData.name}</Link>
           </h5>
+          {/* {!collectionData.flagged && <span className="flagged">Flagged</span>} */}
+          {/* TODO: Add flag image if collectionData.flagged */}
         </div>
         <div className="meta-info">
                     <div className="author">
@@ -115,8 +118,8 @@ export default function CollectionCard({ data }: any): JSX.Element {
                         <div className="info">
                             <span>Creator</span>
                             <h6>
-                                <Link href="/authors-2">
-                                    {collectionData.collection}
+                                <Link href={`/collections/${collectionData?.exchange}`}>
+                                    {collectionData.name}
                                 </Link>
                             </h6>
                         </div>

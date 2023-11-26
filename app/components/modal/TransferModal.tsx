@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Grid, Modal } from "@mui/material";
-export default function LiveAuctionModal({show,handleShow,type,functionRun}:any): JSX.Element {
-   const [listAmount,setListAmount] = useState<any>(1)
+export default function LiveAuctionModal({showTransferModal,handleTransferModalShow,type,functionRun}:any): JSX.Element {
+   const [transferAddress,setTransferAddress] = useState<any>(1)
     return (
         <>
                         <Modal
-        open={show}
-        onClose={handleShow}
+        open={showTransferModal}
+        onClose={handleTransferModalShow}
         className={"profile-modal"}
       >
                 <div
@@ -20,10 +20,10 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                             data-bs-dismiss="modal"
                             aria-label="Close"
                         >
-                            <span aria-hidden="true" onClick={handleShow}>×</span>
+                            <span aria-hidden="true" onClick={handleTransferModalShow}>×</span>
                         </button>
                         <div className="modal-body space-y-20 pd-40">
-                            <h3>List an Nft</h3>
+                            <h3>Tranfer an Nft</h3>
                             {/* <p className="text-center">
                                 You must bid at least
                                 <span className="price color-popup">
@@ -31,17 +31,15 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 </span>
                             </p> */}
                                <p>
-                                Enter List Amount in INJ.
+                                Reciever 
                               
                             </p>
                             <input
-                                type="number"
-                                step="any"
-                                min="1"
+                                type="text"
                                 className="form-control"
-                                placeholder="00.00 INJ"
-                                value={listAmount}
-                                onChange={(e)=>setListAmount(e.target.value)}
+                                placeholder="random"
+                                value={transferAddress}
+                                onChange={(e)=>setTransferAddress(e.target.value)}
                             />
 
                             <div className="hr" />
@@ -51,9 +49,9 @@ export default function LiveAuctionModal({show,handleShow,type,functionRun}:any)
                                 data-target="#popup_bid_success"
                                 data-dismiss="modal"
                                 aria-label="Close"
-                                onClick={()=>functionRun(Math.abs(Number(listAmount))* 10**18)}
+                                onClick={()=>functionRun(transferAddress)}
                             >
-                                List Nft
+                                Transfer Nft
                             </a>
                         </div>
                     </div>

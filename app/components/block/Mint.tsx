@@ -144,7 +144,6 @@ export default function Mint({ data }: Props): JSX.Element {
                                                 <div className="price">
                                                     <div className="price-box">
                                                         <h5> {(data.activePhase.price)/10**18} INJ</h5>
-                                                        {/* <span>= $14.00</span> */}
                                                     </div>
                                                 </div>
                                             </div>

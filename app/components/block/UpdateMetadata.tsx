@@ -5,12 +5,16 @@ import UploadBanner from "../element/UploadBanner";
 
 import Image from "next/image";
 import {constructInstantiateMessage,constructClaimMessage} from "@/utils/constructMessage"
+import {checkIfExchangeExists,getCollectionOwner} from "@/utils/exchangeApi"
 import useWallet from "@/hooks/useWallet";
 import { useShuttle } from "@delphi-labs/shuttle-react";
 import { usePathname } from "next/navigation";
 export default function UpdateMetadata() {
     interface FormData {
         collectionName: string;
+        symbol: string;
+        supply: number;
+        basisPoints:number;
         websiteURL: string;
         contactEmail: string;
         description: string;
@@ -18,7 +22,12 @@ export default function UpdateMetadata() {
         telegramURL: string;
         discordURL: string;
     }
-    
+    interface ExchangeExistsResponse {
+        status: boolean;
+        exchange: string;
+        // include other properties if any
+      }
+      
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [getSelectCover, setSelectCover] = useState<number | null>(null);
@@ -27,12 +36,16 @@ export default function UpdateMetadata() {
 
     const [formData, setFormData] = useState({
         collectionName: '',
+        symbol: '',
+        supply: 100,
+        basisPoints:100,
         websiteURL: '',
         contactEmail: '',
         description: '',
         twitterHandle: '',
         telegramURL: '',
-        discordURL: ''
+        discordURL: '',
+        
     });
     const wallet  = useWallet();
     const pathname = usePathname();
@@ -63,17 +76,17 @@ export default function UpdateMetadata() {
     };
     const { connect,sign,recentWallet, simulate,broadcast  } = useShuttle();
 
-const createCollection =async()=>{
+const createCollection =async(formData:FormData)=>{
   const getData =  constructInstantiateMessage(
         wallet?.account?.address,
-         "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
-         "TEST NFTS",
-         "TTT",
-         100,
-         650,
+        pathname.replace("/collections/claim/",""),
+        formData.collectionName,
+        formData.symbol,
+        formData.supply,
+        formData.basisPoints*100,
          [{
             "share": 100,
-            "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
+            "address": wallet?.account?.address,
         }],
     )
     try{
@@ -106,19 +119,29 @@ const createCollection =async()=>{
     });
     
 }
-const claimCollection=async(formData:FormData)=>{
+const claimCollection=async(exchange:string,formData:FormData)=>{
 if(wallet){
+    console.log(pathname)
   const claimMessage=  constructClaimMessage(
         wallet?.account?.address,
-        pathname.replace("/collections/claim/",""),
-        { banner_uri: displayBannerImage,
-        logo_uri: displayImage,
+        exchange,
+
+        {
+            collection: formData.collectionName,
+            banner_uri: displayBannerImage,
+            logo_uri: displayImage,
             description: formData.description,
-            basis_points: 100, // 100 == 1% royalty
+            basis_points: formData.basisPoints * 100,
             creators: [{
                 share: 100,
                 address: wallet?.account.address
-            }]}
+            }],
+            website: formData.websiteURL,
+            contact: formData.contactEmail,
+            twitter: formData.twitterHandle,
+            telegram: formData.telegramURL,
+            discord: formData.discordURL,
+        }
     )
     try{
         console.log(claimMessage)
@@ -132,18 +155,19 @@ if(wallet){
         }catch(e){
           console.log(e)
         }
-    // await broadcast({
-    //     messages: [claimMessage],
-    //     feeAmount: "50000000", 
-    //     gasLimit: "50000000", 
-    //     // memo: "",
-    //     wallet:recentWallet
-    // }).then((result: any) => {
-    //   console.log("Sign result", result);
-    // })
-    // .catch((error:any) => {
-    //   console.error("Sign error", error);
-    // }); 
+        // alert("test")
+    await broadcast({
+        messages: [claimMessage],
+        feeAmount: "50000000", 
+        gasLimit: "50000000", 
+        // memo: "",
+        wallet:wallet
+    }).then((result: any) => {
+      console.log("Sign result", result);
+    })
+    .catch((error:any) => {
+      console.error("Sign error", error);
+    }); 
 }
 }
 
@@ -155,10 +179,28 @@ const handleChange = (e:any) => {
     });
 };
 
-const handleSubmit = (e:any) => {
+const handleSubmit = async(e:any) => {
     e.preventDefault();
-    console.log("tets")
-    claimCollection(formData);
+    console.log("tets1")
+    
+    const collectionOwner = await getCollectionOwner(pathname.replace("/collections/claim/",""))
+    const exchangeExists =await checkIfExchangeExists(pathname.replace("/collections/claim/",""),) as ExchangeExistsResponse
+    console.log(exchangeExists) 
+    // claimCollection(exchangeExists?.exchange,formData)
+    if(collectionOwner==wallet?.account.address){
+        if(exchangeExists?.status){
+            // alert("exchange exists")
+            claimCollection(exchangeExists?.exchange,formData)
+               
+        }else{
+            alert("exchange doesn't exists")
+
+            createCollection(formData) 
+        }
+    }else{
+    alert("You don't own this collections")
+    }
+    // claimCollection(formData);
 };
 
     return (
@@ -204,6 +246,46 @@ const handleSubmit = (e:any) => {
                                                     placeholder="Nebula NFTs"
                                                     name="collectionName"
                                                     required
+                                                    onChange={handleChange}
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                Symbol
+                                                </h4>
+                                              
+                                                <input
+                                                    type="text"
+                                                    placeholder="NEBULA"
+                                                    name="symbol"
+                                                    required
+                                                    onChange={handleChange}
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                   Supply  
+                                                </h4>
+                                              
+                                                <input
+                                                    type="number"
+                                                    placeholder="50000"
+                                                    name="supply"
+                                                    required
+                                                    onChange={handleChange}
+                                                />
+                                            </fieldset>
+                                            <fieldset>
+                                                <h4 className="title-infor-account">
+                                                    Royalty %
+                                                </h4>
+                                                <input
+                                                    type="number"
+                                                    placeholder="100"
+                                                    step="any"
+                                                    name="basisPoints"
+                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -214,20 +296,11 @@ const handleSubmit = (e:any) => {
                                                     type="text"
                                                     placeholder="https://collection.info"
                                                     name="websiteURL"
-                                                    required
+                                                    onChange={handleChange}
+                                                    
                                                 />
                                             </fieldset>
-                                            <fieldset>
-                                                <h4 className="title-infor-account">
-                                                    Royalty Fee 100=1%
-                                                </h4>
-                                                <input
-                                                    type="number"
-                                                    placeholder="100"
-                                                    name="basisPoints"
-                                                    required
-                                                />
-                                            </fieldset>
+                                          
                                             <fieldset>
                                                 <h4 className="title-infor-account">
                                                     Contact Email
@@ -236,7 +309,8 @@ const handleSubmit = (e:any) => {
                                                     type="email"
                                                     placeholder="Contact email"
                                                     name="email"
-                                                    required
+                                                    onChange={handleChange}
+                                                    
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -252,7 +326,7 @@ const handleSubmit = (e:any) => {
                                                         [e.target.name]: e.target.value
                                                     })}
                                                     rows={5}
-                                                    required
+                                                    
                                                     defaultValue={""}
                                                 />
                                             </fieldset>
@@ -268,7 +342,7 @@ const handleSubmit = (e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Twitter (X) Handle"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -278,7 +352,7 @@ const handleSubmit = (e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Telegram URL"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                             <fieldset>
@@ -288,11 +362,18 @@ const handleSubmit = (e:any) => {
                                                 <input
                                                     type="text"
                                                     placeholder="Discord URL"
-                                                    required
+                                                    onChange={handleChange}
                                                 />
                                             </fieldset>
                                         </div>
                                     </div>
+                                    <button
+                                        className="tf-button-submit mg-t-15"
+                                        type="submit"
+                                        // onClick={}
+                                    >
+                                        Create Exchange
+                                    </button>  
                                     <button
                                         className="tf-button-submit mg-t-15"
                                         type="submit"

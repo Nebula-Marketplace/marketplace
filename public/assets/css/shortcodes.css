@@ -1221,6 +1221,7 @@
 .sc-card-product.explode .price .price-details h5 {
     margin-top: 0;
     margin-right: 8px;
+    color: black;
 }
 
 .sc-card-product .card-media .button-place-bid {
