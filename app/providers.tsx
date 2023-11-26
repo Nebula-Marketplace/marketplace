@@ -119,7 +119,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 mobileProviders={mobileProviders}
                 extensionProviders={extensionProviders}
                 persistent
-      persistentKey={"shuttle-v2"}
+                persistentKey={"shuttle-v2"}
             >
               <Provider store={store}>
                     {children}

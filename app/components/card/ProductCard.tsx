@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getContractFromExchange, fetchNft } from "@/utils/exchangeApi";
-
+import { pitcher } from "@/utils/exchangeApi";
 import { constructBuyMessage } from "@/utils/constructMessage";
 
 import axios from "axios";
 import { useShuttle } from "@delphi-labs/shuttle-react";
 import useWallet from "@/hooks/useWallet";
+import { error } from "console";
 interface Props {
   data: {
     id: number;
@@ -47,15 +48,20 @@ export default function ProductCard({ data }: Props): JSX.Element {
   const buyNFT = async () => {
     if (recentWallet) {
       console.log("test");
-alert(data?.id)
+// alert(data?.id)
       const getMessage = await constructBuyMessage(
         wallet.account?.address,
         data?.id.toString() as string,
         data?.exchange
-      );
+      ) ?? pitcher("Could not construct Buy Message");
       console.log(getMessage);
 
-      const messages = [getMessage];
+      let messages;
+      if (getMessage) {
+        messages = [getMessage];
+      } else {
+        throw new Error("Could not construct Buy Message");
+      }
       try {
         const response: any = await simulate({
           messages,
@@ -92,14 +98,14 @@ alert(data?.id)
     <>
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
-          <Link href="/item-details-1">
+          {/* <Link href="/item-details-1"> */}
             <img
               height={500}
               width={500}
               src={nftData?.img?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Image"
             />
-          </Link>
+          {/* </Link> */}
           <div className="button-place-bid">
             <a
               data-bs-toggle="modal"
@@ -124,7 +130,7 @@ alert(data?.id)
         </div>
         <div className="card-title">
           <h5>
-            <Link href="/item-details-1">{nftData.title}</Link>
+           {nftData.title}
           </h5>
         </div>
         {/* <div className="meta-info">
@@ -153,15 +159,15 @@ alert(data?.id)
             <span>Listed Price</span>
             <div className="price-details">
               <h5>
-                {(parseFloat(nftData.price) /  10**18).toFixed(2)} INJ
+                {(parseFloat(nftData.price) /  10**19).toFixed(2)} INJ
               </h5>
             </div>
           </div>
-          {pathname === "/home-2" || data.history ? (
+          {/* {pathname === "/home-2" || data.history ? (
             <Link href="/activity-1" className="view-history reload">
               View History
             </Link>
-          ) : undefined}
+          ) : undefined} */}
         </div>
       </div>
     </>
