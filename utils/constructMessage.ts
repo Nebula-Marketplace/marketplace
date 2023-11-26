@@ -7,6 +7,7 @@ import {
     ChainGrpcWasmApi,
     QueryResolverAddress
 } from '@injectivelabs/sdk-ts'
+
 const url = "https://lcd.injective.network/";
 const exchange_code_id = "169"
 // const exchange_code_id = "146"
@@ -79,7 +80,7 @@ export async function constructBuyMessage(
    address:string,
     token_id: string,
     contract: string
-) {
+): Promise<MsgExecuteContract> {
     /*
     ToDo:
     - Query the contract for the price of the token
@@ -100,16 +101,19 @@ export async function constructBuyMessage(
     // let data =state_resp.data
     let data = JSON.parse(atob(state_resp.data.models[1].value))
     let bps = data.royalties.seller_fee_basis_points / 10_000;
+    let price_fixed;
     console.log(data.royalties.seller_fee_basis_points)
     console.log(bps)
     console.log(resp.data)
     // for (let i = 0;   i < resp.data.length; i++) {
         // let price_fixed: number = parseInt(resp.data[i].price);
-        let filtered = resp.data.filter((obj: any) => obj.id === token_id);
+        let filtered: Listed[] = resp.data.filter((obj: any) => obj.id === token_id);
 
         let lastPrice;
         if (filtered.length > 0) {
-          lastPrice = filtered[filtered.length - 1];
+          lastPrice = filtered[-1];
+        } else {
+            throw new Error("Token not found");
         }
         if (lastPrice.id == token_id) { 
             /* 
@@ -117,22 +121,26 @@ export async function constructBuyMessage(
                 technically though, token_id is a u16 int, but is stored as a string. 
                 Tread carefully 
             */
-           let price_fixed = parseInt(lastPrice.price)
-           console.log((price_fixed + (price_fixed * bps))/10**19)
-            const message: BuyMsg = {
-                id: token_id
-            }
-            return new MsgExecuteContract({
-                sender: address,
-                contract: contract,
-                msg: {"buy": message},
-                funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
-            })
+            price_fixed = parseInt(lastPrice.price)
+            console.log((price_fixed + (price_fixed * bps))/10**19)
         // }
     }
+    const message: BuyMsg = {
+        id: token_id
+    }
+    if (price_fixed == undefined) {
+        throw new Error("Token not found");
+    }
+    return new MsgExecuteContract({
+        sender: address,
+        contract: contract,
+        msg: {"buy": message},
+        funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
+    })
     }catch(e){
         console.log(e)
     }
+    throw new Error("Token not found")
     }
 
 export async function constructListMessage(

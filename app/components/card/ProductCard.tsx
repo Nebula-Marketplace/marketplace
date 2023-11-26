@@ -10,6 +10,7 @@ import { constructBuyMessage } from "@/utils/constructMessage";
 import axios from "axios";
 import { useShuttle } from "@delphi-labs/shuttle-react";
 import useWallet from "@/hooks/useWallet";
+import { error } from "console";
 interface Props {
   data: {
     id: number;
@@ -55,7 +56,12 @@ export default function ProductCard({ data }: Props): JSX.Element {
       ) ?? pitcher("Could not construct Buy Message");
       console.log(getMessage);
 
-      const messages = [getMessage];
+      let messages;
+      if (getMessage) {
+        messages = [getMessage];
+      } else {
+        throw new Error("Could not construct Buy Message");
+      }
       try {
         const response: any = await simulate({
           messages,
