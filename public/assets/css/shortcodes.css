@@ -4365,7 +4365,6 @@ section.today-picks {
     display: flex;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
-    justify-content: space-between;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
