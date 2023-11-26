@@ -22,24 +22,14 @@ export const Launches: Launch[] = [
         date: "November 5, 2023"
     },
     {
-        id: 2,
-        img: "/assets/images/collections/monki/cover.png",
-        icon: "icon-1",
-        title: "Monki",
-        description: "",
-        type: 1,
-        supply: "TBD",
-        date: "TBD"
-    },
-    {
         id: 3,
         img: "/assets/images/collections/hobos/cover.png",
         icon: "icon-1",
         title: "Hobos",
-        description: "",
+        description: "5,000 Rail Ridin' Hobos who know you're eyeing their bindle.",
         type: 1,
-        date: "TBD",
-        supply: "TBD"
+        date: "November 15, 2023",
+        supply: "5000"
     },
     {
         id: 4,

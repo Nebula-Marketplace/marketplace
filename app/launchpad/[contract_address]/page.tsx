@@ -6,6 +6,7 @@ import { getCollection } from "@/utils/getCollection";
 import { getActivePhase } from "@/data/external/injective-api";
 import { Collection } from "@/data/types/Collection";
 import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "@/utils/exchangeApi";
+import { getCollectionContract } from "@/utils/getCollectionContract";
 export const metadata: Metadata = {
     title: "Nebula | NFT Marketplace | Launchpad",
 };
@@ -33,14 +34,13 @@ export default async function Page({
 }: {
         params: {contract_address:string}
     }) {
-    const collection = await getCollection(contract_address);
+    const collection = await getCollectionContract(contract_address);
     const active = await getActivePhase(contract_address);
-    
     let obj = {
+        candyMachine:contract_address,
         collection:collection,
         activePhase:active
-    }
-    
+    }    
     return (
         <>
         <Breadcrumb data={item} />

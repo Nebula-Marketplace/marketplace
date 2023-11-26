@@ -37,15 +37,16 @@ export default function HeroSlider1(): JSX.Element {
                             });
                         }}
                     >
-                                                <SwiperSlide>
+                        {/* <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">
                                     <div className="ibthemes-container flex">
                                         <div className="image three">
                                         <Image
+                                        className="featured-image"
                                 height={400}
                                 width={400}
-                                src="/assets/images/collections/a5tound/cover.jpeg"
+                                src="/assets/images/collections/hobos/cover.png"
                                 alt="Image"/>     
                                             <Image
                                                 height={460}
@@ -59,23 +60,23 @@ export default function HeroSlider1(): JSX.Element {
                                             <h2 className="heading">
                                                 Featured Project
                                             </h2>
-                                            
+
                                             <h1 className="heading">
                                                 <span
                                                     className={`tf-text ${
                                                         isDark ? "s1" : "style"
                                                     }`}
                                                 >
-                                                    A5tound{" "}
+                                                    Hobos{" "}
                                                 </span>
-    
+
                                             </h1>
                                             <p className="sub-heading mt-29 mb-35">
-                                            For the community. Ran by the community. Brand , Inspired by Fashion , Music , and the 90s
+                                            5,000 Rail Ridin' Hobos who know you're eyeing their bindle.
                                             </p>
                                             <div className="flat-bt-slider flex style2">                
                                 <Link
-                                    href="/launchpad/inj10dwdq2rgp2fcxpsecfc0u7jruurexgwun2tu3s"
+                                    href="/launchpad/inj1sareug2rf5h7cqk0n0x9gh88mx7fcn05acwz84"
                                     className="sc-button header-slider style style-1 note fl-button pri-1"
                                 >
                                     <span>Mint</span>
@@ -84,9 +85,8 @@ export default function HeroSlider1(): JSX.Element {
                                         </div>
                                     </div>
                                 </div>
-                                {/* item*/}
                             </div>
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                         <SwiperSlide>
                             <div className="swiper-slide">
                                 <div className="slider-item">

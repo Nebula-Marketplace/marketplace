@@ -53,10 +53,8 @@ export default function CreateSellNft(): JSX.Element {
                                         </Link>
                                     </h3>
                                     <p className="content">
-                                        Wallet that is functional for NFT
-                                        purchasing. You may have a Coinbase
-                                        account at this point, but very few are
-                                        actually set up to buy an NFT.
+                                        Set up a wallet with Metamask, Leap, Keplr, or Ninji to get started. 
+                                        All are exceptional choices, but do your research to decide which one is best for you.
                                     </p>
                                 </div>
                                 <div className="sc-box-icon">
@@ -94,15 +92,12 @@ export default function CreateSellNft(): JSX.Element {
                                         </svg>
                                     </div>
                                     <h3 className="heading">
-                                        <Link href="/connect-wallet">
+                                        <Link href="https://github.com/Nebula-marketplace">
                                             Create Your Collection
                                         </Link>
                                     </h3>
                                     <p className="content">
-                                        Setting up your NFT collection and
-                                        creating NFTs on NFTs is easy! This
-                                        guide explains how to set up your first
-                                        collection
+                                        Creating an NFT collection on Nebula is easy. You can read more <a href="https://github.com/Nebula-marketplace">here</a>.
                                     </p>
                                 </div>
                                 <div className="sc-box-icon">
@@ -139,9 +134,8 @@ export default function CreateSellNft(): JSX.Element {
                                         </Link>
                                     </h3>
                                     <p className="content">
-                                        Sed ut perspiciatis un de omnis iste
-                                        natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem.
+                                        You can view all injective NFTs in the Nebula profile section. 
+                                        If you can't see your NFT, please contact us on Discord with your wallet address.
                                     </p>
                                 </div>
                                 <div className="sc-box-icon">

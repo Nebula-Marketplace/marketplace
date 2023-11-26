@@ -18,5 +18,23 @@ export const collections: Collection[] = [
             Website:"",
             Atlas3: ""
         }
-    }
+    },
+    {
+        Name:"Hobos",
+        ContractAddress: "inj1uppxsg2c2e9y6xptx0kzxkwllq54vthtzxd8r4",
+        Symbol:"HOBO",
+        Supply: 5000,
+        Metadata: {
+            Banner:"/assets/images/collections/hobos/banner.jpeg",
+            Cover: "/assets/images/collections/hobos/cover.jpeg",
+            Description:"For the community. Ran by the community. Brand , Inspired by Fashion , Music , and the 90s",
+            Logo: "",
+            Discord:"",
+            Twitter:"",
+            Telegram:"",
+            Email:"",
+            Website:"",
+            Atlas3: ""
+        }
+    },
 ]
