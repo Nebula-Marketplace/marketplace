@@ -49,7 +49,7 @@ interface ExchangeStatus {
     contract?: string,
     exchange?: string
 }
-function pitcher(msg: string) {
+export function pitcher(msg: string) {
     /* * throws an error for inline null checks
     */
     throw new Error(msg);

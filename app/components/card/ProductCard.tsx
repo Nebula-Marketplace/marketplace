@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getContractFromExchange, fetchNft } from "@/utils/exchangeApi";
-
+import { pitcher } from "@/utils/exchangeApi";
 import { constructBuyMessage } from "@/utils/constructMessage";
 
 import axios from "axios";
@@ -52,7 +52,7 @@ export default function ProductCard({ data }: Props): JSX.Element {
         wallet.account?.address,
         data?.id.toString() as string,
         data?.exchange
-      );
+      ) ?? pitcher("Could not construct Buy Message");
       console.log(getMessage);
 
       const messages = [getMessage];
