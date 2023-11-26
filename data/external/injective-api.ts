@@ -12,22 +12,20 @@ export async function getUnclaimedCollections() : Promise<Collection[]> {
     for await (const contract of contracts.contracts) {
         let data = await getContractInfoByContractAddress(contract);
         let collection: Collection = {
-            Name: data.data.name, 
-            ContractAddress: contract, 
-            Symbol: data.data.symbol,
-            Supply: 1,
-            Metadata: {
-                Banner: "",
-                Cover:"",
-                Description: "",
-                Logo: "",
-                Discord: "",
-                Twitter: "",
-                Telegram: "",
-                Email: "",
-                Website: "",
-                Atlas3:""
-            }
+            collection: data.data.name,
+            contract: contract,
+            symbol: data.data.symbol,
+            supply: 1,
+            banner_uri: "",
+            logo_uri: "",
+            description: "",
+            discord: "",
+            twitter: "",
+            telegram: "",
+            website: "",
+            creators: [],
+            basis_points: 0,
+            owner: ""
         };
         collections.push(collection)};
     return collections;
