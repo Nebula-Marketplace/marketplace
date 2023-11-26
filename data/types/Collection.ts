@@ -1,20 +1,16 @@
 export interface Collection {
-    Name: string;
-    ContractAddress: string;
-    Symbol: string;
-    Supply: number;
-    Metadata: Metadata;
-}
-
-export interface Metadata {
-    Banner: string;
-    Cover: string;
-    Description: string;
-    Logo: string;
-    Discord: string;
-    Twitter: string;
-    Telegram: string;
-    Email: string;
-    Website: string;
-    Atlas3: string
+    collection: string;
+    contract: string;
+    symbol: string;
+    supply: number;
+    logo_uri: string;
+    banner_uri: string;
+    description: string;
+    creators: any[];
+    basis_points: number;
+    twitter: string;
+    telegram: string;
+    discord: string;
+    website: string;
+    owner: string;
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "@/utils/exchangeApi";
+import { Collection } from "@/data/types/Collection";
 
 const tabs = ["ALL", "LISTED"];
 
@@ -46,7 +47,7 @@ function removeDuplicatesById(items: Token[]): Token[] {
 
 export default function CollectionDetails(): JSX.Element {
     const [getCurrentTab, setCurrentTab] = useState<string>("all");
-    const [collectionData, setcollectionData] = useState<any>();
+    const [collectionData, setcollectionData] = useState<Collection>();
     const [listed, setListed] = useState<any>();
     const pathname = usePathname();
     // tab handler
@@ -92,7 +93,9 @@ export default function CollectionDetails(): JSX.Element {
     getData()
         // fetchNftContractState()
     },[])
-
+    if (collectionData === undefined) {
+        return <div>Loading...</div>
+    }
     return (
         <>
             <section className="tf-section authors">
@@ -134,23 +137,17 @@ export default function CollectionDetails(): JSX.Element {
                             <div className="widget-social style-3">
                                 <ul>
                                     <li>
-                                        <a>
+                                        <a
+                                            href={
+                                                collectionData?.twitter
+                                            }
+                                        >
                                             <i className="fab fa-twitter" />
                                         </a>
                                     </li>
                                     <li className="style-2">
                                         <a>
                                             <i className="fab fa-telegram-plane" />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <i className="fab fa-youtube" />
-                                        </a>
-                                    </li>
-                                    <li className="mgr-none">
-                                        <a>
-                                            <i className="icon-fl-tik-tok-2" />
                                         </a>
                                     </li>
                                 </ul>

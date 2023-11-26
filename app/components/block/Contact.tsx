@@ -7,7 +7,7 @@ export default function Contact(): JSX.Element {
                         <div className="col-12">
                             <div className="flat-form">
                                 <h2 className="tf-title-heading ct style-2 mg-bt-12">
-                                    Drop Up A Message
+                                    Drop Us A Message
                                 </h2>
                                 <h5 className="sub-title ct style-1 pad-0-15">
                                     We are looking forward to hearing from you. Drop us a line and we'll get back to you as soon as possible.
@@ -48,6 +48,7 @@ export default function Contact(): JSX.Element {
                                         <button
                                             type="button"
                                             className="submit"
+                                            disabled
                                         >
                                             Send message
                                         </button>
