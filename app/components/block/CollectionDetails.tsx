@@ -104,7 +104,7 @@ export default function CollectionDetails(): JSX.Element {
                                     height={500}
                                     width={500}
                                     style={{ height: "276px", width: "276px" }}
-                                    src={collectionData?.logo_uri?collectionData?.logo_uri:"/assets/images/avatar/avt-author-tab.jpg"}
+                                    src={collectionData?.logo_uri ? collectionData?.logo_uri : "/assets/images/avatar/avt-author-tab.jpg"}
                                     alt="Image"
                                     className="avatar"
                                 />
@@ -119,12 +119,13 @@ export default function CollectionDetails(): JSX.Element {
                                     <input
                                         type="text"
                                         className="inputcopy"
-                                        defaultValue="DdzFFzCqrhshMSxABCdfrge"
+                                        defaultValue={collectionData?.contract}
                                         readOnly
                                     />
                                     <button
                                         type="button"
                                         className="btn-copycode"
+                                        onClick={() => navigator.clipboard.writeText(collectionData?.contract)}
                                     >
                                         <i className="icon-fl-file-1" />
                                     </button>
@@ -153,14 +154,6 @@ export default function CollectionDetails(): JSX.Element {
                                         </a>
                                     </li>
                                 </ul>
-                                <div className="btn-profile">
-                                    <Link
-                                        href="/login"
-                                        className="sc-button style-1 follow"
-                                    >
-                                        Follow
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                         <ul className="menu-tab flex">
