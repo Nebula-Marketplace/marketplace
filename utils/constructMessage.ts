@@ -9,7 +9,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 
 const url = "https://lcd.injective.network/";
-const exchange_code_id = "214"
+const exchange_code_id = "169"
 // const exchange_code_id = "146"
 const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
 export interface InstantiationKwargs {
