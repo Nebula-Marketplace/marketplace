@@ -89,32 +89,33 @@ export async function constructBuyMessage(
     */
     try{
 
-    let resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
-    resp =resp.data
-    console.log(token_id)
-    // let data = await getExchangeData(contract)
-    // console.log(data)
-    let state_resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/state`);
-    console.log(state_resp)
-    // let data = atob(state_resp.data)
-    // console.log(data)
-    // let data =state_resp.data
-    let data = JSON.parse(atob(state_resp.data.models[1].value))
-    let bps = data.royalties.seller_fee_basis_points / 10_000;
-    let price_fixed;
-    console.log(data.royalties.seller_fee_basis_points)
-    console.log(bps)
-    console.log(resp.data)
-    // for (let i = 0;   i < resp.data.length; i++) {
+        let resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
+        resp = resp.data
+        console.log(token_id)
+        // let data = await getExchangeData(contract)
+        // console.log(data)
+        let state_resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/state`);
+        console.log(state_resp)
+        // let data = atob(state_resp.data)
+        // console.log(data)
+        // let data =state_resp.data
+        let data = JSON.parse(atob(state_resp.data.models[1].value))
+        let bps = data.royalties.seller_fee_basis_points / 10_000;
+        let price_fixed;
+        console.log(data.royalties.seller_fee_basis_points)
+        console.log(bps)
+        console.log(resp.data)
+        // for (let i = 0;   i < resp.data.length; i++) {
         // let price_fixed: number = parseInt(resp.data[i].price);
         let filtered: Listed[] = resp.data.filter((obj: any) => obj.id === token_id);
 
         let lastPrice;
         if (filtered.length > 0) {
-          lastPrice = filtered[-1];
+        lastPrice = filtered[filtered.length - 1];
         } else {
             throw new Error("No tokens found");
         }
+        console.log(lastPrice.id)
         if (lastPrice.id == token_id) { 
             /* 
                 gonna essentially fuzzyfind this in case type is off. 
@@ -123,22 +124,22 @@ export async function constructBuyMessage(
             */
             price_fixed = parseInt(lastPrice.price)
             console.log((price_fixed + (price_fixed * bps))/10**19)
-        // }
-    }
-    const message: BuyMsg = {
-        id: token_id
-    }
-    if (price_fixed == undefined) {
-        throw new Error("Price undefined");
-    }
-    return new MsgExecuteContract({
-        sender: address,
-        contract: contract,
-        msg: {"buy": message},
-        funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
-    })
+        }
+        const message: BuyMsg = {
+            id: token_id
+        }
+        if (price_fixed == undefined) {
+            throw new Error("Price undefined");
+        }
+        return new MsgExecuteContract({
+            sender: address,
+            contract: contract,
+            msg: {"buy": message},
+            funds: [{"denom": "inj", "amount": (price_fixed + (price_fixed * bps)).toString()}],
+        })
     }catch(e){
         console.log(e)
+        console.log(token_id)
     }
     throw new Error("Token not found")
     }
