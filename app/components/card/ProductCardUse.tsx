@@ -306,7 +306,7 @@ export default function ProductCard({ data }: any): JSX.Element {
             <div className="price">
               <span>Listed Price</span>
               <div className="price-details">
-                <h5>{(parseFloat(data.price) / 10 ** 19).toFixed(2)} INJ</h5>
+                <h5>{(parseFloat(data.price) / 10 ** 18).toFixed(2)} INJ</h5>
               </div>
             </div>
           )}

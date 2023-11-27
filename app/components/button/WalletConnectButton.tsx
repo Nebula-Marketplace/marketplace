@@ -7,7 +7,6 @@ import  useWallet from "@/hooks/useWallet";
 // import { init,mint } from "@/utils/nft";
 
 import { useEffect, useState } from "react";
-import {constructListMessage,constructClaimMessage } from "@/utils/constructMessage";
 import useFeeEstimate from "@/utils/useFeeEstimate";
 import {signWasmMsg } from "@/utils/signMessage";
 import {
@@ -29,47 +28,6 @@ export default function WalletConnectButton(): JSX.Element {
 const handleShow=()=>{
   setShow(false)
 }
-  const getData = async () => {
-    if (recentWallet) {
-
-      const getMessage = await constructListMessage(
-        wallet.account?.address,
-        "1",
-        "inj10htqhgf76tnjhqtl968v5e3mue9mldnx0gteg5",
-         "10000000000",
-         "inj1tz7gv5rvgtdv24u5dttszuum593n2ul8stmqhn")
-
-const messages = getMessage
-try{
-const response: any = await simulate({
-  messages,
-  wallet,
-});
-
-}catch(e){
-  console.log(e)
-}
-
-  await broadcast({
-          messages: getMessage,
-          feeAmount: "50000000", 
-          gasLimit: "50000000", 
-          // memo: "",
-          wallet:recentWallet
-      }).then((result: any) => {
-        console.log("Sign result", result);
-      })
-      .catch((error) => {
-        console.error("Sign error", error);
-      });
-      // sign({
-      //   wallet: recentWallet,
-      //   messages: getMessage,
-      //   // mobile: isMobile(),
-      // })
-      // console.log(rundata)
-    
-  }}
 
 //  const clickTestList =() => {
 //     getData()
@@ -80,16 +38,6 @@ const response: any = await simulate({
       extensionProviderId: "keplr",
       chainId: "injective-1",
     });
-    // alert("this")
-
-//     mint(wallet.account?.address,"https://api.majin.rip/nft3.json",{
-//       seller_fee_basis_points: 500,
-//       creators:[{
-//      "primary_sell_happened": true,
-// "address": "inj1dxprjkxz06cpahgqrv90hug9d8z504j52ms07n",
-// "share": 100,
-//   }]})
-    // getData()
   };
     return (
       <>
