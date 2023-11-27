@@ -14,7 +14,6 @@ interface Token {
     id: string,
     collection: string,
     exchange: string,
-    hert: number,
     status: string,
     img: string,
     auction: number,
@@ -46,7 +45,7 @@ function removeDuplicatesById(items: Token[]): Token[] {
 
 
 export default function CollectionDetails(): JSX.Element {
-    const [getCurrentTab, setCurrentTab] = useState<string>("all");
+    const [getCurrentTab, setCurrentTab] = useState<string>("listed");
     const [collectionData, setcollectionData] = useState<Collection>();
     const [listed, setListed] = useState<any>();
     const pathname = usePathname();
@@ -71,7 +70,6 @@ export default function CollectionDetails(): JSX.Element {
                         id: dataRes?.id,
                         collection:obj.contract,
                         exchange:obj.exchange,
-                        hert: 10,
                         status: "",
                         img: dataGetRes?.media || dataGetRes?.Media,
                         auction: 1,

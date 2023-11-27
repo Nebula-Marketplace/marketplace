@@ -92,7 +92,7 @@ export async function constructBuyMessage(
     let resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/smart/${Buffer.from('{"get_listed":{}}').toString('base64')}`);
     resp =resp.data
     console.log(token_id)
-    // let data =await getExchangeData(contract)
+    // let data = await getExchangeData(contract)
     // console.log(data)
     let state_resp = await axios.get(`${url}/cosmwasm/wasm/v1/contract/${contract}/state`);
     console.log(state_resp)

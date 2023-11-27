@@ -119,14 +119,6 @@ export default function ProductCard({ data }: Props): JSX.Element {
           {nftData.status !== "" && (
             <div className="coming-soon">coming soon</div>
           )}
-          <button
-            onClick={heartToggle}
-            className={`wishlist-button heart ${
-              isHeartToggle === 1 ? "active" : ""
-            } `}
-          >
-            <span className="number-like">{nftData.hert + isHeartToggle}</span>
-          </button>
         </div>
         <div className="card-title">
           <h5>
