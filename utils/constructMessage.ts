@@ -113,7 +113,7 @@ export async function constructBuyMessage(
         if (filtered.length > 0) {
           lastPrice = filtered[-1];
         } else {
-            throw new Error("Token not found");
+            throw new Error("No tokens found");
         }
         if (lastPrice.id == token_id) { 
             /* 
@@ -129,7 +129,7 @@ export async function constructBuyMessage(
         id: token_id
     }
     if (price_fixed == undefined) {
-        throw new Error("Token not found");
+        throw new Error("Price undefined");
     }
     return new MsgExecuteContract({
         sender: address,
