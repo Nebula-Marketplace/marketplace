@@ -45,7 +45,7 @@ function removeDuplicatesById(items: Token[]): Token[] {
 
 
 export default function CollectionDetails(): JSX.Element {
-    const [getCurrentTab, setCurrentTab] = useState<string>("listed");
+    const [getCurrentTab, setCurrentTab] = useState<string>("all");
     const [collectionData, setcollectionData] = useState<Collection>();
     const [listed, setListed] = useState<any>();
     const pathname = usePathname();
