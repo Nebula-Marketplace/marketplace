@@ -85,8 +85,9 @@ export default function CollectionDetails(): JSX.Element {
                     })
                 })
             })).then(() => {
-                console.log(removeDuplicatesById(getData))
-                setListed(removeDuplicatesById(getData))
+                // console.log(removeDuplicatesById(getData))
+                // setListed(removeDuplicatesById(getData))
+                setListed(getData)
             });
         })
     }
