@@ -68,6 +68,7 @@ export default function ProductCard({ data }: any): JSX.Element {
         author: { status: "string", name: "string", avatar: "string" },
         history: true,
         type: data?.type || "",
+        listed: data?.isListed,
       });
     }
   }, []);
@@ -228,12 +229,16 @@ export default function ProductCard({ data }: any): JSX.Element {
                 data-bs-target="#popup_bid"
                 className="sc-button style-place-bid style bag fl-button pri-3"
                 onClick={
-                  nftData?.type == "listed"
+                  nftData?.listed
                     ? () => deListNft()
                     : () => setShow(true)
                 }
               >
+<<<<<<< HEAD
                 <span>{nftData?.isListed ? "Delist" : "List"}</span>
+=======
+                <span>{nftData?.listed ? "Delist" : "List"}</span>
+>>>>>>> cf9dbb5 (fix list)
               </a>
             </div>
           )}
@@ -301,7 +306,7 @@ export default function ProductCard({ data }: any): JSX.Element {
         </div>
         Go
         <div className="card-bottom style-explode">
-          {nftData?.type == "listed" && (
+          {nftData?.listed && (
             <div className="price">
               <span>Listed Price</span>
               <div className="price-details">

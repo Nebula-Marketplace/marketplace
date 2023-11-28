@@ -19,7 +19,7 @@ export default function Explore4({exchanges,listedNfts}:any) {
                         </div> */}
                         <div className="col-xl-9 col-lg-9 col-md-12">
                             <div className="box-epxlore">
-                                {collections.slice(0, 15).map((item) => {
+                                {collections.map((item) => {
                                 console.log(item)
                                 return(
                                     <div
