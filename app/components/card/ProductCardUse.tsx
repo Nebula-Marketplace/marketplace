@@ -57,7 +57,6 @@ export default function ProductCard({ data }: any): JSX.Element {
       console.log(data);
       setNftData({
         collection: data.collection,
-        exchange: data.exchange,
         id: data?.id,
         status: "",
         img: data?.img,
@@ -68,7 +67,7 @@ export default function ProductCard({ data }: any): JSX.Element {
         author: { status: "string", name: "string", avatar: "string" },
         history: true,
         type: data?.type || "",
-        listed: data?.isListed,
+        listed: data?.isListed ?? data?.listed ?? data?.is_listed,
       });
     }
   }, []);
@@ -169,11 +168,12 @@ export default function ProductCard({ data }: any): JSX.Element {
   const deListNft = async () => {
     if (recentWallet) {
       console.log("test");
-
+      const exchange = await checkIfExchangeExists(nftData.contract) as ExchangeExistsResponse;
+      console.warn(exchange);
       const getMessage = await constructDelistMessage(
         wallet.account?.address,
         nftData.id,
-        nftData.exchange
+        exchange.exchange
       );
       console.log(getMessage);
 
@@ -222,7 +222,7 @@ export default function ProductCard({ data }: any): JSX.Element {
             alt="Image"
           />
           {/* </Link> */}
-          {!data?.isListed && nftData?.isListed && (
+          {nftData?.listed && (
             <div className="button-place-bid">
               <a
                 data-bs-toggle="modal"
@@ -234,11 +234,7 @@ export default function ProductCard({ data }: any): JSX.Element {
                     : () => setShow(true)
                 }
               >
-<<<<<<< HEAD
-                <span>{nftData?.isListed ? "Delist" : "List"}</span>
-=======
                 <span>{nftData?.listed ? "Delist" : "List"}</span>
->>>>>>> cf9dbb5 (fix list)
               </a>
             </div>
           )}
@@ -272,7 +268,7 @@ export default function ProductCard({ data }: any): JSX.Element {
                             </h6> */}
             </div>
           </div>
-          {!data?.isListed &&  <div className="tags" onClick={() => setTransferModal(true)}>
+          {!nftData?.listed &&  <div className="tags" onClick={() => setTransferModal(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -310,7 +306,7 @@ export default function ProductCard({ data }: any): JSX.Element {
             <div className="price">
               <span>Listed Price</span>
               <div className="price-details">
-                <h5>{(parseFloat(data.price) / 10 ** 18).toFixed(2)} INJ</h5>
+                <h5>{(parseInt(nftData.price) / 10 ** 18).toFixed(2)} INJ</h5>
               </div>
             </div>
           )}
