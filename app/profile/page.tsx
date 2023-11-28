@@ -52,7 +52,6 @@ if(exchangeExists.status){
                         id: dataRes?.id,
                         collection:data?.contract,
                         exchange:exchangeExists.exchange,
-                        hert: 10,
                         status: "",
                         img: dataGetRes?.media||dataGetRes?.Media,
                         auction: 1,

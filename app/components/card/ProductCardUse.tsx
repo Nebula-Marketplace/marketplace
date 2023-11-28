@@ -59,7 +59,6 @@ export default function ProductCard({ data }: any): JSX.Element {
         collection: data.collection,
         exchange: data.exchange,
         id: data?.id,
-        hert: 10,
         status: "",
         img: data?.img,
         auction: 1,
@@ -222,7 +221,7 @@ export default function ProductCard({ data }: any): JSX.Element {
             alt="Image"
           />
           {/* </Link> */}
-          {!data?.isListed && nftData?.type != "listed" && (
+          {!data?.isListed && nftData?.isListed && (
             <div className="button-place-bid">
               <a
                 data-bs-toggle="modal"
@@ -234,7 +233,7 @@ export default function ProductCard({ data }: any): JSX.Element {
                     : () => setShow(true)
                 }
               >
-                <span>{nftData?.type == "listed" ? "Delist" : "List"}</span>
+                <span>{nftData?.isListed ? "Delist" : "List"}</span>
               </a>
             </div>
           )}

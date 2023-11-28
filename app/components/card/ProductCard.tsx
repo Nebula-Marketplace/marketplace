@@ -98,14 +98,12 @@ export default function ProductCard({ data }: Props): JSX.Element {
     <>
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
-          {/* <Link href="/item-details-1"> */}
             <img
               height={500}
               width={500}
               src={nftData?.img?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Image"
             />
-          {/* </Link> */}
           <div className="button-place-bid">
             <a
               data-bs-toggle="modal"
