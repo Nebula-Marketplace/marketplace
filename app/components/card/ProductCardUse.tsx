@@ -94,7 +94,9 @@ export default function ProductCard({ data }: any): JSX.Element {
     const exchangeExists = (await checkIfExchangeExists(
       nftData.collection
     )) as ExchangeExistsResponse;
-    console.log(exchangeExists);
+   if(!exchangeExists.status){
+    alert("The Nft Collection hasn't created an Exchange yet, Please contact the Collection Founder to do so!")
+   }
     if (recentWallet) {
       const getMessage = await constructListMessage(
         wallet.account?.address,
@@ -168,14 +170,16 @@ export default function ProductCard({ data }: any): JSX.Element {
   const deListNft = async () => {
     if (recentWallet) {
       console.log("test");
-      const exchange = await checkIfExchangeExists(nftData.contract) as ExchangeExistsResponse;
-      console.warn(exchange);
+      const exchange = (await checkIfExchangeExists(
+        nftData.collection
+      )) as ExchangeExistsResponse;
+     
       const getMessage = await constructDelistMessage(
         wallet.account?.address,
         nftData.id,
         exchange.exchange
       );
-      console.log(getMessage);
+
 
       const messages = getMessage;
       try {
@@ -222,22 +226,20 @@ export default function ProductCard({ data }: any): JSX.Element {
             alt="Image"
           />
           {/* </Link> */}
-          {nftData?.listed && (
+         
             <div className="button-place-bid">
               <a
                 data-bs-toggle="modal"
                 data-bs-target="#popup_bid"
                 className="sc-button style-place-bid style bag fl-button pri-3"
                 onClick={
-                  nftData?.listed
-                    ? () => deListNft()
-                    : () => setShow(true)
+                  nftData?.listed ? () => deListNft() : () => setShow(true)
                 }
               >
                 <span>{nftData?.listed ? "Delist" : "List"}</span>
               </a>
             </div>
-          )}
+          
           {nftData.status !== "" && (
             <div className="coming-soon">coming soon</div>
           )}
@@ -268,37 +270,39 @@ export default function ProductCard({ data }: any): JSX.Element {
                             </h6> */}
             </div>
           </div>
-          {!nftData?.listed &&  <div className="tags" onClick={() => setTransferModal(true)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <g clip-path="url(#clip0_45_1985)">
-                <path
-                  d="M18.3333 1.6665L9.16663 10.8332"
-                  stroke="#ffffff"
-                  stroke-width="1.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M18.3333 1.6665L12.5 18.3332L9.16663 10.8332L1.66663 7.49984L18.3333 1.6665Z"
-                  stroke="#ffffff"
-                  stroke-width="1.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_45_1985">
-                  <rect width="20" height="20" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>}
+          {!nftData?.listed && (
+            <div className="tags" onClick={() => setTransferModal(true)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_45_1985)">
+                  <path
+                    d="M18.3333 1.6665L9.16663 10.8332"
+                    stroke="#ffffff"
+                    stroke-width="1.66667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M18.3333 1.6665L12.5 18.3332L9.16663 10.8332L1.66663 7.49984L18.3333 1.6665Z"
+                    stroke="#ffffff"
+                    stroke-width="1.66667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_45_1985">
+                    <rect width="20" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          )}
         </div>
         Go
         <div className="card-bottom style-explode">

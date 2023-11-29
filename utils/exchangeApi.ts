@@ -214,29 +214,32 @@ export async function fetchOwnedNfts(address: string) {
     let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
     let code49Nfts = await fetchNftContracts()
-  
+
     let contractPromises = nebula_contacts.map(async(data_contract) => {
         let get_contract = await getContractFromExchange(data_contract)
         return {contract:get_contract,exchange:data_contract};
     });
     contracts = await Promise.all(contractPromises);
-    let uniqueContracts = Array.from(new Set(code49Nfts.map(contract => contract))).map(contract => {
+    let uniqueContracts = Array.from(new Set(code49Nfts.map(contract => contract)))
+    .map(contract => {
         return code49Nfts.find(c => c === contract)
     });
 
-    contracts = uniqueContracts;
-    let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
+contracts = uniqueContracts;
+let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
     try{
-        let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
+    let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
+
         let tokens: GetTokensResponse = { ids: [] };
         let last_id: string | undefined="";
         
         do {
+
             let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
         
             const jsonString = Buffer.from(data).toString('utf8')
             const newTokens: GetTokensResponse = JSON.parse(jsonString);
-        
+      
             // Append new tokens to the existing list
             tokens.ids = tokens.ids.concat(newTokens.ids);
         
@@ -253,29 +256,17 @@ export async function fetchOwnedNfts(address: string) {
         const contractInfo = JSON.parse(jsonStringInfo);
         // console.log(contractInfo)
         if (tokens.ids.length > 0) {
-            const getExchange:any = await checkIfExchangeExists(contract)
-            const getListedNfts =  await fetchListed(getExchange?.exchange)
             let tokenPromises = tokens.ids.map(async (id) => {
                 let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
                 const jsonString = Buffer.from(data).toString('utf8')
                 let metadata_link: string = JSON.parse(jsonString)["token_uri"]
                 const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
-                let isListed = false
-                if(getExchange?.status){
-                  
-                   const exists = getListedNfts.some((item:any )=> item.id === id && item.owner === address);
-                   if(exists){
-                    isListed=true
-                   }
-                   
-                }
-                
+        
                 return {
                     id: id,
                     collection: contract,
                     // exchange:exchange,
                     owner: address,
-                    isListed:isListed,
                     img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : metadata?.media?.replace("ipfs://","https://ipfs.io/ipfs/"),                
                     metadata: metadata
                 };
@@ -290,7 +281,5 @@ export async function fetchOwnedNfts(address: string) {
     });
 
     let owned = await Promise.all(ownedPromises);
-    console.log(owned.flat())
-    console.log("HELLO")
     return owned.flat(); // flatten the array of arrays
 }
