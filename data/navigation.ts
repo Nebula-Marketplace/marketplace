@@ -22,6 +22,11 @@ export const navigation: NavigationType[] = [
                 id: 1,
                 name: "Explore",
                 path: "/collections/explore",
+            },
+            {
+                id: 2,
+                name: "Unclaimed",
+                path: "/collections/unclaimed",
             }
         ],
     },
