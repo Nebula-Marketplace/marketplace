@@ -14,7 +14,6 @@ interface NavigationType {
 }
 
 export const navigation: NavigationType[] = [
-    /*
     {
         id: 1,
         name: "Collections",
@@ -23,14 +22,11 @@ export const navigation: NavigationType[] = [
                 id: 1,
                 name: "Explore",
                 path: "/collections/explore",
-            },
-            {
-                id: 2,
-                name: "Upcoming",
-                path: "/collections/upcoming",
-            },
+            }
         ],
     },
+    /*
+
     {
         id: 2,
         name: "Activity",
