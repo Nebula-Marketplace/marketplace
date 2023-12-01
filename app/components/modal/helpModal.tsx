@@ -2,7 +2,7 @@
 
 import { Phase } from "@/data/types/Contract";
 import { CollectionContract } from "@/data/types/Contract";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { func } from "prop-types";
 import { type } from "os";
 import useWallet from "@/hooks/useWallet";
@@ -19,6 +19,16 @@ interface Props {
 }
 
 export default function helpModal({ children }: any): JSX.Element {
+    const wallet = useWallet();
+    const [owned, setOwned] = useState<string[]>([]);
+    useEffect(() => {
+        if ( wallet ) {
+            fetch(`https://lcd.injective.network/cosmwasm/wasm/v1/contracts/creator/${wallet.account.address}`)
+                .then(data => data.json().then(data => {
+                    setOwned(data.contract_addresses)
+                }))
+        }
+    }, [owned]);
     return (
         <>
             <div
@@ -44,10 +54,16 @@ export default function helpModal({ children }: any): JSX.Element {
                         <div className="modal-body space-y-20 pd-40">
                             <h3>How to know which is yours</h3>
                             <div className="hr" />
-                            <div className="d-flex justify-content-between">
-                                <p style={{textAlign: "center"}}>You can check which contract is yours by looking at your wallet on the injective explorer, then filtering by "MsgInstantiateContract". You can then check the instantiate message, or the event logs to find the contract_address attribute.</p>
+                            <div className="d-flex justify-content-center">
+                                <p style={{textAlign: "center"}}>Here is a list of contracts owned by you:</p>
                             </div>
-                            <div className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-center">
+                                { owned && owned.map((val, index) => {
+                                    return (
+                                        <a key={index} style={{textAlign: "center"}} href={`/claim/${val}`}>{val}</a>
+                                    )
+                                })}
+                                { owned.length == 0 && <p style={{textAlign: "center"}}>You don't own any contracts!</p>}
                             </div>
                         </div>
                     </div>
