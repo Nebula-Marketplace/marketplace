@@ -49,9 +49,9 @@ export default  function UnclaimedCollections({exchanges,listedNfts, unclaimed}:
                                         <h3>Collection</h3>
                                     </div>
                                     <div className="column">
-                                        <h5><ul><a data-bs-toggle="modal"
+                                        <h5><u><a data-bs-toggle="modal"
                                         data-bs-target="#help_me"
-                                        >Which one is mine?</a></ul></h5>
+                                        >Which one is mine?</a></u></h5>
                                     </div>
                                     {/* <div className="column">
                                         <h3>Assets</h3>
