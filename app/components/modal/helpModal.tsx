@@ -62,7 +62,7 @@ export default function helpModal({ children }: any): JSX.Element {
                             <div className="d-flex align-content-center flex-column">
                                 { owned && owned.map((val, index) => {
                                     return (
-                                        <h6><a key={index} style={{textAlign: "center"}} href={`/claim/${val}`}>{val}</a></h6>
+                                        <h6 key={index}><a key={index} style={{textAlign: "center"}} href={`/claim/${val}`}>{val}</a></h6>
                                     )
                                 })}
                                 { owned.length == 0 && <p style={{textAlign: "center"}}>You don't own any contracts!</p>}
