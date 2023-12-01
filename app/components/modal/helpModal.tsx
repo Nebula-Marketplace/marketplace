@@ -21,6 +21,7 @@ interface Props {
 export default function helpModal({ children }: any): JSX.Element {
     const wallet = useWallet();
     const [owned, setOwned] = useState<string[]>([]);
+
     useEffect(() => {
         if ( wallet ) {
             fetch(`https://lcd.injective.network/cosmwasm/wasm/v1/contracts/creator/${wallet.account.address}`)
@@ -29,6 +30,7 @@ export default function helpModal({ children }: any): JSX.Element {
                 }))
         }
     }, [owned, wallet]);
+    
     return (
         <>
             <div
