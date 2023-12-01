@@ -57,12 +57,12 @@ export default function helpModal({ children }: any): JSX.Element {
                             <h3>How to know which is yours</h3>
                             <div className="hr" />
                             <div className="d-flex justify-content-center">
-                                <p style={{textAlign: "center"}}>Here is a list of contracts owned by you:</p>
+                                <p style={{textAlign: "center"}}>Here is a list of contracts owned by you: <a onClick={() => alert("Not all of these contracts are NFT contracts. if there's lots, check your account on the explorer.")}>ⓘ</a></p>
                             </div>
-                            <div className="d-flex justify-content-center">
+                            <div className="d-flex align-content-center flex-column">
                                 { owned && owned.map((val, index) => {
                                     return (
-                                        <a key={index} style={{textAlign: "center"}} href={`/claim/${val}`}>{val}</a>
+                                        <h6><a key={index} style={{textAlign: "center"}} href={`/claim/${val}`}>{val}</a></h6>
                                     )
                                 })}
                                 { owned.length == 0 && <p style={{textAlign: "center"}}>You don't own any contracts!</p>}
