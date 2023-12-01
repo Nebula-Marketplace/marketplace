@@ -58,9 +58,9 @@ export default  function UnclaimedCollections({exchanges,listedNfts, unclaimed}:
                                     </div> */}
                                 </div>
                                 {unclaimed?.map((item:string,index:number) => (
-                                    <a href={`/collections/claim/${item}`}>
-                                        <div className="sc-card-activity style1">
-                                            <h5>{item}</h5>
+                                    <a key={index} href={`/collections/claim/${item}`}>
+                                        <div key={index} className="sc-card-activity style1">
+                                            <h5 key={index}>{item}</h5>
                                         </div>
                                     </a>
                                 ))}
