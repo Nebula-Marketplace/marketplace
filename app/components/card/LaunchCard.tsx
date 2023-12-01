@@ -20,7 +20,6 @@ export default function LaunchCard({ data }: Props): JSX.Element {
       <div className="sc-card-activity style1">
         <div className="content">
           <div className="media">
-            
             { 
                 data.img &&
                     <Image
@@ -28,8 +27,7 @@ export default function LaunchCard({ data }: Props): JSX.Element {
                     width={200}
                     src={data.img}
                     alt="Activity Image"
-                    />
-                
+                    />    
             }
             
           </div>

@@ -103,9 +103,9 @@ export async function getContractFromExchange(exchange: string) {
     let listed = (await api.fetchSmartContractState(exchange, Buffer.from(`{"get_metadata": {}}`, 'binary').toString('base64'))).data;
     const jsonString = Buffer.from(listed).toString('utf8')
     const listed_tokens: any = JSON.parse(jsonString)
-     return listed_tokens?.contract;
+    return listed_tokens?.contract;
     }catch(e){
-    
+        
     }
 }
 export async function fetchNft(contract: string,id:number) {

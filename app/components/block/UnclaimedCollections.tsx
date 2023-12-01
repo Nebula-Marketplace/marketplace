@@ -6,7 +6,7 @@ import { fetchNftContracts,fetchActiveExchanges,fetchListed,getContractFromExcha
 import { useEffect,useState } from "react";
 
 
-export default  function UnclaimedCollections({exchanges,listedNfts}:any): JSX.Element {
+export default  function UnclaimedCollections({exchanges,listedNfts, unclaimed}:any): JSX.Element {
     // const data = await getUnclaimedCollections();
     // useEffect(() => {
     //     let getALLContract:any[] =[]
@@ -38,7 +38,7 @@ export default  function UnclaimedCollections({exchanges,listedNfts}:any): JSX.E
                                     Unclaimed Collections
                                 </h2>
                                 <Link href="/collections/explore" className="exp">
-                                    EXPLORE MORE
+                                    EXPLORE OTHERS
                                 </Link>
                             </div>
                         </div>
@@ -49,17 +49,20 @@ export default  function UnclaimedCollections({exchanges,listedNfts}:any): JSX.E
                                         <h3>Collection</h3>
                                     </div>
                                     <div className="column">
-                                        <h3>SUPPLY</h3>
+                                        <h5><a data-bs-toggle="modal"
+                                        data-bs-target="#help_me"
+                                        >Which one is mine?</a></h5>
                                     </div>
                                     {/* <div className="column">
                                         <h3>Assets</h3>
                                     </div> */}
                                 </div>
-                                {exchanges?.map((item:string,index:number) => (
-                                    <CollectionListCard
-                                    key={index}
-                                        data={item}
-                                    />
+                                {unclaimed?.map((item:string,index:number) => (
+                                    <a href={`/collections/claim/${item}`}>
+                                        <div className="sc-card-activity style1">
+                                            <h5>{item}</h5>
+                                        </div>
+                                    </a>
                                 ))}
                             </div>
                         </div>

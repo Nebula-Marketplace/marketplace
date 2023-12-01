@@ -173,7 +173,7 @@ export default function Mint({ data }: Props): JSX.Element {
                                         <div className="sc-button fl-button pri-3">
                                             <span>Not In Allowlist</span>
                                         </div> 
-                                        
+
                                     }
                                   
                                 </div>
