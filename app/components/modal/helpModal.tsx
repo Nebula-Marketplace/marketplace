@@ -28,7 +28,7 @@ export default function helpModal({ children }: any): JSX.Element {
                     setOwned(data.contract_addresses)
                 }))
         }
-    }, [owned]);
+    }, [owned, wallet]);
     return (
         <>
             <div
