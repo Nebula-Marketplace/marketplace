@@ -75,7 +75,7 @@ export default function ProductCard({ data }: Props): JSX.Element {
 
       await broadcast({
         messages: messages,
-        feeAmount: "50000000",
+        feeAmount: "5000000",
         gasLimit: "50000000",
         // memo: "",
         wallet: recentWallet,
