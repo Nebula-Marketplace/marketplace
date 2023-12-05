@@ -1,11 +1,11 @@
 "use client";
 import { product1 } from "@/data/product";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import ProductCard6 from "../card/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta} from "@/utils/exchangeApi";
+import { getContractFromExchange, fetchNft,fetchNftContractState,getMeta, fetchAll} from "@/utils/exchangeApi";
 import { Collection } from "@/data/types/Collection";
 
 const tabs = ["ALL", "LISTED"];
@@ -48,6 +48,7 @@ export default function CollectionDetails(): JSX.Element {
     const [getCurrentTab, setCurrentTab] = useState<string>("all");
     const [collectionData, setcollectionData] = useState<Collection>();
     const [listed, setListed] = useState<any>();
+    const [all, setAll] = useState<any>();
     const pathname = usePathname();
     // tab handler
     const tabHandler = (select: string) => {
@@ -68,7 +69,7 @@ export default function CollectionDetails(): JSX.Element {
                 getMeta(getNftMetaData?.token_uri as string).then(dataGetRes=>{
                     getData.push({
                         id: dataRes?.id,
-                        collection:obj.contract,
+                        collection:obj?.contract,
                         exchange:obj.exchange,
                         status: "",
                         img: dataGetRes?.media || dataGetRes?.Media,
@@ -88,8 +89,17 @@ export default function CollectionDetails(): JSX.Element {
                 setListed(getData)
             });
         })
+        return collectionData
     }
-    getData()
+    const getAll = async()=>{
+        let data = await getData()
+        let contract = await getContractFromExchange(pathname.replace("/collections/",""))
+        await fetchAll(contract).then(dataRes=>{
+            console.log(dataRes)
+            setAll(dataRes)
+        })
+    }
+    getAll()
         // fetchNftContractState()
     },[])
     if (collectionData === undefined) {
@@ -153,23 +163,7 @@ export default function CollectionDetails(): JSX.Element {
                             </div>
                         </div>
                         <ul className="menu-tab flex">
-                            {tabs.map((tab, index) => (
-                                <li
-                                    key={index}
-                                    onClick={() =>
-                                        tabHandler(tab.toLocaleLowerCase())
-                                    }
-                                    className={`tablinks ${
-                                        tab
-                                            .toLocaleLowerCase()
-                                            .includes(getCurrentTab)
-                                            ? "active"
-                                            : ""
-                                    }`}
-                                >
-                                    {tab}
-                                </li>
-                            ))}
+                            <li className={`tablinks ${"inactive"}`}>Listed: {listed?.length}</li>
                         </ul>
                         <div className="content-tab active">
                             <div className="row">
@@ -188,10 +182,9 @@ export default function CollectionDetails(): JSX.Element {
                                             <ProductCard6 data={item} />
                                         </div>
                                     ))} */}
-                                      {listed?.length>0&&listed?.slice(0, 15).map((item:any) => {
+                        {listed?.length>0&&listed?.map((item:any) => {
                             console.log(item)
                             return(
-                        
                             <div
                                 key={item.id}
                                 className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
@@ -199,6 +192,34 @@ export default function CollectionDetails(): JSX.Element {
                                 <ProductCard6 data={item} />
                             </div>
                         )})}
+                        {/* {getCurrentTab == "all"&&all?.map((item: any) => {
+                            let metadata_call =  use(fetch(item?.metadata_uri?.replace("ipfs://", "https://ipfs.io/ipfs/")))
+                            let metadata = use(metadata_call.json())
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="col-xl-3 col-lg-4 col-md-6 col-sm-6"
+                                >
+                                    <>
+                                        <div className="sc-card-product explode style2 mg-bt">
+                                            <div className="card-media">
+                                                <img
+                                                height={500}
+                                                width={500}
+                                                src={metadata?.media.replace("ipfs://", "https://ipfs.io/ipfs/") ?? metadata?.Media.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                alt="Image"
+                                                />
+                                            </div>
+                                            <div className="card-title">
+                                            <h5>
+                                            {metadata?.title}
+                                            </h5>
+                                            </div>
+                                        </div>
+                                        </>
+                                </div>
+                            )
+                        })} */}
                             </div>
                         </div>
                         <div className="col-md-12 wrap-inner load-more text-center">

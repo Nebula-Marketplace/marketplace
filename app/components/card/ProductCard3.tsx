@@ -45,17 +45,6 @@ export default function ProductCard3({ data }: Props): JSX.Element {
                     {data.status === "Coming Soon" ? (
                         <div className="coming-soon">coming soon</div>
                     ) : undefined}
-
-                    <button
-                        onClick={heartToggle}
-                        className={`wishlist-button heart ${
-                            isHeartToggle === 1 ? "active" : ""
-                        } `}
-                    >
-                        <span className="number-like">
-                            {data.hert + isHeartToggle}
-                        </span>
-                    </button>
                 </div>
                 <div className="card-title">
                     <h5 className="style2">

@@ -92,6 +92,16 @@ export async function fetchListed(exchange: string) {
  console.log(listed_tokens)
     return listed_tokens;
 }
+export async function fetchAll(contract:string) {
+    let endpoints = await getNetworkEndpoints(network);
+    let api = new ChainGrpcWasmApi(endpoints.grpc);
+    let out = [];
+
+    let all = (await api.fetchSmartContractState(contract, Buffer.from('{"all_tokens": {}}', 'binary').toString('base64')));
+    const jsonString = Buffer.from(all.data).toString('utf8')
+    out.push(JSON.parse(jsonString))
+    return out; // pagination ???
+}
 export async function getContractFromExchange(exchange: string) {
     try{
     let endpoints = await getNetworkEndpoints(network);
