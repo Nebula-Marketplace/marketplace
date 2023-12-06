@@ -168,19 +168,21 @@ export async function fetchNftContracts() {
     let search=true
     let count = 0
     while(search){
-    let paginationOptions = {
-        offset: count*100, // Skip the first 100 items (i.e., the first page)
-        limit: 200, // Limit the results to 100 items per page
-    };
-    let talis_contracts = (await api.fetchContractCodeContracts(talis_nft,paginationOptions)).contractsList;
-    // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
+        let paginationOptions = {
+            offset: count*100, // Skip the first 100 items (i.e., the first page)
+            limit: 200, // Limit the results to 100 items per page
+        };
+        let talis_contracts = (await api.fetchContractCodeContracts(talis_nft,paginationOptions)).contractsList;
+        let c105 = (await api.fetchContractCodeContracts(105,paginationOptions)).contractsList;
+        // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
 
-    contracts = contracts.concat(talis_contracts);
-    if(talis_contracts.length==0){
-        search = false
+        contracts = contracts.concat(talis_contracts);
+        contracts = contracts.concat(c105);
+        if(talis_contracts.length==0 && c105.length==0){
+            search = false
+        }
+        count = count+1
     }
-    count = count+1
-}
     // contracts = contracts.concat(nebula_contracts);
     return contracts;
 }
@@ -221,7 +223,6 @@ export async function fetchOwnedNfts(address: string) {
     let api = new ChainGrpcWasmApi(endpoints.grpc);
 
     let contracts: any[] = []
-    let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
     let code49Nfts = await fetchNftContracts()
 
