@@ -85,6 +85,18 @@ export interface ClaimCollectionMsg {
     contact: null | String;
 }
 
+export interface CreateCandyMsg {
+    collection: string; // I would make these optional but they wouldnt show up in the message, thus causing an error.
+    contract: string;
+    banner_uri: string;
+    logo_uri: string;
+    description: string;
+    basis_points: number; // 100 == 1% royalty
+    creators: Array<RoyaltyInfo>;
+    supply: number;
+    phases: Array<Phase>;
+}
+
 export interface ExecuteWrapperMsg {
     Mint?: MintMsg;
     Buy?: BuyMsg;

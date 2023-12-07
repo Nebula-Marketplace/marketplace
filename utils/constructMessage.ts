@@ -1,5 +1,5 @@
 import { MsgExecuteContract, MsgInstantiateContract } from "@delphi-labs/shuttle-react";
-import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg, ClaimCollectionMsg } from "@/data/types/Contract";
+import { InstantiateMsg, RoyaltyInfo, BuyMsg, ListMsg, ClaimCollectionMsg, CreateCandyMsg } from "@/data/types/Contract";
 import axios from 'axios';
 import useWallet from "@/hooks/useWallet";
 import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
@@ -253,6 +253,20 @@ export async function constructBurnMessage(
         msg: message,
         funds: [],
     });
+}
+
+export function constructCandyMessage(
+    address:string,
+    contract: string,
+    kwargs: CreateCandyMsg
+) {
+        return new MsgExecuteContract({
+            contract: contract,
+            sender: address,
+            msg: kwargs,
+            funds: [],
+        });
+    
 }
 
 export function constructClaimMessage(

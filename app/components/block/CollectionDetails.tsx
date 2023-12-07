@@ -56,6 +56,7 @@ export default function CollectionDetails(): JSX.Element {
         setCurrentTab(select);
     };
     useEffect(()=>{
+        setLoading(true)
         const getData = async()=>{
         console.log(pathname.replace("/collections/",""))
         fetchNftContractState(pathname.replace("/collections/","")).then(async(dataRes)=>{
@@ -100,12 +101,9 @@ export default function CollectionDetails(): JSX.Element {
             setAll(dataRes)
         })
     }
-    getAll().then(() => setLoading(false))
-        // fetchNftContractState()
+    getAll()
+    setLoading(false)
     },[])
-    if (loading) {
-        return <div>Loading...</div>
-    }
     return (
         <>
             <section className="tf-section authors">
@@ -166,7 +164,7 @@ export default function CollectionDetails(): JSX.Element {
                         <ul className="menu-tab flex">
                             <li className={`tablinks ${"inactive"}`}>Listed: {listed?.length}</li>
                         </ul>
-                        <div className="content-tab active">
+                        <div className="content-tab active href-null">
                             <div className="row">
                                 {/* {listed
                                     .filter((item) =>
@@ -183,7 +181,7 @@ export default function CollectionDetails(): JSX.Element {
                                             <ProductCard6 data={item} />
                                         </div>
                                     ))} */}
-                        {listed?.length>0&&listed?.map((item:any) => {
+                        {!loading&&listed?.length>0&&listed?.map((item:any) => {
                             console.log(item)
                             return(
                             <div
@@ -192,7 +190,9 @@ export default function CollectionDetails(): JSX.Element {
                             >
                                 <ProductCard6 data={item} />
                             </div>
-                        )})}
+                        )})}{
+                            loading&&<div className="col-md-12 wrap-inner load-more text-center">Loading...</div>
+                        }
                         {/* {getCurrentTab == "all"&&all?.map((item: any) => {
                             let metadata_call =  use(fetch(item?.metadata_uri?.replace("ipfs://", "https://ipfs.io/ipfs/")))
                             let metadata = use(metadata_call.json())
