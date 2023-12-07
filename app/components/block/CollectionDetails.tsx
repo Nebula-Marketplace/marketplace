@@ -47,8 +47,9 @@ function removeDuplicatesById(items: Token[]): Token[] {
 export default function CollectionDetails(): JSX.Element {
     const [getCurrentTab, setCurrentTab] = useState<string>("all");
     const [collectionData, setcollectionData] = useState<Collection>();
-    const [listed, setListed] = useState<any>();
+    const [listed, setListed] = useState<any>(true);
     const [all, setAll] = useState<any>();
+    const [loading, setLoading] = useState<boolean>()
     const pathname = usePathname();
     // tab handler
     const tabHandler = (select: string) => {
@@ -99,10 +100,10 @@ export default function CollectionDetails(): JSX.Element {
             setAll(dataRes)
         })
     }
-    getAll()
+    getAll().then(() => setLoading(false))
         // fetchNftContractState()
     },[])
-    if (collectionData === undefined) {
+    if (loading) {
         return <div>Loading...</div>
     }
     return (
@@ -137,7 +138,7 @@ export default function CollectionDetails(): JSX.Element {
                                     <button
                                         type="button"
                                         className="btn-copycode"
-                                        onClick={() => navigator.clipboard.writeText(collectionData?.contract)}
+                                        onClick={() => navigator.clipboard.writeText(collectionData?.contract ?? "")}
                                     >
                                         <i className="icon-fl-file-1" />
                                     </button>
