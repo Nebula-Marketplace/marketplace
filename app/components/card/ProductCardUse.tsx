@@ -117,7 +117,7 @@ export default function ProductCard({ data }: any): JSX.Element {
       await broadcast({
         messages: getMessage,
         feeAmount: "5000000",
-        gasLimit: "50000000",
+        gasLimit: "500000",
         // memo: "",
         wallet: recentWallet,
       })
@@ -154,7 +154,7 @@ export default function ProductCard({ data }: any): JSX.Element {
       await broadcast({
         messages: [getMessage],
         feeAmount: "5000000",
-        gasLimit: "50000000",
+        gasLimit: "500000",
         // memo: "",
         wallet: recentWallet,
       })
@@ -196,7 +196,7 @@ export default function ProductCard({ data }: any): JSX.Element {
       await broadcast({
         messages: getMessage,
         feeAmount: "5000000",
-        gasLimit: "50000000",
+        gasLimit: "500000",
         // memo: "",
         wallet: recentWallet,
       })
