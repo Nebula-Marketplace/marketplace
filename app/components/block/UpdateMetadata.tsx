@@ -88,6 +88,7 @@ const createCollection =async(formData:FormData)=>{
             "share": 100,
             "address": wallet?.account?.address,
         }],
+        formData
     )
     try{
         const messages=[getData]
