@@ -41,7 +41,6 @@ export function constructInstantiateMessage(
     cCreators: Array<RoyaltyInfo>,
     kwargs?: InstantiationKwargs
 ) {
-
     const message: InstantiateMsg = {
         collection: cName,
         contract: cAddress,
@@ -49,7 +48,7 @@ export function constructInstantiateMessage(
         symbol: cSymbol,
         logo_uri: kwargs?.logo_uri || "",
         banner_uri: kwargs?.banner_uri || "",
-        supply: cSupply,
+        supply: parseInt(cSupply as any),
         creators: cCreators,
         basis_points: cBasisPoints
     };
@@ -62,6 +61,31 @@ export function constructInstantiateMessage(
         label: "Instantiate Nebula Exchange Contract"
     })
 }
+
+export function constructCw721InstantiateMessage(
+    // codeID: string, // This is 116 until we update. this arg will be kept for backwards compatibility when applicable
+    owner: string,
+    cName: string,
+    cSymbol: string,
+    cSupply: number,
+    kwargs?: InstantiationKwargs
+) {
+    const message = {
+        name: cName,
+        description: kwargs?.description || "",
+        symbol: cSymbol,
+        supply: cSupply,
+    };
+    return new MsgInstantiateContract({
+        sender: owner,
+        admin: owner,
+        codeId: "49",
+        msg: message,
+        funds: [],
+        label: "Instantiate Nebula Cw721 Contract"
+    })
+}
+
 export async function getExchangeData(contract: string) {
     try{
     let endpoints = await getNetworkEndpoints(network);
@@ -274,7 +298,6 @@ export function constructClaimMessage(
     contract: string,
     kwargs: ClaimCollectionMsg
 ) {
- 
     return new MsgExecuteContract({
         contract: contract,
         sender: address,
