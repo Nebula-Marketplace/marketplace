@@ -50,7 +50,7 @@ export function constructInstantiateMessage(
         banner_uri: kwargs?.banner_uri || "",
         supply: parseInt(cSupply as any),
         creators: cCreators,
-        basis_points: cBasisPoints
+        basis_points: parseInt(cBasisPoints as any)
     };
     return new MsgInstantiateContract({
         sender: owner,
