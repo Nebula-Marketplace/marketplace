@@ -92,10 +92,11 @@ export default function CollectionCard({ data }: any): JSX.Element {
       <div className="sc-card-product explode style2 mg-bt">
         <div className="card-media">
             <img
-              height={500}
-              width={500}
+              height={125}
+              width={380}
               src={collectionData?.banner_uri?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Image"
+              style={{maxHeight:100}}
             />
         </div>
         <div className="card-title">
