@@ -54,6 +54,27 @@ export const navigation: NavigationType[] = [
             }
         ],
     },
+    {
+        id: 4,
+        name: "Create",
+        dropdown: [
+            {
+                id: 1,
+                name: "Create an NFT",
+                path: "/launchpad",
+            },
+            {
+                id: 2,
+                name: "Create a Collection",
+                path: "/create/collection",
+            },
+            {
+                id: 3,
+                name: "Create a Token",
+                path: "/create/cw20",
+            },
+        ],
+    },
     // {
     //     id: 4,
     //     name: "Community",

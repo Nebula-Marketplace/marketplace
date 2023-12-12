@@ -103,7 +103,7 @@ export default function CollectionDetails(): JSX.Element {
     }
     getAll()
     setLoading(false)
-    },[])
+    },[loading])
     return (
         <>
             <section className="tf-section authors">
