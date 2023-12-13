@@ -174,16 +174,16 @@ export async function fetchNftContracts() {
         };
         let talis_contracts = (await api.fetchContractCodeContracts(talis_nft,paginationOptions)).contractsList;
         let c105 = (await api.fetchContractCodeContracts(105,paginationOptions)).contractsList; // talis weird spec
-        let c143 = (await api.fetchContractCodeContracts(143,paginationOptions)).contractsList; // dagora weird spec
-        let c185 = (await api.fetchContractCodeContracts(185,paginationOptions)).contractsList; // dagora weird spec
-        let c154 = (await api.fetchContractCodeContracts(154,paginationOptions)).contractsList; // injmarket weird spec
+        // let c143 = (await api.fetchContractCodeContracts(143,paginationOptions)).contractsList; // dagora weird spec
+        // let c185 = (await api.fetchContractCodeContracts(185,paginationOptions)).contractsList; // dagora weird spec
+        // let c154 = (await api.fetchContractCodeContracts(154,paginationOptions)).contractsList; // injmarket weird spec
         // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
 
         contracts = contracts.concat(talis_contracts);
         contracts = contracts.concat(c105);
-        contracts = contracts.concat(c143);
-        contracts = contracts.concat(c185);
-        contracts = contracts.concat(c154);
+        // contracts = contracts.concat(c143);
+        // contracts = contracts.concat(c185);
+        // contracts = contracts.concat(c154);
         if(talis_contracts.length==0 && c105.length==0){
             search = false
         }
