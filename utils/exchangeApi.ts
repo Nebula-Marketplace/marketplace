@@ -175,6 +175,7 @@ export async function fetchNftContracts() {
         let talis_contracts = (await api.fetchContractCodeContracts(talis_nft,paginationOptions)).contractsList;
         let c105 = (await api.fetchContractCodeContracts(105,paginationOptions)).contractsList; // talis weird spec
         let c143 = (await api.fetchContractCodeContracts(143,paginationOptions)).contractsList; // dagora weird spec
+        let c185 = (await api.fetchContractCodeContracts(185,paginationOptions)).contractsList; // dagora weird spec
         // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
 
         contracts = contracts.concat(talis_contracts);
