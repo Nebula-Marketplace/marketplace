@@ -3,7 +3,6 @@ import { ThemeProvider } from "next-themes";
 import { Provider } from "react-redux";
 import store from "../store";
 import { Analytics } from '@vercel/analytics/react';
-
 //#region Wallet Stuff
 import {
   CosmostationExtensionProvider,
