@@ -16,6 +16,7 @@ export interface InstantiationKwargs {
     logo_uri?: string;
     banner_uri?: string;
     description?: string;
+    minter?: string;
 }
 
 interface Listed {
@@ -75,6 +76,7 @@ export function constructCw721InstantiateMessage(
         description: kwargs?.description || "",
         symbol: cSymbol,
         supply: cSupply,
+        minter: kwargs?.minter ?? owner,
     };
     return new MsgInstantiateContract({
         sender: owner,

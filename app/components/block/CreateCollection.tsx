@@ -77,37 +77,40 @@ export default function UpdateMetadata() {
     };
     const { connect,sign,recentWallet, simulate,broadcast  } = useShuttle();
 
-const createCw721 = async (formData:FormData) => {
-    const getData = constructCw721InstantiateMessage(
-        wallet?.account?.address,
-        formData.collectionName,
-        formData.symbol,
-        formData.supply,
-        {
-            description: formData.description,
+    const createCw721 = async (formData:FormData) => {
+        const getData = constructCw721InstantiateMessage(
+            wallet?.account?.address,
+            formData.collectionName,
+            formData.symbol,
+            formData.supply,
+            {
+                description: formData.description,
+                minter: wallet?.account?.address, // may move to automated pre-minting later on
+            }
+        )
+        try {
+            let res = await broadcast({
+                messages: [getData],
+                memo: 'Create NFT',
+                wallet
+            });
+            const contract = (res.response.events?.[8]?.attributes?.[2].value as string).replaceAll('"', '');
+            return contract
+        } catch(e) {
+            console.log(e)
         }
-    )
-    try {
-        const messages=[getData]
-        console.log(getData)
-        const response: any = await simulate({
-          messages,
-          wallet,
-        });
-        console.log(response)
-        console.log("THIS")
-        await broadcast({
-            messages: [getData],
-            feeAmount: "5000000", 
-            gasLimit: "500000", 
-            wallet: recentWallet
-        }).then((result: any) => {
-          console.log("Sign result", result);
-        })
-    } catch(e) {
-        console.log(e)
     }
-}
+
+    const readList = async (e: ProgressEvent<FileReader>) => {
+        e.preventDefault()
+        const reader = new FileReader()
+        reader.onload = async (e) => { 
+          const text = (e?.target?.result)
+          console.log(text)
+          alert(text)
+        };
+        return e?.target?.result ?? ""
+    }
 
 const createCollectionExchange = async (formData:FormData) =>{
   const getData =  constructInstantiateMessage(
