@@ -11,7 +11,7 @@ import {
 const url = "https://lcd.injective.network/";
 const exchange_code_id = "213"
 // const exchange_code_id = "146"
-const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
+const network = "mainnet"== "mainnet" ? Network.MainnetSentry : Network.MainnetSentry; 
 export interface InstantiationKwargs {
     logo_uri?: string;
     banner_uri?: string;
