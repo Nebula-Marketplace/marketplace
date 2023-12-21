@@ -10,7 +10,7 @@ import axios from 'axios';
 const codeID = 213;
 const talis_nft = 49;
  const nebula_nft = 200; // TODO: update this wen nebula standard is out
-const network = "mainnet"== "mainnet" ? Network.Mainnet : Network.Mainnet; 
+const network = "mainnet"== "mainnet" ? Network.MainnetSentry : Network.MainnetSentry; 
 
 interface GetTokensResponse { 
     ids: string[]

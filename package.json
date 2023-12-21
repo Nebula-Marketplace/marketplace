@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@delphi-labs/shuttle-react": "^3.8.0",
+    "@injectivelabs/networks": "^1.14.4",
     "@injectivelabs/sdk-ts": "^1.14.1",
     "@lossdev/react-text-loop": "^0.1.0",
     "@material-ui/core": "^4.12.4",
