@@ -62,8 +62,8 @@ export default function MintModal({ data }: Props): JSX.Element {
             broadcast({
                 wallet: wallet,
                 messages: msg.msgs,
-                gasLimit: response.fee?.gas,
-                feeAmount: response.fee?.amount[0].amount
+                gasLimit: "500000",
+                feeAmount: "1000000"
             })
             .then((result: BroadcastResult) => {
                 console.log("Broadcast result", result)
