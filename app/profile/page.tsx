@@ -71,7 +71,7 @@ export default function CollectionDetails(): JSX.Element {
                           collection: data?.contract,
                           exchange: exchangeExists.exchange,
                           status: "",
-                          img: dataGetRes?.media || dataGetRes?.Media,
+                          img: dataGetRes?.media || dataGetRes?.Media || dataGetRes?.image,
                           auction: 1,
                           title: dataGetRes?.title || dataGetRes?.name,
                           tag: dataGetRes?.string,
