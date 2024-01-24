@@ -1,9 +1,7 @@
-
-import process from 'process';
+"use server";
 import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
 import {
-    ChainGrpcWasmApi,
-    QueryResolverAddress
+    ChainGrpcWasmApi
 } from '@injectivelabs/sdk-ts'
 import axios from 'axios';
 
