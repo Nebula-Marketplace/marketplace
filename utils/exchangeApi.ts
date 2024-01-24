@@ -1,4 +1,3 @@
-"use server";
 import { Network, getNetworkEndpoints } from "@injectivelabs/networks";
 import {
     ChainGrpcWasmApi
