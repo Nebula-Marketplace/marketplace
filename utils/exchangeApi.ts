@@ -47,13 +47,13 @@ interface ExchangeStatus {
     contract?: string,
     exchange?: string
 }
-export function pitcher(msg: string) {
+export async function pitcher(msg: string) {
     /* * throws an error for inline null checks
     */
     throw new Error(msg);
 }
 
-function nullCheck(obj: any) {
+async function nullCheck(obj: any) {
     /* * checks if an object is null
     */
     if (obj === null || obj === undefined) {
