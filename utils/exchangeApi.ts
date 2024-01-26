@@ -164,28 +164,23 @@ export async function fetchNftContracts() {
     let contracts: string[] = [];
     let search=true
     let count = 0
+    let pagination_key=""
     while(search){
-        let paginationOptions = {
-            offset: count*100, // Skip the first 100 items (i.e., the first page)
-            limit: 200, // Limit the results to 100 items per page
-        };
-        let talis_contracts = (await api.fetchContractCodeContracts(talis_nft,paginationOptions)).contractsList;
-        let c105 = (await api.fetchContractCodeContracts(105,paginationOptions)).contractsList; // talis weird spec
-        // let c143 = (await api.fetchContractCodeContracts(143,paginationOptions)).contractsList; // dagora weird spec
-        // let c185 = (await api.fetchContractCodeContracts(185,paginationOptions)).contractsList; // dagora weird spec
-        // let c154 = (await api.fetchContractCodeContracts(154,paginationOptions)).contractsList; // injmarket weird spec
+    let paginationOptions = {
+        offset: count*100, // Skip the first 100 items (i.e., the first page)
+        limit: 200, // Limit the results to 100 items per page
+    };
+    console.log("talis_contracts")
+    let talis_contracts = (await axios.get(`https://sentry.lcd.injective.network/cosmwasm/wasm/v1/code/49/contracts?${pagination_key ? "pagination.key=" + encodeURIComponent(pagination_key) : ""}&pagination.limit=100`)).data;
         // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
-
-        contracts = contracts.concat(talis_contracts);
-        contracts = contracts.concat(c105);
-        // contracts = contracts.concat(c143);
-        // contracts = contracts.concat(c185);
-        // contracts = contracts.concat(c154);
-        if(talis_contracts.length==0 && c105.length==0){
-            search = false
-        }
-        count = count+1
+console.log(talis_contracts)
+    contracts = contracts.concat(talis_contracts.contracts);
+    pagination_key=talis_contracts.pagination.next_key
+    if(talis_contracts.contracts.length<100){
+        search = false
     }
+    count = count+1
+}
     // contracts = contracts.concat(nebula_contracts);
     return contracts;
 }
