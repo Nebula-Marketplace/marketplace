@@ -6,7 +6,7 @@ interface SocialItem {
 const socialItems: SocialItem[] = [
   { icon: "fab fa-twitter", link: "https://x.com/NebulaInfra"},
   { icon: "fab fa-telegram-plane", link: "https://t.me/+HzUvFDkRSuJjOWUx" },
-  { icon: "icon-fl-vt", link:"https://discord.gg/3Yscc7wj9F" },
+  { icon: "icon-fl-vt", link:"https://t.me/+HzUvFDkRSuJjOWUx" },
   { icon: "fab fa-github", link:"https://github.com/Nebula-Marketplace/"}
 ];
 
