@@ -30,77 +30,80 @@ export default function CollectionDetails(): JSX.Element {
     setCurrentTab(select);
   };
   const wallet = useWallet();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [type, setType] = useState<string>("transfer");
+  const [collectionName, setCollectionName] = useState<string>("");
+  const [filteredNfts, setFilteredNfts] = useState<any[]>([]);
   useEffect(() => {
     if (wallet) {
       //fetchOwnedNfts(wallet.account.address)
       const getNfts = async () => {
-        const dataGet = await fetchOwnedNfts(wallet.account.address);
-        setNfts(dataGet);
+        const dataGet = await fetchOwnedNfts(wallet.account.address,setFilteredNfts,setNfts,setLoading);
         console.log(dataGet);
         const getData: any[] = [];
-        await Promise.all(
-          dataGet.map(async (data) => {
-            const exchangeExists = (await checkIfExchangeExists(
-              data?.contract as string
-            )) as ExchangeExistsResponse;
-            console.log(exchangeExists);
-            if (exchangeExists.status) {
-              const getlistedNfts = await fetchListed(exchangeExists.exchange);
-              console.log(getlistedNfts);
-              await Promise.all(
-                getlistedNfts.reverse().map(async (dataRes: any) => {
-                  if (dataRes?.owner == wallet.account.address) {
-                    try {
-                      console.log(dataRes);
-                      const getNftMetaData: any = await fetchNft(
-                        data?.contract as string,
-                        dataRes.id
-                      );
-                      const dataGetRes = await getMeta(
-                        getNftMetaData?.token_uri as string
-                      );
-                      let exists = getData.some(
-                        (item) =>
-                          item.id === dataRes?.id &&
-                          item.collection === (data?.contract as string)
-                      );
-                      console.log(exists);
-                      if (!exists) {
-                        getData.push({
-                          id: dataRes?.id,
-                          collection: data?.contract,
-                          exchange: exchangeExists.exchange,
-                          status: "",
-                          img: dataGetRes?.media || dataGetRes?.Media || dataGetRes?.image,
-                          auction: 1,
-                          title: dataGetRes?.title || dataGetRes?.name,
-                          tag: dataGetRes?.string,
-                          eth: dataRes?.price,
-                          author: {
-                            status: "string",
-                            name: "string",
-                            avatar: "string",
-                          },
-                          history: true,
-                          price: dataRes?.price,
-                          type: "listed",
-                          listed:true
-                        });
-                      }
-                    } catch (e) {
-                      console.log(e);
-                    }
-                  }
-                })
-              );
-            } else {
-              Promise.all([]);
-            }
-          })
-        ).then(() => {
-          // Your function here
-          setListed(getData);
-        });
+        // await Promise.all(
+        //   dataGet.map(async (data) => {
+        //     const exchangeExists = (await checkIfExchangeExists(
+        //       data?.contract as string
+        //     )) as ExchangeExistsResponse;
+        //     console.log(exchangeExists);
+        //     if (exchangeExists.status) {
+        //       const getlistedNfts = await fetchListed(exchangeExists.exchange);
+        //       console.log(getlistedNfts);
+        //       await Promise.all(
+        //         getlistedNfts.reverse().map(async (dataRes: any) => {
+        //           if (dataRes?.owner == wallet.account.address) {
+        //             try {
+        //               console.log(dataRes);
+        //               const getNftMetaData: any = await fetchNft(
+        //                 data?.contract as string,
+        //                 dataRes.id
+        //               );
+        //               const dataGetRes = await getMeta(
+        //                 getNftMetaData?.token_uri as string
+        //               );
+        //               let exists = getData.some(
+        //                 (item) =>
+        //                   item.id === dataRes?.id &&
+        //                   item.collection === (data?.contract as string)
+        //               );
+        //               console.log(exists);
+        //               if (!exists) {
+        //                 getData.push({
+        //                   id: dataRes?.id,
+        //                   collection: data?.contract,
+        //                   exchange: exchangeExists.exchange,
+        //                   status: "",
+        //                   img: dataGetRes?.media || dataGetRes?.Media || dataGetRes?.image,
+        //                   auction: 1,
+        //                   title: dataGetRes?.title || dataGetRes?.name,
+        //                   tag: dataGetRes?.string,
+        //                   eth: dataRes?.price,
+        //                   author: {
+        //                     status: "string",
+        //                     name: "string",
+        //                     avatar: "string",
+        //                   },
+        //                   history: true,
+        //                   price: dataRes?.price,
+        //                   type: "listed",
+        //                   listed:true
+        //                 });
+        //               }
+        //             } catch (e) {
+        //               console.log(e);
+        //             }
+        //           }
+        //         })
+        //       );
+        //     } else {
+        //       Promise.all([]);
+        //     }
+        //   })
+        // ).then(() => {
+        //   // Your function here
+        //   setListed(getData);
+        // });
       };
 
       getNfts();

@@ -110,9 +110,9 @@ export async function getContractFromExchange(exchange: string) {
     let listed = (await api.fetchSmartContractState(exchange, Buffer.from(`{"get_metadata": {}}`, 'binary').toString('base64'))).data;
     const jsonString = Buffer.from(listed).toString('utf8')
     const listed_tokens: any = JSON.parse(jsonString)
-    return listed_tokens?.contract;
+     return listed_tokens?.contract;
     }catch(e){
-        
+        console.log
     }
 }
 export async function fetchNft(contract: string,id:number) {
@@ -126,26 +126,33 @@ export async function fetchNft(contract: string,id:number) {
     return listed_tokens;
 }
 export async function fetchActiveExchanges() {
+    /* *
+     * Fetches all cw721 contracts. this 
+     */
     let endpoints = await getNetworkEndpoints(network);
     let api = new ChainGrpcWasmApi(endpoints.grpc);
+
+    let contracts: string[] = [];
     let search=true
     let count = 0
-    let exchanges:string[] = []
+    let pagination_key=""
     while(search){
     let paginationOptions = {
         offset: count*100, // Skip the first 100 items (i.e., the first page)
         limit: 200, // Limit the results to 100 items per page
     };
-    let exchanges_found = (await api.fetchContractCodeContracts(codeID,paginationOptions)).contractsList;
-    // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
-
-    exchanges = exchanges.concat(exchanges_found);
-    if(exchanges_found.length==0){
+   
+    let talis_contracts = (await axios.get(`https://sentry.lcd.injective.network/cosmwasm/wasm/v1/code/${codeID}/contracts?${pagination_key ? "pagination.key=" + encodeURIComponent(pagination_key) : ""}&pagination.limit=100`)).data;
+        // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
+    contracts = contracts.concat(talis_contracts.contracts);
+    pagination_key=talis_contracts.pagination.next_key
+    if(talis_contracts.contracts.length<100){
         search = false
     }
     count = count+1
 }
-    return exchanges;
+    // contracts = contracts.concat(nebula_contracts);
+    return contracts;
 }
 export async function fetchNftContractState(contract:string) {
     let state_resp = await axios.get(`https://lcd.injective.network/cosmwasm/wasm/v1/contract/${contract}/state`);
@@ -170,10 +177,9 @@ export async function fetchNftContracts() {
         offset: count*100, // Skip the first 100 items (i.e., the first page)
         limit: 200, // Limit the results to 100 items per page
     };
-    console.log("talis_contracts")
+   
     let talis_contracts = (await axios.get(`https://sentry.lcd.injective.network/cosmwasm/wasm/v1/code/49/contracts?${pagination_key ? "pagination.key=" + encodeURIComponent(pagination_key) : ""}&pagination.limit=100`)).data;
         // let nebula_contracts = (await api.fetchContractCodeContracts(nebula_nft)).contractsList;
-console.log(talis_contracts)
     contracts = contracts.concat(talis_contracts.contracts);
     pagination_key=talis_contracts.pagination.next_key
     if(talis_contracts.contracts.length<100){
@@ -216,79 +222,106 @@ export async function getMeta(path: string) {
     return data;
 }
 
-export async function fetchOwnedNfts(address: string) {
+export async function fetchOwnedNfts(address: string,setFilteredNFTs:any,setNfts:any,setLoading:any) {
+    try{
+
     let endpoints = await getNetworkEndpoints(network);
     let api = new ChainGrpcWasmApi(endpoints.grpc);
 
     let contracts: any[] = []
+    // let talis_contracts = (await api.fetchContractCodeContracts(talis_nft)).contractsList;
     let nebula_contacts = (await api.fetchContractCodeContracts(codeID)).contractsList;
     let code49Nfts = await fetchNftContracts()
-
+  console.log(nebula_contacts)
     let contractPromises = nebula_contacts.map(async(data_contract) => {
         let get_contract = await getContractFromExchange(data_contract)
         return {contract:get_contract,exchange:data_contract};
     });
     contracts = await Promise.all(contractPromises);
+    console.log(contracts)
     let uniqueContracts = Array.from(new Set(code49Nfts.map(contract => contract)))
     .map(contract => {
         return code49Nfts.find(c => c === contract)
     });
 
-contracts = uniqueContracts;
-let ownedPromises = uniqueContracts.filter((contract): contract is string => Boolean(contract)).map(async (contract: string) => {
-    try{
-    let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
+    contracts = uniqueContracts;
+    console.log(contracts)
+    let data:any[] = [];
+    const BATCH_SIZE = 1000; // Define your batch size here
 
-        let tokens: GetTokensResponse = { ids: [] };
-        let last_id: string | undefined="";
-        
-        do {
+    // Process in batches
+    for (let i = 0; i < contracts.length; i += BATCH_SIZE) {
+        const currentBatch = contracts.slice(i, i + BATCH_SIZE);
+        console.log(currentBatch)
+        const batchPromises = currentBatch.map(async (contract: string) => {
+            try {
+                let dataInfo =  (await api.fetchSmartContractState(contract, Buffer.from(`{"contract_info": {}}`, 'binary').toString('base64'))).data;
+                console.log(dataInfo)
+                let tokens: GetTokensResponse = { ids: [] };
+                let last_id: string | undefined="";
+                
+                do {
+                    let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
+                    console.log(data)
+                    const jsonString = Buffer.from(data).toString('utf8')
+                    const newTokens: GetTokensResponse = JSON.parse(jsonString);
 
-            let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"tokens": {"owner":"${address}","limit":100${last_id ? `,"start_after":"${last_id}"` : ""}}}`, 'binary').toString('base64'))).data;
-        
-            const jsonString = Buffer.from(data).toString('utf8')
-            const newTokens: GetTokensResponse = JSON.parse(jsonString);
-      
-            // Append new tokens to the existing list
-            tokens.ids = tokens.ids.concat(newTokens.ids);
-        
-            // Update last_id to the last id in the tokens.ids array
-            if(tokens.ids.length==30){
-                last_id = newTokens.ids[newTokens.ids.length - 1];
-            }else{
-                last_id="" 
+                    // Append new tokens to the existing list
+                    tokens.ids = tokens.ids.concat(newTokens.ids);
+
+                    // Update last_id to the last id in the tokens.ids array
+                    if(tokens.ids.length==30){
+                        last_id = newTokens.ids[newTokens.ids.length - 1];
+                    }else{
+                        last_id="" 
+                    }
+                } while (tokens.ids.length == 30);
+
+                const jsonStringInfo = Buffer.from(dataInfo).toString('utf8')
+                const contractInfo = JSON.parse(jsonStringInfo);
+                // console.log(tokens.ids)
+                if (tokens.ids.length > 0) {
+                    let tokenPromises = tokens.ids.map(async (id) => {
+                        let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
+                        const jsonString = Buffer.from(data).toString('utf8')
+                        let metadata_link: string = JSON.parse(jsonString)["token_uri"]
+                        const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
+
+                        return {
+                            id: id,
+                            collection: contract,
+                            owner: address,
+                            img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : metadata?.media?.replace("ipfs://","https://ipfs.io/ipfs/"),                
+                            metadata: metadata
+                        };
+                    });
+                    return Promise.all(tokenPromises).then(nfts => ({collectionName: contractInfo.name,contract:nfts[0].collection, nfts}));
+                } else {
+                    return null; // or any other default value
+                }
+            }catch(e){
+                console.log(e)
             }
-            
-        } while (tokens.ids.length == 30);
-       
-        const jsonStringInfo = Buffer.from(dataInfo).toString('utf8')
-        const contractInfo = JSON.parse(jsonStringInfo);
-        // console.log(contractInfo)
-        if (tokens.ids.length > 0) {
-            let tokenPromises = tokens.ids.map(async (id) => {
-                let data = (await api.fetchSmartContractState(contract, Buffer.from(`{"nft_info": {"token_id":"${id}"}}`, 'binary').toString('base64'))).data;
-                const jsonString = Buffer.from(data).toString('utf8')
-                let metadata_link: string = JSON.parse(jsonString)["token_uri"]
-                const metadata: TalisNftMetadata = metadata_link.startsWith("ipfs://") ? await getMeta(metadata_link.replace("ipfs://", "https://ipfs.io/ipfs/")) : (await axios.get(metadata_link.replace("https://ipfs.talis.art/ipfs/","https://ipfs.io/ipfs/"))).data;
-        
-                return {
-                    id: id,
-                    collection: contract,
-                    // exchange:exchange,
-                    owner: address,
-                    img: typeof metadata?.Media === 'string' ? metadata?.Media?.replace("ipfs://","https://ipfs.io/ipfs/") : metadata?.media?.replace("ipfs://","https://ipfs.io/ipfs/"),                
-                    metadata: metadata
-                };
-            });
-            return Promise.all(tokenPromises).then(nfts => ({collectionName: contractInfo.name,contract:nfts[0].collection, nfts}));
-        } else {
-            return []; // or any other default value
-        }
-    }catch(e){
-        console.log(e)
+        });
+        const batchData = await Promise.all(batchPromises);
+      
+        let nonEmptyArrays = batchData.filter(item => item !== null);
+    console.log(nonEmptyArrays)
+    const flatArray = nonEmptyArrays.flat(); 
+    data = [...data, ...flatArray];
+    console.log(data)// flatten the array of arrays
+    setFilteredNFTs(data);
+    setNfts(data)
+    if(data.length>0){
+    setLoading(false)
     }
-    });
+   
+    }
+    return data;
+}catch(e){
+    console.log(e)
+}
 
-    let owned = await Promise.all(ownedPromises);
-    return owned.flat(); // flatten the array of arrays
+    // flatten the array of arrays
+  
 }
